@@ -17,6 +17,7 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 - `github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
 - `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
 - `figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
+- `product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
 
 ## Design principles
 
