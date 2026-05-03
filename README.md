@@ -16,6 +16,7 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 - `pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
 - `github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
 - `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
+- `figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
 
 ## Design principles
 
