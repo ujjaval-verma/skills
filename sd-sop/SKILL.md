@@ -1,11 +1,11 @@
 ---
 name: sd-sop
-description: Deterministic Linear-based SD-SOP workflow for clamshell-ai-style delivery lanes. Use when creating, splitting, updating, or closing Linear issues/sub-issues; opening, stacking, rebasing, reviewing, or merging PRs; running PR iteration; mapping Linear issue-to-PR work; enforcing velocity/rigor/hygiene gates; running SD-SOP audits; or handling work where Linear, GitHub PRs, CI, review, dependencies, worktrees, and merge state must stay synchronized. Triggers on “SD-SOP”, “Linear issue”, “sub-issue”, “one issue one PR”, “stacked PR”, “blocks/blocked by”, “In Progress”, “In Review”, “Done”, “pr-iterate”, “husky”, “E2E”, “worktree”, “audit”, and stuck green/open PRs.
+description: Deterministic Linear-based software delivery SOP for keeping Linear issues, GitHub PRs, CI/review, dependencies, worktrees, and merge state synchronized. Use when creating, splitting, updating, or closing Linear issues/sub-issues; opening, stacking, rebasing, reviewing, or merging PRs; running PR iteration; mapping Linear issue-to-PR work; enforcing one-issue-one-PR discipline; recording blocks/blocked-by relations; checking mandatory hooks/tests/E2E evidence; limiting/pruning worktrees; running SD-SOP audits; or fixing stuck green/open PRs.
 ---
 
-# SD-SOP — Linear execution
+# SD-SOP — Linear-based delivery
 
-Use SD-SOP for Linear-driven delivery.
+Use SD-SOP for repositories where **Linear is the delivery tracker**. Keep org ownership, repo-specific policy, and team boundaries outside this skill; those belong in local memory, repo docs, or a repo-specific wrapper skill.
 
 SD-SOP optimizes three pillars: **velocity**, **rigor**, and **hygiene**. When a gate fails, repair state before continuing or surface the exact blocker.
 
@@ -34,8 +34,8 @@ SD-SOP optimizes three pillars: **velocity**, **rigor**, and **hygiene**. When a
   - bugfix: add/confirm failing regression coverage first;
   - refactor: pin existing behavior before moving code;
   - feature: add focused contract tests.
-- Use E2E/UX evidence when behavior is user-visible. Prefer screenshot, local smoke, authorized DB/log evidence, or manual smoke artifacts.
-- Attach useful screenshot/evidence artifacts to Linear for UX bugs.
+- Use E2E/UX evidence when behavior is user-visible: screenshots, local smoke notes, authorized database/log evidence, or manual smoke artifacts.
+- Attach useful screenshots/evidence to Linear for UX bugs; keep issue text concise and let artifacts carry visual detail.
 - Treat review/meta-review feedback as part of the work. Fix actionable feedback on the PR branch; defer only if clearly out-of-scope and tracked.
 
 ## Pillar 3 — Hygiene: keep the lane clean
@@ -89,7 +89,19 @@ When a base PR merges and a stacked PR remains:
 
 ## Drift audit
 
-Run the bundled audit script before/after large lane changes, before context switches, and whenever drift is suspected. The script is read-only. It checks open PR health, Linear issue→PR mapping, stacked PR dependency evidence, active child issues without PRs, worktree count, and gone local branches. Use `--json` for machine-readable output and `--fail-on-findings` for CI-style gating.
+Run the bundled audit script before/after large lane changes, before context switches, and whenever drift is suspected. The script is read-only. It checks open PR health, Linear issue→PR mapping, stacked PR dependency evidence, active child issues without PRs, worktree count, and gone local branches.
+
+Example:
+
+```bash
+python3 path/to/sd-sop/scripts/sd_sop_audit.py \
+  --repo /path/to/repo \
+  --github-repo owner/name \
+  --linear-parent TEAM-1234 \
+  --author @me
+```
+
+Use `--json` for machine-readable output and `--fail-on-findings` for CI-style gating.
 
 Repair drift in this order:
 1. green/mergeable PRs with no merge/auto-merge action;
@@ -100,7 +112,7 @@ Repair drift in this order:
 
 ## Related skills
 
-- Use `td-sop` for Markdown+GitHub tracker repos.
-- Use a PR-discipline skill for merge/rebase/branch-protection/lockfile conflict mechanics.
+- Use a repo-specific wrapper skill for Markdown+GitHub tracker repos.
+- Use a PR-discipline skill for generic PR merge/rebase/lockfile mechanics.
 - Use a model-routing skill before spawning review or implementation sub-agents.
 - Use live GitHub/Linear state; do not rely on memory for mutable status.

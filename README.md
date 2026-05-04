@@ -14,7 +14,7 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 - `model-routing` — choose model, thinking level, and review lane for delegated work.
 - `pr-iterate` — run a disciplined pull-request implementation loop.
 - `pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
-- `sd-sop` — deterministic Linear issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, and merge verification.
+- `sd-sop` — org-agnostic Linear issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, audits, and merge verification.
 - `td-sop` — Tech Dolphins markdown + GitHub execution wrapper for PRD/build-progress tracking, Mermaid dependencies, and velocity/rigor/hygiene gates.
 - `github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
 - `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
