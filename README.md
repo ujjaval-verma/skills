@@ -14,6 +14,7 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 - `model-routing` — choose model, thinking level, and review lane for delegated work.
 - `pr-iterate` — run a disciplined pull-request implementation loop.
 - `pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
+- `sd-sop` — deterministic issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, and merge verification.
 - `github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
 - `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
 - `figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
