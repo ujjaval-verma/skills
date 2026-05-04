@@ -1,96 +1,100 @@
 ---
 name: model-routing
-description: Decide which model, thinking level, and review lane to use when delegating to another agent/session, scheduling agent jobs, or choosing a model for implementation/review/docs/triage. Use before any explicit model choice or when asked which model to use.
+description: Decide which model and thinking level to use when spawning a sub-agent, delegating implementation, reviewing a PR, writing an RFC, doing CI/tooling work, authoring docs, or otherwise choosing a model for non-main work. Use when about to call sessions_spawn, subagents(action=steer), cron add with payload.kind=agentTurn, or any moment the model is an explicit choice. Covers openai-codex/gpt-5.4 and openai-codex/gpt-5.5 in a GPT-only routing setup. Triggers on phrases like "spawn", "subagent", "meta-review", "review PR", "delegate", "routing decision", "which model", "escalate to bigger model".
 ---
 
 # Model Routing
 
-Use this skill to pick the cheapest model that is likely to succeed, while preserving independent review for risky work. Treat the concrete model names below as examples; adapt them to the models, quotas, and providers available in the current environment.
+GPT-only routing. Anthropic is disabled; do not route work there. Opus is not used.
 
-## Inputs to gather
+## Golden rules
 
-- Task class: implementation, review, docs, triage, architecture, cleanup, monitoring.
-- Scope: single file, multi-file, cross-repo, long-running/autonomous.
-- Risk: auth, payments, messaging/send paths, data migrations, security, production infra, observability contracts.
-- Context size: small (<50k), medium (50–150k), large (>150k), huge (>250k).
-- Cost/quota shape: flat-rate, metered, throttled, separate quota.
+1. **Main session: GPT-5.5 high.** This is the default and preferred main-thread mode.
+2. **Sub-agent default: GPT-5.4 medium.** Use for mechanical work and tight specs.
+3. **Long-horizon / multi-file / former-Sonnet-class subagents: GPT-5.5 medium.** Escalate when 5.4 medium will run out of coherence.
+4. **Use GPT-only.** Do not route work to Anthropic models.
+5. **Never meta-review with the same model + same thinking level that wrote it.** Decorrelate with a different thinking level and an adversarial prompt frame.
+6. **Tight task specs matter more as you go cheaper.** GPT-5.4 rewards concrete acceptance criteria.
+7. **Never use Opus.**
 
-## Example tier map
+## Decision matrix
 
-Customize this map for the local environment before relying on it:
-
-| Lane | Example model shape | Use for |
+| Task class | Model | Thinking |
 |---|---|---|
-| Fast lane | fastest cheap coding model, low/medium thinking | tiny edits, docs nits, formatting, search-and-replace |
-| Default implementation | default coding model, medium thinking | mechanical implementation from a tight spec |
-| Strong implementation | stronger coding model, medium thinking | multi-file or longer-horizon implementation |
-| Review/judgment | strongest same-family model, high thinking | adversarial review, architecture, unclear requirements |
-| Emergency/off-family | different provider/model family, high thinking | highest-risk review or tie-break when same-family models disagree |
-
-## Default routing pattern
-
-| Task | Recommended lane |
-|---|---|
-| Tiny targeted edits, obvious docs nits, formatting, renames | fastest cheap model, low/medium thinking |
-| Mechanical implementation from tight spec | cheap/default coding model, medium thinking |
-| Well-scoped multi-file implementation | stronger coding model, medium thinking |
-| Long-horizon autonomous loop | stronger model, medium/high thinking |
-| Non-trivial code review | stronger model than implementer, high thinking, adversarial prompt |
-| RFC / architecture / unclear requirements | strongest available reasoning model, high thinking |
-| Highest-risk review | off-family model if available, high thinking |
+| Main session orchestration | `openai-codex/gpt-5.5` | `high` |
+| Mechanical impl from tight spec | `openai-codex/gpt-5.4` | `medium` |
+| Doc authoring from a brief | `openai-codex/gpt-5.4` | `medium` |
+| Well-scoped follow-up PRs | `openai-codex/gpt-5.4` | `medium` |
+| Trivial meta-reviews | `openai-codex/gpt-5.4` | `medium` |
+| Simple fixes during hardware/live testing | `openai-codex/gpt-5.4` | `medium` |
+| First attempt at a fuzzy task | `openai-codex/gpt-5.4` | `medium` → escalate on failure |
+| Long-horizon autonomous lanes | `openai-codex/gpt-5.5` | `medium` |
+| Multi-file impl from spec (>3 files, sequential dependencies) | `openai-codex/gpt-5.5` | `medium` |
+| Non-trivial meta-review (>100 lines, runtime-behavior PRs, >5 files, call-graph reasoning) | `openai-codex/gpt-5.5` | `high` |
+| RFC / architecture design | `openai-codex/gpt-5.5` | `high` |
+| Security-sensitive first impl, complex multi-file refactor with non-obvious call-graph | `openai-codex/gpt-5.5` | `high` |
 
 ## Escalation ladder
 
-1. Start with the cheapest lane that matches the task and context.
-2. If it fails, decide whether the failure was **spec weakness** or **model weakness**.
-3. If spec weakness: tighten acceptance criteria and retry same lane once.
-4. If model weakness: escalate one tier.
-5. For risky changes, add review rather than simply escalating implementation.
+```text
+GPT-5.4 medium
+    ↓ scope grows / first attempt failed / multi-step
+GPT-5.5 medium
+    ↓ judgment depth / >200k context / non-trivial meta-review
+GPT-5.5 high
+```
 
-## Review decorrelation
+## Combo pattern — GPT-only edition
 
-Never review substantial work with the same model + same thinking level + same prompt frame that wrote it.
+1. **Impl spawn** — GPT-5.4 medium (mechanical) or GPT-5.5 medium (multi-file/long-horizon) with a tight constructive task spec.
+2. **Meta-review spawn** — GPT-5.5 high with an adversarial prompt frame.
+3. Merge when meta-review approves.
 
-At minimum change two of:
-- model tier
-- thinking level
-- prompt frame: constructive implementation vs adversarial review
-- provider/model family
-
-Adversarial review prompts should ask for:
-- production-realistic failure modes
-- invariants preserved by old code
-- silent failure modes
-- weakened tests or assertions
-- missing rollback / migration / observability coverage
-
-## Prompt discipline for cheaper lanes
-
-Cheaper/faster models need tighter specs:
-- exact files or search targets
-- acceptance criteria
-- test command(s)
-- expected output format
-- explicit non-goals
-- whether to open a PR, commit, or only report
-
-Avoid vague prompts like “investigate and fix”. Prefer “change X so Y passes; run Z; report diff + test result”.
-
-## Spawn checklist
-
-Before delegating:
-
-1. Pick lane from table.
-2. Set model and thinking explicitly.
-3. Use an isolated worktree if parallel agents may touch the same repo.
-4. Include acceptance criteria and verification commands.
-5. Decide review lane now for non-trivial work.
-6. State stop conditions: when to ask, when to escalate, when to only report.
+With GPT-only, the adversarial review prompt matters more. Don’t skip it.
 
 ## Anti-patterns
 
-- Using a premium model for obvious mechanical edits.
-- Using the same lane for implementation and review.
-- Escalating because the prompt was vague.
-- Delegating risky auth/payment/messaging/schema work without independent review.
-- Letting fast models run broad autonomous tasks without tight boundaries.
+- Reaching for Opus.
+- Defaulting away from GPT for judgment work.
+- Reflexively promoting 5.4 work to 5.5 when 5.4 is enough.
+- Skipping the adversarial review pass on non-trivial PRs.
+- Vague task specs with cheap models.
+- Same model + same thinking level for impl and review.
+- `thinkingDefault` mismatches. GPT models use `low` / `medium` / `high`.
+
+## Spawn-time checklist
+
+1. What task class from the matrix above?
+2. Does the task need long-horizon coherence? If yes → GPT-5.5 medium minimum.
+3. Does the task need judgment / adversarial review? If yes, plan the GPT-5.5 high review pass now.
+4. Is the spec tight enough for a cheaper model? If no, tighten it before spawning.
+5. What’s the fallback if the spawn fails? Usually: re-spawn one tier up.
+6. **Working-dir isolation** — if running ≥2 sub-agents in parallel on the same repo, each must get its own `git worktree` under `~/src/<repo>-WORKTREE-N/`. Never `/tmp/`.
+
+Then set `model:`, `thinking:`, and `cwd:` explicitly in the spawn call.
+
+## Examples
+
+- Mechanical bug-bash bursts — GPT-5.4 medium impl, GPT-5.5 high adversarial review.
+- Long autonomous lanes — GPT-5.5 medium impl, GPT-5.5 high adversarial review.
+- RFC / architecture brief — GPT-5.5 high directly.
+- Auth/SMS-send/schema PR — GPT-5.5 medium impl → GPT-5.5 high adversarial review.
+
+## Escalation on failure
+
+1. Re-read the output. Was the failure spec weakness or model weakness?
+2. If spec: tighten and re-spawn on GPT-5.4 high or GPT-5.5 medium as needed.
+3. If model: re-spawn on GPT-5.5 medium or high.
+4. If GPT-5.5 also fails: split the task and retry.
+
+## Pricing intuition
+
+- GPT-5.4 marginal: subscription / flat
+- GPT-5.5 marginal: subscription / flat
+- Opus: removed from routing
+
+Keep everything on GPT-5.4/5.5 and avoid Anthropic entirely.
+
+## Auto-compaction
+
+Auto-compaction is on at the agent level via `agents.defaults.compaction` in `~/.openclaw/openclaw.json`.
