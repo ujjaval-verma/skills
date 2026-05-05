@@ -20,6 +20,7 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 - `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
 - `figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
 - `product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
+- `validate-infra-change` — safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths.
 
 ## Design principles
 
