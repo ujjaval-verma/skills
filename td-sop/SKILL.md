@@ -34,7 +34,8 @@ If these artifacts are absent in a Tech Dolphins repo, establish lightweight equ
 - Use the repo's fast verification command during iteration.
 - Run the repo's full local CI before push/merge readiness.
 - Respect Husky/pre-push/commitlint. Do not bypass hooks unless the reason is explicit and documented in the PR.
-- Non-trivial PRs need adversarial review while still open; fixes should cite commit hashes and verification evidence.
+- Non-trivial PRs require the **pr-iterate Ralph loop** before merge: spawn an independent adversarial-review sub-agent while the PR is open; have it review the PR/diff/tests against PRD + TD-SOP; post its observations as a Markdown feedback comment on the PR; address applicable feedback on-branch; reply with fix commits and verification. Repeat until remaining feedback is explicitly non-blocking or out-of-scope and merge confidence is high.
+- Do not merge a non-trivial PR from local confidence + green CI alone. The PR comment trail must show adversarial observations, dispositions, and verification evidence, or the merge is blocked.
 - UI/product slices require screenshot/smoke evidence plus console/network/app-log checks where relevant.
 - AI/data slices require fixtures, expected outputs, eval assertions, and provenance/citation checks.
 - Privacy and honesty gates always apply: no fake-live auth/billing/provider/deletion behavior; no raw customer document text in logs.
@@ -87,10 +88,10 @@ Keep the graph small enough to maintain. If it becomes noisy, split by phase.
 2. Run fast local gates during iteration.
 3. Run full local CI before push/merge readiness.
 4. Open PR with slice ID, scope, non-scope, verification, evidence, dependency note, and tracker update.
-5. Post/request adversarial review for non-trivial changes.
-6. Address blocking feedback on-branch; reply with fix commits and verification.
+5. Run the pr-iterate Ralph loop for non-trivial changes: spawn an adversarial-review sub-agent, post its observations as a Markdown PR feedback comment, address applicable feedback on-branch, and repeat until no blocking feedback remains.
+6. Reply on the PR with feedback dispositions, fix commits, and verification.
 7. Watch hosted CI and review until green/LGTM.
-8. Merge; verify merged state with the hosting platform.
+8. Merge only after local gates + hosted CI + Ralph-loop feedback imply LGTM-level confidence; verify merged state with the hosting platform.
 9. Update tracker to merged if not already included; avoid docs-only closeout PRs unless batching unavoidable reconciliation.
 10. Run closeout and QA gates as appropriate.
 
