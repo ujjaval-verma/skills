@@ -44,8 +44,9 @@ If these artifacts are absent in a Tech Dolphins repo, establish lightweight equ
 
 - Use separate worktrees for parallel agents; keep the main checkout as integration/reference.
 - Keep active worktrees <= 4 unless the owner explicitly approves a larger sprint.
-- Before starting new work or context-switching, check open PRs, worktree count, branch count, and tracker status.
+- Before starting new work or context-switching, check open PRs, worktree count, branch count, tracker status, and local runtime ports/processes started by prior TD-SOP work.
 - After each merge/wave, run closeout/finalizer and return under repo hygiene thresholds.
+- Do not leave dev servers, workers, or local dependency stacks running after verification unless the owner explicitly wants them kept alive. When cleaning up, only stop processes whose cwd/command clearly belongs to the repo; never kill an unrelated listener just because it uses the expected port.
 - UI/product waves need a fresh QA runtime pass on latest base before expansion/launch claims.
 
 ## Markdown + GitHub hybrid tracker
