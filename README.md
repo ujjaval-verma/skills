@@ -2,25 +2,38 @@
 
 Reusable, repo-agnostic AgentSkills for coding agents.
 
-Each skill lives in its own directory and contains a single required `SKILL.md` file:
+Each skill lives in its own category subfolder and contains a single required `SKILL.md` file:
 
 ```text
-<skill-name>/
-  SKILL.md
+<category>/
+  <skill-name>/
+    SKILL.md
 ```
+
+Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 
 ## Skills
 
-- `model-routing` — choose model, thinking level, and review lane for delegated work.
-- `pr-iterate` — run a disciplined pull-request implementation loop.
-- `pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
-- `sd-sop` — org-agnostic Linear issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, audits, and merge verification.
-- `td-sop` — Tech Dolphins markdown + GitHub execution wrapper for PRD/build-progress tracking, Mermaid dependencies, and velocity/rigor/hygiene gates.
-- `github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
-- `repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
-- `figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
-- `product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
-- `validate-infra-change` — safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths.
+### Engineering
+
+- `engineering/github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
+- `engineering/model-routing` — choose model, thinking level, and review lane for delegated work.
+- `engineering/network-connectivity-troubleshoot` — diagnose public-network, DNS, `gh`, or Tailscale connectivity failures.
+- `engineering/pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
+- `engineering/pr-iterate` — run a disciplined pull-request implementation loop.
+- `engineering/repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
+- `engineering/sd-sop` — org-agnostic Linear issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, audits, and merge verification.
+- `engineering/td-sop` — Tech Dolphins markdown + GitHub execution wrapper for PRD/build-progress tracking, Mermaid dependencies, and velocity/rigor/hygiene gates.
+- `engineering/validate-infra-change` — safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths.
+
+### Product
+
+- `product/figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
+- `product/product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
+
+### Productivity
+
+- `productivity/timesheet` — generate a formatted 80-column timesheet from GitHub activity for a date range.
 
 ## Design principles
 
@@ -32,8 +45,9 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
 
 ## Adding a skill
 
-1. Create a hyphen-case folder name under the repo root.
-2. Add `SKILL.md` with YAML frontmatter:
+1. Identify the right category (`engineering`, `product`, or `productivity`).
+2. Create a hyphen-case folder under the category.
+3. Add `SKILL.md` with YAML frontmatter:
 
    ```markdown
    ---
@@ -42,9 +56,9 @@ Each skill lives in its own directory and contains a single required `SKILL.md` 
    ---
    ```
 
-3. Keep the body focused on reusable workflow instructions.
-4. Check for private names/paths before publishing.
-5. Commit each skill independently when possible.
+4. Keep the body focused on reusable workflow instructions.
+5. Check for private names/paths before publishing.
+6. Commit each skill independently when possible.
 
 ## What not to include
 
