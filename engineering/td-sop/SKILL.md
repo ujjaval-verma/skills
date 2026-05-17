@@ -31,6 +31,7 @@ If these artifacts are absent in a Tech Dolphins repo, establish lightweight equ
 
 ### 2. Rigor — prove the change
 
+- Within a slice, implement via vertical tracer bullets: one test → minimal code to pass → repeat. Do not write all implementation then all tests (horizontal slicing). Confirm the end-to-end happy path first, then expand incrementally.
 - Use the repo's fast verification command during iteration.
 - Run the repo's full local CI before push/merge readiness.
 - Respect Husky/pre-push/commitlint. Do not bypass hooks unless the reason is explicit and documented in the PR.
@@ -80,21 +81,23 @@ Keep the graph small enough to maintain. If it becomes noisy, split by phase.
 3. Check open PRs.
 4. Run closeout dry-run or repo-hygiene equivalent and avoid adding work when hygiene is already out of bounds.
 5. Pick one PR-sized slice from the plan/tracker.
-6. Create a dedicated worktree/branch from latest base.
+6. Before branching, design the slice's public interface: prefer fewer methods, simpler params, and more hidden complexity (deep module over shallow). Shrink the interface surface before expanding implementation.
+7. Create a dedicated worktree/branch from latest base.
 7. Update the build-progress tracker in the PR with status, scope, verification, PR/commit, and follow-ups.
 
 ## PR lifecycle gate
 
-1. Implement one slice only.
+1. Implement one slice only, via vertical tracer bullets (one test → minimal code → repeat).
 2. Run fast local gates during iteration.
-3. Run full local CI before push/merge readiness.
-4. Open PR with slice ID, scope, non-scope, verification, evidence, dependency note, and tracker update.
-5. Run the pr-iterate Ralph loop for non-trivial changes: spawn an adversarial-review sub-agent, post its observations as a Markdown PR feedback comment, address applicable feedback on-branch, and repeat until no blocking feedback remains.
-6. Reply on the PR with feedback dispositions, fix commits, and verification.
-7. Watch hosted CI and review until green/LGTM.
-8. Merge only after local gates + hosted CI + Ralph-loop feedback imply LGTM-level confidence; verify merged state with the hosting platform.
-9. Update tracker to merged if not already included; avoid docs-only closeout PRs unless batching unavoidable reconciliation.
-10. Run closeout and QA gates as appropriate.
+3. After all slice behaviors are green, scan for refactor candidates: duplication, shallow modules, feature envy, primitive obsession, and what the new code reveals about adjacent existing code. Run tests after each refactor step.
+4. Run full local CI before push/merge readiness.
+5. Open PR with slice ID, scope, non-scope, verification, evidence, dependency note, and tracker update.
+6. Run the pr-iterate Ralph loop for non-trivial changes: spawn an adversarial-review sub-agent, post its observations as a Markdown PR feedback comment, address applicable feedback on-branch, and repeat until no blocking feedback remains.
+7. Reply on the PR with feedback dispositions, fix commits, and verification.
+8. Watch hosted CI and review until green/LGTM.
+9. Merge only after local gates + hosted CI + Ralph-loop feedback imply LGTM-level confidence; verify merged state with the hosting platform.
+10. Update tracker to merged if not already included; avoid docs-only closeout PRs unless batching unavoidable reconciliation.
+11. Run closeout and QA gates as appropriate.
 
 ## When to create GitHub Issues
 
