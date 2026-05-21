@@ -1,6 +1,6 @@
 ---
 name: pr-discipline
-description: Safety rules and tactical mechanics for opening, iterating on, reviewing, rebasing, auto-merging, or landing pull requests. Use before branch protection edits, required-check changes, auto-merge, lockfile conflict resolution, force-pushes, merge queue nudges, when PRs are stuck/dirty/blocked, or when running the open → push → watch CI → fix → merge loop on a feature branch. Triggers on "PR", "pull request", "auto-merge", "lockfile", "force-push", "branch protection", "CI failure", "stuck PR", "DIRTY".
+description: Safety rules and tactical mechanics for opening, iterating on, reviewing, rebasing, auto-merging, or landing pull requests. Use before branch protection edits, required-check changes, auto-merge, lockfile conflict resolution, force-pushes, merge queue nudges, when PRs are stuck/dirty/blocked, or when running the open → push → watch CI → fix → merge loop on a feature branch. Triggers on "PR", "pull request", "PR iterate", "iterate PR", "pr-iterate", "iteration loop", "auto-merge", "lockfile", "force-push", "branch protection", "CI failure", "stuck PR", "DIRTY".
 updated: 2026-05-21
 wave: 3
 ---
@@ -11,7 +11,17 @@ Hard rules + tactical mechanics for shipping pull requests in high-velocity repo
 
 This skill owns PR-shaped concerns end to end: the iteration loop, the safety rules, the recovery procedures. It does **not** own per-slice rigor (tracer bullets, refactor scan, TDD, Ralph review) — that's `slice-delivery`.
 
+## Safety defaults
+
+These apply on every invocation, in addition to "Stop and ask" below. They are the conservative baseline; a more permissive mode requires explicit user authorization for this lane.
+
+- **Do not push, comment, request review, or enable auto-merge** unless the user asked for external writes or the repo workflow clearly expects it (e.g., the user said "open a PR for this"). Local commits are fine; remote writes need consent.
+- **Never overwrite uncommitted user work.** Before any operation that could clobber the working tree (`git checkout <file>`, `git reset --hard`, `git stash drop`, etc.), confirm the tree is clean or surface what would be lost.
+- **Prefer small PRs** over broad mixed changes. If the change spans multiple concerns, split before opening.
+
 ## Definition of "shipped"
+
+This is the canonical "shipped" definition for the whole skills repo; other skills that say "shipped" defer here.
 
 A change is **shipped** when:
 
@@ -25,12 +35,6 @@ Local `HEAD` green is necessary but not sufficient. Do not report a change as sh
 Pre-commit and pre-push hooks are part of the contract. Do not pass `--no-verify` (or platform equivalents). If a hook is wrong or out of date, fix the hook in a **separate** commit with a one-line rationale, then re-attempt the original commit/push. Bypassing hooks "just this once" routinely lands the exact failure the hook was designed to catch.
 
 This applies to `git push`, `git commit`, and any wrapper script. The only exception is when the user explicitly authorizes a one-shot bypass and the bypass is recorded in the PR body.
-
-## Commits
-
-One concern per commit. Refactor commits are separate from feature commits. The `slice-delivery` rule "refactor-then-feature is two commits" applies at PR-time too: when CI surfaces a refactor opportunity mid-iteration, land it as its own commit, not folded into the next push.
-
-Conventional Commits unless the repo overrides — `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`. Scope by slice ID or skill name where useful.
 
 ## The iteration loop
 
@@ -68,8 +72,9 @@ Otherwise use the current checkout only if it's clean or explicitly approved. Ne
 ### 5. Commit
 
 - Review diff before committing (`git diff --staged`).
-- Conventional summary; body explains *why* if non-obvious.
-- Do not mix unrelated cleanup. Refactor surfaced mid-iteration → its own commit.
+- **One concern per commit**, per `slice-delivery`. Refactor surfaced mid-iteration → its own commit, not folded into the next feature push. Refactor-then-feature is two commits.
+- Conventional Commits unless the repo overrides — `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`. Scope by slice ID or skill name where useful.
+- Body explains *why* if non-obvious.
 
 ### 6. Open or update PR
 
@@ -182,18 +187,6 @@ Do not weaken any setting just to land a PR unless the user explicitly approves 
 
 If multiple agents will touch one repo, each must use a separate `git worktree`. See the iteration loop's "Isolate" step. Never share a checkout.
 
-## Review discipline
-
-Non-trivial PRs need independent adversarial review (the Ralph loop in `slice-delivery`). Watch especially for:
-
-- weakened assertions
-- deleted tests
-- mocks replacing the behavior under test
-- swallowed errors
-- migration/rollback gaps
-- missing telemetry for silent failure modes
-- changed defaults or branch protection side effects
-
 ## Stuck PR checklist
 
 1. List open PRs (`gh pr list --author @me --state open --json number,title,mergeStateStatus,statusCheckRollup`).
@@ -224,8 +217,8 @@ Before:
 - Force-push shared branches without `--force-with-lease`.
 - Merge red CI because "probably flaky" without evidence.
 - Let parallel agents share one checkout.
-- `--no-verify` to bypass hooks. Fix the hook in a separate commit instead.
-- Mix refactor and feature in one commit.
+- Bypass hooks with `--no-verify` — fix the hook in a separate commit with a one-line rationale instead.
+- Mix refactor and feature in one commit (refactor-then-feature is two commits per `slice-delivery`).
 - Report "merged" before the platform reports `MERGED` and CI is green on the merge commit.
 
 ## Final report (when handing off)

@@ -32,7 +32,7 @@ A good slice:
 - Tracer bullet first. The first work in any slice is one test that proves the end-to-end path with the minimum possible implementation. Everything after thickens this skeleton.
 - The tracker is whatever your repo already uses. Do not invent a parallel one. If a tracker entry doesn't exist for the slice, create it before opening the PR — not after.
 - Commits carry the slice scope: `feat(<slice-id>): ...`. This lets `git log --grep='(<slice-id>)'` reconstruct slice progress in seconds.
-- "Shipped" means the slice is on the default integration branch with CI green. Locally green is not shipped.
+- "Shipped" — see `pr-discipline`'s "Definition of shipped" for the exact verification (`gh pr view` returns `MERGED` **and** CI is green on the merge commit on the target branch). Locally green is not shipped.
 
 ### 2. Rigor — prove the change
 
