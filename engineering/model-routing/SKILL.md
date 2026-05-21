@@ -1,6 +1,7 @@
 ---
 name: model-routing
 description: Decide which model and thinking level to use when spawning a sub-agent, delegating implementation, reviewing a PR, writing an RFC, doing CI/tooling work, authoring docs, or otherwise choosing a model for non-main work. Use when about to call sessions_spawn, subagents(action=steer), cron add with payload.kind=agentTurn, or any moment the model is an explicit choice. Covers openai-codex/gpt-5.4 and openai-codex/gpt-5.5 in a GPT-only routing setup. Triggers on phrases like "spawn", "subagent", "meta-review", "review PR", "delegate", "routing decision", "which model", "escalate to bigger model".
+updated: 2026-05-21
 ---
 
 # Model Routing

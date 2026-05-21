@@ -1,6 +1,7 @@
 ---
 name: validate-infra-change
 description: Validate Kubernetes/IaC PR changes safely in a live non-production environment before merge. Use when asked to test, smoke, kubectl-apply, patch, canary, or validate infra manifests/overlays/Helm/Kustomize changes against dev/staging while preserving GitOps/Argo CD ownership and collecting log evidence. Covers targeted resource applies, Argo self-heal handling, rollback, runtime log checks, and final PR evidence.
+updated: 2026-05-21
 ---
 
 # Validate Infra Change

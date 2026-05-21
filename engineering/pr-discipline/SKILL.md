@@ -1,6 +1,7 @@
 ---
 name: pr-discipline
 description: Safety rules for opening, reviewing, rebasing, auto-merging, or landing pull requests. Use before branch protection edits, required-check changes, auto-merge, lockfile conflict resolution, force-pushes, merge queue nudges, or when PRs are stuck/dirty/blocked.
+updated: 2026-05-21
 ---
 
 # PR Discipline
