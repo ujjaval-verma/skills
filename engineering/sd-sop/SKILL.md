@@ -1,6 +1,7 @@
 ---
 name: sd-sop
 description: Deterministic Linear-based software delivery SOP for keeping Linear issues, GitHub PRs, CI/review, dependencies, worktrees, and merge state synchronized. Use when creating, splitting, updating, or closing Linear issues/sub-issues; opening, stacking, rebasing, reviewing, or merging PRs; running PR iteration; mapping Linear issue-to-PR work; enforcing one-issue-one-PR discipline; recording blocks/blocked-by relations; checking mandatory hooks/tests/E2E evidence; limiting/pruning worktrees; running SD-SOP audits; or fixing stuck green/open PRs.
+updated: 2026-05-21
 ---
 
 # SD-SOP — Linear-based delivery

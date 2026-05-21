@@ -1,6 +1,7 @@
 ---
 name: network-connectivity-troubleshoot
 description: Diagnose and work around public-network, DNS, GitHub gh, Linear, web_search/web_fetch, package install, OAuth/API, or model-provider connectivity failures, especially when Tailscale/tailnet routing may be interfering. Use before assuming auth/model/provider failure when public internet calls fail while Tailscale is connected. Provides a Tailscale escape hatch: disconnect and stay disconnected unless tailnet access is needed.
+updated: 2026-05-21
 ---
 
 # Network Connectivity Troubleshoot

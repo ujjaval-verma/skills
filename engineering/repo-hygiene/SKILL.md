@@ -1,6 +1,7 @@
 ---
 name: repo-hygiene
 description: Inspect and safely clean local git repository hygiene: stale branches, gone upstreams, old worktrees, forgotten uncommitted changes, merged branches, large caches, and cleanup candidates. Use when asked about branch cleanup, orphaned branches, worktree cleanup, or repo housekeeping.
+updated: 2026-05-21
 ---
 
 # Repo Hygiene

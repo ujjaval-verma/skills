@@ -23,6 +23,7 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 - `engineering/pr-iterate` — run a disciplined pull-request implementation loop.
 - `engineering/repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
 - `engineering/sd-sop` — org-agnostic Linear issue-to-PR delivery SOP for one-issue-one-PR mapping, dependencies, statuses, audits, and merge verification.
+- `engineering/slice-delivery` — tracker-agnostic vertical-slice execution discipline: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review loop, slice lifecycle.
 - `engineering/td-sop` — Tech Dolphins markdown + GitHub execution wrapper for PRD/build-progress tracking, Mermaid dependencies, and velocity/rigor/hygiene gates.
 - `engineering/validate-infra-change` — safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths.
 
@@ -34,6 +35,25 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 ### Productivity
 
 - `productivity/timesheet` — generate a formatted 80-column timesheet from GitHub activity for a date range.
+
+## Composition (engineering)
+
+The engineering skills form a layered harness:
+
+```
+ tracker SOPs        sd-sop  (Linear)        td-sop  (Markdown + GitHub Issues)
+                         \                    /
+                          \                  /
+ execution wrapper          slice-delivery   (tracer bullet → refactor scan → Ralph → DoD)
+                                  |
+                                  v
+ PR mechanics              pr-iterate (the loop)    pr-discipline (the rules)
+                                  |
+                                  v
+ tactical skills         github-ci-triage · repo-hygiene · network-connectivity-troubleshoot · validate-infra-change · model-routing
+```
+
+Pick the highest layer that fits the task and let it delegate downward. Tracker SOPs own *what* to ship and which tracker artifact to update; `slice-delivery` owns *how* to ship it; the PR skills own merge mechanics; tactical skills are leaf utilities the higher layers call into.
 
 ## Design principles
 
@@ -53,8 +73,11 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
    ---
    name: example-skill
    description: Clear trigger-oriented description of when to use this skill.
+   updated: YYYY-MM-DD
    ---
    ```
+
+   Engineering skills should declare `updated:` (ISO date of the last material edit). `wave:` is optional — only set it when the skill belongs to a deliberate refactor wave. See [`CLAUDE.md`](CLAUDE.md#frontmatter-conventions) for the full rule and backfill convention.
 
 4. Keep the body focused on reusable workflow instructions.
 5. Check for private names/paths before publishing.

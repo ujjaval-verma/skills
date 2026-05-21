@@ -1,6 +1,7 @@
 ---
 name: pr-iterate
 description: Run a disciplined repo-agnostic pull-request iteration loop: create/use an isolated worktree, implement a scoped change, test it, commit, open or update a PR, monitor CI, fix failures, request or perform review, and prepare auto-merge when safe.
+updated: 2026-05-21
 ---
 
 # PR Iterate
