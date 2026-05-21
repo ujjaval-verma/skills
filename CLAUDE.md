@@ -38,10 +38,10 @@ Skills layer rather than overlap. When a task fits multiple skills, pick the hig
 
 - **Tracker SOPs** — `linear-sop` (Linear), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
-- **PR mechanics** — `pr-iterate` (the open→watch→merge loop), `pr-discipline` (the safety rules: branch protection, lockfiles, auto-merge, force-pushes).
+- **PR mechanics** — `pr-discipline`. Iteration loop (orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep) + safety rules (branch protection, lockfiles, auto-merge, force-pushes, hook bypass, stuck PRs).
 - **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
 
-Tracker SOPs delegate per-slice rigor to `slice-delivery`; `slice-delivery` delegates PR mechanics to `pr-iterate` / `pr-discipline`. Duplication across layers is a refactor trigger.
+Tracker SOPs delegate per-slice rigor to `slice-delivery`; `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
 
 ## Adversarial review (Ralph) — contract
 
