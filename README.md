@@ -27,7 +27,16 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 - `engineering/td-sop` — Tech Dolphins markdown + GitHub execution wrapper for PRD/build-progress tracking, Mermaid dependencies, and velocity/rigor/hygiene gates.
 - `engineering/validate-infra-change` — safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths.
 
-### Composition
+### Product
+
+- `product/figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
+- `product/product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
+
+### Productivity
+
+- `productivity/timesheet` — generate a formatted 80-column timesheet from GitHub activity for a date range.
+
+## Composition (engineering)
 
 The engineering skills form a layered harness:
 
@@ -38,22 +47,13 @@ The engineering skills form a layered harness:
  execution wrapper          slice-delivery   (tracer bullet → refactor scan → Ralph → DoD)
                                   |
                                   v
- PR mechanics              pr-iterate (loop)   +   pr-discipline (rules)
+ PR mechanics              pr-iterate (the loop)    pr-discipline (the rules)
                                   |
                                   v
- tactical skills         github-ci-triage · pr-discipline · repo-hygiene · network-connectivity-troubleshoot
+ tactical skills         github-ci-triage · repo-hygiene · network-connectivity-troubleshoot · validate-infra-change · model-routing
 ```
 
-Pick the highest layer that fits the task and let it delegate downward. Tracker SOPs own *what* to ship and which tracker artifact to update; `slice-delivery` owns *how* to ship it; the PR skills own merge mechanics.
-
-### Product
-
-- `product/figma-product-analysis` — analyze Figma `.fig` files and design exports for product/workflow/UI specs.
-- `product/product-inception` — turn product ideas, legacy assets, and designs into reusable inception docs before implementation.
-
-### Productivity
-
-- `productivity/timesheet` — generate a formatted 80-column timesheet from GitHub activity for a date range.
+Pick the highest layer that fits the task and let it delegate downward. Tracker SOPs own *what* to ship and which tracker artifact to update; `slice-delivery` owns *how* to ship it; the PR skills own merge mechanics; tactical skills are leaf utilities the higher layers call into.
 
 ## Design principles
 
@@ -77,7 +77,7 @@ Pick the highest layer that fits the task and let it delegate downward. Tracker 
    ---
    ```
 
-   Engineering skills must declare `updated:` (ISO date of the last material edit). `wave:` is optional — only set it when the skill belongs to a deliberate refactor wave.
+   Engineering skills should declare `updated:` (ISO date of the last material edit). `wave:` is optional — only set it when the skill belongs to a deliberate refactor wave. See [`CLAUDE.md`](CLAUDE.md#frontmatter-conventions) for the full rule and backfill convention.
 
 4. Keep the body focused on reusable workflow instructions.
 5. Check for private names/paths before publishing.

@@ -8,46 +8,62 @@ This repo holds reusable, repo-agnostic AgentSkills. Each skill is a single `SKI
 
 ```
 <category>/<skill-name>/SKILL.md
-<category>/<skill-name>/scripts/   # optional, only if a script materially supports the skill
+<category>/<skill-name>/scripts/   # optional, only if a script is referenced by SKILL.md
 ```
 
-Categories: `engineering/`, `product/`, `productivity/`. Skill folder names are hyphen-case and match the `name:` in frontmatter.
+Categories: `engineering/`, `product/`, `productivity/`. Skill folder names are hyphen-case and match the `name:` in frontmatter. Add/rename/delete in one PR — never let folder and `name:` drift.
 
 ## Frontmatter conventions
 
-Every engineering `SKILL.md` must carry:
+Every engineering `SKILL.md` should carry:
 
 ```yaml
 ---
 name: <hyphen-case, matches folder>
 description: <trigger-oriented; what the skill is for and when to invoke it>
-updated: YYYY-MM-DD   # ISO date of last material edit; required on engineering skills
-wave: <int>           # optional; only set when the skill belongs to a deliberate refactor wave
+updated: YYYY-MM-DD   # ISO date of last material edit
+wave: <int>           # optional; only when the skill belongs to a deliberate refactor wave
 ---
 ```
 
-When editing a skill, bump `updated:` if and only if the body changed materially (typos and link fixes don't count). Don't assign `wave:` retroactively — it should mean something, not be a timestamp.
+Bump `updated:` when the body changes materially (typo/link fixes don't count). When introducing the field on a previously-undated skill, set it to the date the field is added; this is a known approximation — the value going forward will reflect material edits.
+
+Don't assign `wave:` retroactively. A wave number is meaningful only when paired with a defined refactor cohort (e.g., wave 3 = the "collapse tracker SOPs onto `slice-delivery`" pass in May 2026). Future waves should document themselves in their first introducing PR's description; if a `WAVES.md` accrues, point to it here.
+
+Enforcement is currently social, not mechanical. Adding a lint/CI check that engineering skills declare `updated:` is a worthwhile follow-up.
 
 ## Composition (engineering)
 
 Skills layer rather than overlap. When a task fits multiple skills, pick the highest layer and let it delegate:
 
-- **Tracker SOPs** — `sd-sop` (Linear), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
+- **Tracker SOPs** — `sd-sop` (Linear; rename to `linear-sop` is queued in a follow-up PR), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
 - **PR mechanics** — `pr-iterate` (the open→watch→merge loop), `pr-discipline` (the safety rules: branch protection, lockfiles, auto-merge, force-pushes).
 - **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
 
-Tracker SOPs should delegate per-slice rigor to `slice-delivery`, not duplicate it. `slice-delivery` should delegate PR mechanics to `pr-iterate` / `pr-discipline`, not duplicate them. Duplication across layers is a refactor trigger.
+Tracker SOPs delegate per-slice rigor to `slice-delivery`; `slice-delivery` delegates PR mechanics to `pr-iterate` / `pr-discipline`. Duplication across layers is a refactor trigger.
+
+## Adversarial review (Ralph) — contract
+
+Every non-trivial PR (any change beyond a typo / link fix / single-line config tweak) must show an adversarial review trail before merge. This is a contract, not a suggestion.
+
+1. **Dispatch** an independent code-reviewer subagent against the PR diff, with explicit instruction to be adversarial and to check the contracts in `slice-delivery` / `CLAUDE.md` / any repo-local invariants.
+2. **Post** its findings as a Markdown PR comment, grouped as Blocking / Non-blocking / Nits.
+3. **Disposition** every finding: `Fixed` (commit reference), `Deferred` (with a tracked follow-up), or `Rejected` (with reasoning). Record dispositions on the PR — comment, commit body, or both.
+4. **Block merge** until every Blocking finding is `Fixed` or has documented `Rejected` reasoning.
+5. Reviewer model selection: use `model-routing`. Reviewer must not be the same model + same thinking level that authored the change.
+
+Local confidence + green CI is not sufficient evidence to merge a non-trivial change in this repo. The PR comment trail must show adversarial observations and dispositions.
 
 ## `scripts/` folder
 
-Optional. Only add one when a script materially supports the skill's workflow (e.g., `sd-sop/scripts/sd_sop_audit.py`). Keep scripts alongside `SKILL.md` in the skill's folder; reference them by relative path from the skill body. Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
+Optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `sd-sop/scripts/sd_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
 
 ## Editing skills
 
 - Keep `SKILL.md` concise. Cut prose the agent already knows without the skill present.
-- Surface destructive candidates before acting; make external writes explicit and permission-aware (see README §"Design principles").
-- Never include secrets, private repo names, user paths, or repo-specific assumptions unless the skill is explicitly scoped to that repo (see README §"What not to include").
+- Surface destructive candidates before acting; make external writes explicit and permission-aware (see [Design principles](README.md#design-principles)).
+- Never include secrets, private repo names, user paths, or repo-specific assumptions unless the skill is explicitly scoped to that repo (see [What not to include](README.md#what-not-to-include)).
 - Update the README skill index in the same PR as any add/rename/delete.
 - Update cross-references (`Related skills`, delegation lines in other skills) in the same PR as any rename or scope change.
 
