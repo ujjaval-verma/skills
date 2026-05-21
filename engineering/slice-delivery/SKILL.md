@@ -1,6 +1,8 @@
 ---
 name: slice-delivery
 description: Tracker-agnostic vertical-slice delivery discipline for any repo. Use when implementing, reviewing, or shipping a non-trivial change. Covers the three pillars (velocity, rigor, hygiene), the per-cycle refactor scan, deep-module design, tracer-bullet sequencing, the adversarial Ralph review loop, the per-surface TDD scope table pattern, and the start-lane / PR lifecycle gates. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph loop", "per-cycle refactor", "vertical slice", "definition of done".
+wave: 3
+updated: 2026-05-21
 ---
 
 # Slice delivery
