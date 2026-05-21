@@ -334,14 +334,14 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent("""
         Examples:
-          linear_sop_audit.py --repo ~/src/clamshell-ai/desktop --github-repo clamshell-ai/desktop --linear-parent CLAI-1184 --author ujjaval-verma
+          linear_sop_audit.py --repo ~/src/my-org/my-repo --github-repo my-org/my-repo --linear-parent TEAM-1234 --author @me
           linear_sop_audit.py --repo . --author @me --max-worktrees 4 --json
         """),
     )
     parser.add_argument("--repo", action="append", default=[], help="Local git repo path. Repeatable. Defaults to cwd.")
     parser.add_argument("--github-repo", action="append", default=[], help="GitHub owner/name. Repeatable; paired by order with --repo when provided.")
     parser.add_argument("--linear-parent", action="append", default=[], help="Linear parent issue id. Repeatable; children are audited as implementation slices.")
-    parser.add_argument("--author", default="@me", help="GitHub PR author filter. Use ujjaval-verma for Ujju-owned lanes.")
+    parser.add_argument("--author", default="@me", help="GitHub PR author filter. Defaults to the authenticated gh user.")
     parser.add_argument("--issue-regex", default=ISSUE_RE_DEFAULT, help="Issue id regex used to parse PR titles/bodies/branches.")
     parser.add_argument("--max-worktrees", type=int, default=4, help="Maximum allowed git worktrees per repo.")
     parser.add_argument("--pr-limit", type=int, default=50, help="Max open PRs to fetch per repo.")

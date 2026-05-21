@@ -49,13 +49,17 @@ Record `blocks` / `blocked-by` in Linear *before* implementation, not retroactiv
 
 ### Status transitions
 
-| Linear status | Trigger |
-|---|---|
-| `Backlog` → `In Progress` | Branch/worktree created and at least one commit exists locally. |
-| `In Progress` → `In Review` | PR open, linked to the issue, and CI is running. |
-| `In Review` → `Done` | Hosting platform reports `MERGED` **and** target branch CI is green on the merge commit. Not before. |
+Each trigger must be externally verifiable — an auditor inspecting only Linear + GitHub state must be able to confirm the transition was legitimate. Local-only state (uncommitted changes, in-flight thinking) never moves status.
+
+| Linear status | Trigger (externally verifiable) | How to verify |
+|---|---|---|
+| `Todo` / `Backlog` → `In Progress` | Feature branch exists on the remote with at least one commit ahead of the base. | `gh api repos/$OWNER/$REPO/branches/<branch>` returns 200 and `git rev-list origin/<base>..origin/<branch>` is non-empty. |
+| `In Progress` → `In Review` | PR is open, linked to the Linear issue, and the first CI run has started. | `gh pr view <n> --json state,linkedIssues,statusCheckRollup`. |
+| `In Review` → `Done` | Hosting platform reports `MERGED` **and** target-branch CI is green on the merge commit. | `gh pr view <n> --json state,mergeCommit` + `gh run list --branch <base> --commit <merge_sha>`. |
 
 A green local gate is necessary but not sufficient. Do not mark `Done` from intent.
+
+Workflows that use `Backlog` and `Todo` as separate states should treat both as pre-start; the trigger to `In Progress` is the same (first push to remote).
 
 ## When to create a Linear sub-issue vs. parent acceptance criteria
 
@@ -69,7 +73,7 @@ Keep as parent acceptance criteria when:
 
 - the item is verification ("confirm X still passes") rather than implementation;
 - the item can't own a PR on its own;
-- splitting would create a sub-issue with no independent observable behaviour.
+- removing the item from the parent's acceptance list would not prevent any sibling sub-issue from merging independently — i.e., it has no merge-graph standing of its own.
 
 ## Org-level start gate
 
