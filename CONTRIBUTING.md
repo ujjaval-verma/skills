@@ -22,8 +22,8 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
    ---
    name: example-skill
    description: Trigger-oriented description — when an agent should invoke this skill.
-   updated: 2026-05-21        # ISO date of last material edit
-   wave: 3                    # optional; only if part of a deliberate refactor wave
+   updated: YYYY-MM-DD        # ISO date of last material edit
+   wave: <int>                # optional; only if part of a deliberate refactor wave
    ---
    ```
 
