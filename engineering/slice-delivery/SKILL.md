@@ -9,7 +9,7 @@ updated: 2026-05-21
 
 The execution wrapper for any non-trivial change. Tracker-agnostic — applies whether your repo uses Linear, GitHub Issues, a Markdown tracker, or `git log` alone.
 
-This skill is the **how** of shipping a single slice well. It assumes a higher-level skill (or repo-local doc) has already told you **which** slice to ship. For tracker-specific workflows, see `sd-sop` (Linear) or `td-sop` (Markdown + GitHub).
+This skill is the **how** of shipping a single slice well. It assumes a higher-level skill (or repo-local doc) has already told you **which** slice to ship. For tracker-specific workflows, see `linear-sop` (Linear) or `td-sop` (Markdown + GitHub).
 
 For the underlying TDD philosophy, defer to your repo's TDD skill or to `tdd` if no local one exists.
 
@@ -114,14 +114,14 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 ## What this skill does not cover
 
 - Picking which slice to ship next — that's a planning / tracker skill.
-- Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see `sd-sop` or `td-sop` or the repo's local execution doc.
+- Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see `linear-sop` or `td-sop` or the repo's local execution doc.
 - PR mechanics that are independent of slice content — see `pr-iterate` and `pr-discipline`.
 - Repo-agnostic CI / merge-queue strategy — separate concern.
 
 ## Related skills
 
 - `tdd` — the underlying red-green-refactor discipline this skill wraps.
-- `sd-sop` — Linear-based tracker mechanics.
+- `linear-sop` — Linear-based tracker mechanics.
 - `td-sop` — Markdown + GitHub Issues hybrid tracker mechanics.
 - `pr-iterate` — PR-level implementation loop.
 - `pr-discipline` — safe PR mechanics (rebase, lockfiles, branch protection, auto-merge).

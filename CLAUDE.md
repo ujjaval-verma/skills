@@ -36,7 +36,7 @@ Enforcement is currently social, not mechanical. Adding a lint/CI check that eng
 
 Skills layer rather than overlap. When a task fits multiple skills, pick the highest layer and let it delegate:
 
-- **Tracker SOPs** — `sd-sop` (Linear; rename to `linear-sop` is queued in a follow-up PR), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
+- **Tracker SOPs** — `linear-sop` (Linear), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
 - **PR mechanics** — `pr-iterate` (the open→watch→merge loop), `pr-discipline` (the safety rules: branch protection, lockfiles, auto-merge, force-pushes).
 - **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
@@ -57,7 +57,7 @@ Local confidence + green CI is not sufficient evidence to merge a non-trivial ch
 
 ## `scripts/` folder
 
-Optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `sd-sop/scripts/sd_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
+Optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `linear-sop/scripts/linear_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
 
 ## Editing skills
 
@@ -69,4 +69,4 @@ Optional. Add one only when the script is referenced from `SKILL.md` by a relati
 
 ## Commit conventions
 
-Conventional Commits, scoped by category or skill name where useful: `feat(slice-delivery): ...`, `docs(readme): ...`, `refactor(sd-sop): ...`. One concern per commit.
+Conventional Commits, scoped by category or skill name where useful: `feat(slice-delivery): ...`, `docs(readme): ...`, `refactor(linear-sop): ...`. One concern per commit.
