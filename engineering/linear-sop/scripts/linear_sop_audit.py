@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit SD-SOP drift across GitHub PRs, git worktrees/branches, and Linear children.
+"""Audit linear-sop drift across GitHub PRs, git worktrees/branches, and Linear children.
 
 This script is intentionally read-only. It shells out to git/gh/linear when available
 and emits actionable findings rather than mutating state.
@@ -316,11 +316,11 @@ def audit_repo(repo_path: Path, github_repo: str | None, args: argparse.Namespac
 
 
 def print_human(findings: list[Finding], summaries: list[dict[str, Any]]) -> None:
-    print("SD-SOP audit")
+    print("linear-sop audit")
     for s in summaries:
         print(f"- {s.get('githubRepo', s.get('repoPath'))}: {s.get('openPrCount', 0)} open PRs, {s.get('worktreeCount', 0)} worktrees, {s.get('goneBranchCount', 0)} gone local branches")
     if not findings:
-        print("\nNo SD-SOP drift found.")
+        print("\nNo linear-sop drift found.")
         return
     print("\nFindings:")
     for f in findings:
@@ -330,18 +330,18 @@ def print_human(findings: list[Finding], summaries: list[dict[str, Any]]) -> Non
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Read-only SD-SOP audit for issue→PR mapping, PR health, dependencies, and worktree hygiene.",
+        description="Read-only linear-sop audit for issue→PR mapping, PR health, dependencies, and worktree hygiene.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent("""
         Examples:
-          sd_sop_audit.py --repo ~/src/clamshell-ai/desktop --github-repo clamshell-ai/desktop --linear-parent CLAI-1184 --author ujjaval-verma
-          sd_sop_audit.py --repo . --author @me --max-worktrees 4 --json
+          linear_sop_audit.py --repo ~/src/my-org/my-repo --github-repo my-org/my-repo --linear-parent TEAM-1234 --author @me
+          linear_sop_audit.py --repo . --author @me --max-worktrees 4 --json
         """),
     )
     parser.add_argument("--repo", action="append", default=[], help="Local git repo path. Repeatable. Defaults to cwd.")
     parser.add_argument("--github-repo", action="append", default=[], help="GitHub owner/name. Repeatable; paired by order with --repo when provided.")
     parser.add_argument("--linear-parent", action="append", default=[], help="Linear parent issue id. Repeatable; children are audited as implementation slices.")
-    parser.add_argument("--author", default="@me", help="GitHub PR author filter. Use ujjaval-verma for Ujju-owned lanes.")
+    parser.add_argument("--author", default="@me", help="GitHub PR author filter. Defaults to the authenticated gh user.")
     parser.add_argument("--issue-regex", default=ISSUE_RE_DEFAULT, help="Issue id regex used to parse PR titles/bodies/branches.")
     parser.add_argument("--max-worktrees", type=int, default=4, help="Maximum allowed git worktrees per repo.")
     parser.add_argument("--pr-limit", type=int, default=50, help="Max open PRs to fetch per repo.")

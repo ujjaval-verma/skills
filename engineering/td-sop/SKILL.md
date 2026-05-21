@@ -1,13 +1,13 @@
 ---
 name: td-sop
-description: Tech Dolphins tracker / org-level workflow for Tech-Dolphins-Inc product repos. Use when maintaining the Markdown + GitHub Issues hybrid tracker; updating PRD / td-sop-plan / build-progress artifacts; deciding when to file a GitHub Issue vs. a Markdown tracker row; modeling slice dependencies with Mermaid; running repo-local td-sop scripts (closeout, watch-prs, qa-smoke, status); or deciding how TD-SOP differs from Linear-based SD-SOP. **For per-slice execution discipline (tracer bullets, refactor scan, TDD scope, Ralph review, slice lifecycle), use the `slice-delivery` skill instead.** Triggers on “TD-SOP”, “Tech Dolphins”, “markdown tracker”, “build-progress”, “td-sop-plan”, “Mermaid dependency graph”, “td:closeout”, “td:watch-prs”, “td:qa-smoke”, “td:status”.
+description: Tech Dolphins tracker / org-level workflow for Tech-Dolphins-Inc product repos. Use when maintaining the Markdown + GitHub Issues hybrid tracker; updating PRD / td-sop-plan / build-progress artifacts; deciding when to file a GitHub Issue vs. a Markdown tracker row; modeling slice dependencies with Mermaid; running repo-local td-sop scripts (closeout, watch-prs, qa-smoke, status); or deciding how TD-SOP differs from Linear-based `linear-sop`. **For per-slice execution discipline (tracer bullets, refactor scan, TDD scope, Ralph review, slice lifecycle), use the `slice-delivery` skill instead.** Triggers on “TD-SOP”, “Tech Dolphins”, “markdown tracker”, “build-progress”, “td-sop-plan”, “Mermaid dependency graph”, “td:closeout”, “td:watch-prs”, “td:qa-smoke”, “td:status”.
 wave: 3
 updated: 2026-05-21
 ---
 
 # TD-SOP — Tech Dolphins tracker / org-level workflow
 
-Use this for `Tech-Dolphins-Inc` repos. Do **not** apply Linear-based SD-SOP assumptions here. Tech Dolphins work uses repo-local Markdown + GitHub + deterministic scripts as the execution system.
+Use this for `Tech-Dolphins-Inc` repos. Do **not** apply Linear-based `linear-sop` assumptions here. Tech Dolphins work uses repo-local Markdown + GitHub + deterministic scripts as the execution system.
 
 **Scope boundary.** This skill owns the *tracker* and *org-level* concerns: PRD, slice queue, build-progress ledger, GitHub Issues policy, Mermaid dependency graphs, hygiene scripts, QA wave gate. It does **not** own per-slice execution — for tracer bullets, deep modules, the per-cycle refactor scan, the TDD scope table, the Ralph review loop, and the slice lifecycle gate, use the `slice-delivery` skill. (Repos may also have a repo-specific overlay, e.g. `ai-national-slice-delivery`.)
 
@@ -109,4 +109,4 @@ Keep repo-local TD-SOP docs canonical. This skill is a wrapper that tells agents
 - `model-routing` — pick the right model/lane before spawning implementation/review subagents.
 - `pr-iterate` — PR-level implementation loop.
 - `pr-discipline` — safe PR merge/rebase/lockfile mechanics.
-- `sd-sop` — Linear-based equivalent. Do not use for Tech Dolphins repos unless explicitly comparing processes.
+- `linear-sop` — Linear-based equivalent. Do not use for Tech Dolphins repos unless explicitly comparing processes.
