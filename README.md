@@ -19,8 +19,7 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 - `engineering/github-ci-triage` — diagnose GitHub Actions / PR check failures with `gh`.
 - `engineering/model-routing` — choose model, thinking level, and review lane for delegated work.
 - `engineering/network-connectivity-troubleshoot` — diagnose public-network, DNS, `gh`, or Tailscale connectivity failures.
-- `engineering/pr-discipline` — safety rules for PR review, merge, branch protection, lockfiles, and auto-merge.
-- `engineering/pr-iterate` — run a disciplined pull-request implementation loop.
+- `engineering/pr-discipline` — PR iteration loop + merge safety rules: open → watch CI → fix → merge, branch protection, lockfiles, auto-merge, force-pushes, hook bypass policy, stuck PRs.
 - `engineering/repo-hygiene` — safely inspect stale branches, worktrees, and cleanup candidates.
 - `engineering/linear-sop` — Linear tracker / org-level workflow: parent-as-lane, sub-issue-as-slice, dependency edges, status transitions, drift audit. Delegates per-slice rigor to `slice-delivery` and PR mechanics to `pr-discipline`.
 - `engineering/slice-delivery` — tracker-agnostic vertical-slice execution discipline: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review loop, slice lifecycle.
@@ -47,13 +46,13 @@ The engineering skills form a layered harness:
  execution wrapper          slice-delivery   (tracer bullet → refactor scan → Ralph → DoD)
                                   |
                                   v
- PR mechanics              pr-iterate (the loop)    pr-discipline (the rules)
+ PR mechanics              pr-discipline   (the loop + the rules)
                                   |
                                   v
  tactical skills         github-ci-triage · repo-hygiene · network-connectivity-troubleshoot · validate-infra-change · model-routing
 ```
 
-Pick the highest layer that fits the task and let it delegate downward. Tracker SOPs own *what* to ship and which tracker artifact to update; `slice-delivery` owns *how* to ship it; the PR skills own merge mechanics; tactical skills are leaf utilities the higher layers call into.
+Pick the highest layer that fits the task and let it delegate downward. Tracker SOPs own *what* to ship and which tracker artifact to update; `slice-delivery` owns *how* to ship it; `pr-discipline` owns the PR iteration loop and merge mechanics; tactical skills are leaf utilities the higher layers call into.
 
 ## Design principles
 

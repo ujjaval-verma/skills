@@ -12,8 +12,7 @@ Use this skill when **Linear is the delivery tracker**. It owns the tracker shap
 **Scope boundary.** This skill owns the *tracker* and *org-level* concerns: Linear parent/child issue modelling, dependency edges, status transitions, the drift audit, and one-issue-one-PR enforcement. It does **not** own:
 
 - Per-slice execution (tracer bullet, deep modules, per-cycle refactor scan, TDD scope table, Ralph review loop, slice lifecycle) → use `slice-delivery`.
-- PR merge mechanics (rebase, lockfile conflicts, branch protection, auto-merge, force-push, stuck PRs) → use `pr-discipline`.
-- The PR iteration loop (orient, isolate, implement, verify, commit, watch CI) → use `pr-iterate`.
+- PR mechanics — iteration loop, merge mechanics, lockfile conflicts, branch protection, auto-merge, force-push, stuck PRs → use `pr-discipline`.
 
 ## Mental model
 
@@ -121,8 +120,7 @@ Repair drift in this order:
 ## Related skills
 
 - **`slice-delivery`** — per-slice execution discipline. Tracer bullets, deep modules, refactor scan, Ralph review, slice lifecycle, TDD scope table. linear-sop delegates to it.
-- **`pr-iterate`** — the PR-level implementation loop.
-- **`pr-discipline`** — safe PR merge / rebase / lockfile / auto-merge / branch-protection mechanics.
+- **`pr-discipline`** — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
 - **`td-sop`** — Markdown + GitHub Issues equivalent. Do not mix with linear-sop in the same repo.
 - **`repo-hygiene`** — worktree and branch cleanup.
 - **`model-routing`** — pick the right model/lane before spawning implementation/review subagents.

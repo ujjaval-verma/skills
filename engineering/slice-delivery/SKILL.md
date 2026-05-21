@@ -32,7 +32,7 @@ A good slice:
 - Tracer bullet first. The first work in any slice is one test that proves the end-to-end path with the minimum possible implementation. Everything after thickens this skeleton.
 - The tracker is whatever your repo already uses. Do not invent a parallel one. If a tracker entry doesn't exist for the slice, create it before opening the PR — not after.
 - Commits carry the slice scope: `feat(<slice-id>): ...`. This lets `git log --grep='(<slice-id>)'` reconstruct slice progress in seconds.
-- "Shipped" means the slice is on the default integration branch with CI green. Locally green is not shipped.
+- "Shipped" — see `pr-discipline`'s "Definition of shipped" for the exact verification (`gh pr view` returns `MERGED` **and** CI is green on the merge commit on the target branch). Locally green is not shipped.
 
 ### 2. Rigor — prove the change
 
@@ -115,7 +115,7 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 
 - Picking which slice to ship next — that's a planning / tracker skill.
 - Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see `linear-sop` or `td-sop` or the repo's local execution doc.
-- PR mechanics that are independent of slice content — see `pr-iterate` and `pr-discipline`.
+- PR mechanics that are independent of slice content — see `pr-discipline`.
 - Repo-agnostic CI / merge-queue strategy — separate concern.
 
 ## Related skills
@@ -123,6 +123,5 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 - `tdd` — the underlying red-green-refactor discipline this skill wraps.
 - `linear-sop` — Linear-based tracker mechanics.
 - `td-sop` — Markdown + GitHub Issues hybrid tracker mechanics.
-- `pr-iterate` — PR-level implementation loop.
-- `pr-discipline` — safe PR mechanics (rebase, lockfiles, branch protection, auto-merge).
+- `pr-discipline` — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
 - `repo-hygiene` — worktree/branch cleanup.

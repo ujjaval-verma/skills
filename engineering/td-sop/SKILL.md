@@ -107,6 +107,5 @@ Keep repo-local TD-SOP docs canonical. This skill is a wrapper that tells agents
 
 - **`slice-delivery`** — per-slice execution discipline. This is where tracer bullets, deep modules, the per-cycle refactor scan, the Ralph review loop, and the TDD scope table live. TD-SOP delegates to it.
 - `model-routing` — pick the right model/lane before spawning implementation/review subagents.
-- `pr-iterate` — PR-level implementation loop.
-- `pr-discipline` — safe PR merge/rebase/lockfile mechanics.
+- `pr-discipline` — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
 - `linear-sop` — Linear-based equivalent. Do not use for Tech Dolphins repos unless explicitly comparing processes.
