@@ -89,8 +89,8 @@ The engineering skills are deliberately **layered**, not flat. Tracker SOPs deci
                                      │
                                      ▼
    ┌─────────────────────────────────────────────────────────────────────────┐
-   │  tactical        github-ci-triage · repo-hygiene · model-routing        │
-   │                  network-connectivity-troubleshoot · validate-infra     │
+   │  tactical    github-ci-triage · repo-hygiene · model-routing            │
+   │              network-connectivity-troubleshoot · validate-infra-change  │
    └─────────────────────────────────────────────────────────────────────────┘
 ```
 
