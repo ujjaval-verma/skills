@@ -1,6 +1,8 @@
 ---
 name: td-sop
 description: Tech Dolphins tracker / org-level workflow for Tech-Dolphins-Inc product repos. Use when maintaining the Markdown + GitHub Issues hybrid tracker; updating PRD / td-sop-plan / build-progress artifacts; deciding when to file a GitHub Issue vs. a Markdown tracker row; modeling slice dependencies with Mermaid; running repo-local td-sop scripts (closeout, watch-prs, qa-smoke, status); or deciding how TD-SOP differs from Linear-based SD-SOP. **For per-slice execution discipline (tracer bullets, refactor scan, TDD scope, Ralph review, slice lifecycle), use the `slice-delivery` skill instead.** Triggers on “TD-SOP”, “Tech Dolphins”, “markdown tracker”, “build-progress”, “td-sop-plan”, “Mermaid dependency graph”, “td:closeout”, “td:watch-prs”, “td:qa-smoke”, “td:status”.
+wave: 3
+updated: 2026-05-21
 ---
 
 # TD-SOP — Tech Dolphins tracker / org-level workflow
@@ -68,14 +70,12 @@ Keep the graph small enough to maintain. If it becomes noisy, split by phase.
 
 ## Org-level start gate
 
-Before opening a slice (per-slice execution gate lives in `slice-delivery`):
+The per-slice start-lane gate (sync base, read invariants/architecture/DOD, design the public interface, negotiate scope with the user, create the worktree) lives in `slice-delivery`. The two org-level additions on top of it are:
 
-1. Sync main checkout to latest base unless intentionally inspecting old state.
-2. Read repo-local TD-SOP docs and current tracker (PRD, td-sop-plan, build-progress, invariants/architecture/DOD if present).
-3. Check open PRs.
-4. Run closeout dry-run or repo-hygiene equivalent and avoid adding work when hygiene is already out of bounds.
-5. Confirm the slice exists in `td-sop-plan.md` (or add it before opening the PR). If the slice is a meta-DX/process change with no plan entry, justify it explicitly in the PR body.
-6. Hand off to `slice-delivery` for the actual implementation lifecycle.
+1. Confirm the slice exists in `td-sop-plan.md` (or add it before opening the PR). Meta-DX/process changes with no plan entry must justify themselves in the PR body.
+2. Before adding work, run closeout dry-run or the repo-hygiene equivalent and refuse to expand parallel work when hygiene is already out of bounds.
+
+Then hand off to `slice-delivery` for the implementation lifecycle.
 
 ## Org-level merge gate
 
