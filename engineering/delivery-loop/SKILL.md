@@ -109,6 +109,8 @@ When the loop stops, the next slice has NOT started. The repo is in a clean stat
 
 ## Related skills
 
+Skills prefixed `superpowers:` are external plugin-namespaced skills (from the `superpowers` plugin set) that this skill composes when present in the host repo. They are not part of this skills library; in a repo without the superpowers plugin installed, treat each as "the repo-local equivalent if one exists, else inline the discipline manually."
+
 - `slice-delivery` — the per-slice execution wrapper this skill composes.
 - `superpowers:brainstorming` — invoked per-slice when design ambiguity exists.
 - `superpowers:writing-plans` — invoked per-slice to produce the executable plan.
