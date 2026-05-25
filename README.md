@@ -160,6 +160,6 @@ Full step-by-step in [**CONTRIBUTING.md**](CONTRIBUTING.md). Frontmatter rules a
 
 > *Discipline doesn't survive context resets. Skills do.*
 
-<sub>📜 [MIT](LICENSE) · ✍️ [Contribute](CONTRIBUTING.md) · 🧠 [Agent operating manual](CLAUDE.md) · 🌱 Inspired by <a href="https://github.com/mattpocock/skills">mattpocock/skills</a></sub>
+<sub>📜 [MIT](LICENSE) · ✍️ [Contribute](CONTRIBUTING.md) · 🧠 [Agent operating manual](CLAUDE.md) · 🌊 [Waves](WAVES.md) · 🌱 Inspired by <a href="https://github.com/mattpocock/skills">mattpocock/skills</a></sub>
 
 </div>

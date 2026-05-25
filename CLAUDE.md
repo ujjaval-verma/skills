@@ -28,7 +28,7 @@ wave: <int>           # optional; only when the skill belongs to a deliberate re
 
 Bump `updated:` when the body changes materially (typo/link fixes don't count). When introducing the field on a previously-undated skill, set it to the date the field is added; this is a known approximation — the value going forward will reflect material edits.
 
-Don't assign `wave:` retroactively. A wave number is meaningful only when paired with a defined refactor cohort (e.g., wave 3 = the "collapse tracker SOPs onto `slice-delivery`" pass in May 2026). Future waves should document themselves in their first introducing PR's description; if a `WAVES.md` accrues, point to it here.
+Don't assign `wave:` retroactively. A wave number is meaningful only when paired with a defined refactor cohort. See [`WAVES.md`](WAVES.md) for the documented cohorts (currently: wave 3 — "collapse tracker SOPs onto `slice-delivery`; introduce `delivery-loop`"). Future waves: declare the cohort in `WAVES.md` as part of the introducing PR; do not assign `wave:` to a skill that isn't listed in a documented cohort.
 
 Enforcement is currently social, not mechanical. Adding a lint/CI check that engineering skills declare `updated:` is a worthwhile follow-up.
 
