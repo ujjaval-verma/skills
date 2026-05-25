@@ -44,6 +44,30 @@ Skills layer rather than overlap. When a task fits multiple skills, pick the hig
 
 Tracker SOPs delegate per-slice rigor directly to `slice-delivery`. `delivery-loop` is a parallel operator-invoked path that composes `slice-delivery` N times for autonomous multi-slice runs — tracker SOPs do not hand off to it. `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
 
+```text
+   operator entry points
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │  linear-sop   ·   td-sop   ·   delivery-loop  (optional, autonomous)     │
+   └────────┬───────────────┬───────────────────────┬─────────────────────────┘
+            │               │                       │   (composes N×)
+            └───────────────┴────────┬──────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │  slice-delivery     tracer bullet · refactor scan · Ralph · DoD          │
+   └─────────────────────────────────┬────────────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │  pr-discipline      the loop + the safety rules                          │
+   └─────────────────────────────────┬────────────────────────────────────────┘
+                                     ▼
+   ┌──────────────────────────────────────────────────────────────────────────┐
+   │  tactical    github-ci-triage · repo-hygiene · model-routing             │
+   │              network-connectivity-troubleshoot · validate-infra-change   │
+   └──────────────────────────────────────────────────────────────────────────┘
+```
+
+The Mermaid rendering of this diagram lives in [`README.md`](README.md#-composition-engineering); both must move together.
+
 ## Adversarial review (Ralph) — contract
 
 Every non-trivial PR (any change beyond a typo / link fix / single-line config tweak) must show an adversarial review trail before merge. This is a contract, not a suggestion.
