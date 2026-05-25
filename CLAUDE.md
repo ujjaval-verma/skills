@@ -37,11 +37,12 @@ Enforcement is currently social, not mechanical. Adding a lint/CI check that eng
 Skills layer rather than overlap. When a task fits multiple skills, pick the highest layer and let it delegate:
 
 - **Tracker SOPs** — `linear-sop` (Linear), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
+- **Multi-slice loop (optional, operator-invoked)** — `delivery-loop`. A separate entry point the operator invokes directly (never auto-promoted from `slice-delivery`) that runs `slice-delivery` across a pre-flight slice queue, with a per-slice T0 spec-review gate substituting for human approval and hard pause conditions inside the loop. Requires a repo with a runnable Definition of Done harness, ADRs/invariants, and spec/code-review templates; not used in this skills repo.
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
 - **PR mechanics** — `pr-discipline`. Iteration loop (orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep) + safety rules (branch protection, lockfiles, auto-merge, force-pushes, hook bypass, stuck PRs).
 - **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
 
-Tracker SOPs delegate per-slice rigor to `slice-delivery`; `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
+Tracker SOPs delegate per-slice rigor directly to `slice-delivery`. `delivery-loop` is a parallel operator-invoked path that composes `slice-delivery` N times for autonomous multi-slice runs — tracker SOPs do not hand off to it. `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
 
 ## Adversarial review (Ralph) — contract
 
