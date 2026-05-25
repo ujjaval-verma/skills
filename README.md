@@ -69,39 +69,36 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 
 ## 🧩 Composition (engineering)
 
-The engineering skills are deliberately **layered**, not flat. Tracker SOPs decide *what* ships; `delivery-loop` chains multiple slices autonomously; `slice-delivery` decides *how* a single slice ships; `pr-discipline` owns the PR loop; tactical skills are leaf utilities the higher layers call into.
+The engineering skills are deliberately **layered**, not flat. Operators have three entry points — two tracker SOPs (`linear-sop`, `td-sop`) and the optional autonomous `delivery-loop` — all of which fan into `slice-delivery`. `slice-delivery` owns per-slice execution and delegates PR mechanics to `pr-discipline`. Tactical skills are leaf utilities the higher layers call into.
 
-```text
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  tracker SOPs        linear-sop  (Linear)         td-sop  (MD + GH)     │
-   └──────────────────────────────┬──────────────────────────┬───────────────┘
-                                  │                          │
-                                  ▼                          ▼
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  multi-slice loop         delivery-loop  (optional)                     │
-   │                           (queue → T0 spec-review → slice → DoD gate)   │
-   └─────────────────────────────────┬───────────────────────────────────────┘
-                                     │
-                                     ▼
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  execution wrapper        slice-delivery                                │
-   │                           (tracer bullet → refactor scan → Ralph → DoD) │
-   └─────────────────────────────────┬───────────────────────────────────────┘
-                                     │
-                                     ▼
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  PR mechanics             pr-discipline                                 │
-   │                           (the loop + the safety rules)                 │
-   └─────────────────────────────────┬───────────────────────────────────────┘
-                                     │
-                                     ▼
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  tactical    github-ci-triage · repo-hygiene · model-routing            │
-   │              network-connectivity-troubleshoot · validate-infra-change  │
-   └─────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    classDef entry fill:#1f6feb,stroke:#1f6feb,color:#fff,font-weight:bold
+    classDef exec fill:#6f42c1,stroke:#6f42c1,color:#fff,font-weight:bold
+    classDef pr fill:#1a7f37,stroke:#1a7f37,color:#fff,font-weight:bold
+    classDef tactical fill:#bf8700,stroke:#bf8700,color:#fff
+
+    subgraph EP["operator entry points"]
+        direction LR
+        linear["**linear-sop**<br/>Linear tracker"]:::entry
+        td["**td-sop**<br/>Markdown + GH tracker"]:::entry
+        loop["**delivery-loop** (optional)<br/>autonomous multi-slice"]:::entry
+    end
+
+    slice["**slice-delivery**<br/>tracer bullet · refactor scan · Ralph · DoD"]:::exec
+    pr["**pr-discipline**<br/>the loop + the safety rules"]:::pr
+    tactical["**tactical**<br/>github-ci-triage · repo-hygiene · model-routing<br/>network-connectivity-troubleshoot · validate-infra-change"]:::tactical
+
+    linear --> slice
+    td --> slice
+    loop -. "composes N×" .-> slice
+    slice --> pr
+    pr --> tactical
 ```
 
-Pick the highest layer that fits the task and let it delegate. Duplication across layers is a refactor trigger — not a feature.
+**How to read this.** Pick the highest layer that fits the task and let it delegate. Tracker SOPs hand off *directly* to `slice-delivery` (one slice at a time). `delivery-loop` is a **parallel** operator entry point — never auto-promoted from `slice-delivery` — that composes `slice-delivery` N times for autonomous multi-slice runs; it is not invoked by the tracker SOPs. Duplication across layers is a refactor trigger — not a feature.
+
+> The ASCII version of this diagram lives in [`CLAUDE.md`](CLAUDE.md#composition-engineering) — that file is loaded into agent context as raw text where Mermaid would just be noise.
 
 ## 🎯 Design principles
 
