@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 350" width="2800" height="700" font-family="-apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 350" width="2800" height="700" font-family="'Inter', -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif">
   <!-- ===== defs ===== -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
