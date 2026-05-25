@@ -1,7 +1,7 @@
 ---
 name: linear-sop
-description: Linear tracker / org-level workflow for Linear-tracked repos. Use when creating, splitting, updating, or closing Linear issues/sub-issues; mapping Linear issue-to-PR work; recording blocks/blocked-by relations; transitioning Linear status (Backlog → In Progress → In Review → Done); running the Linear drift audit; or deciding how a Linear-tracked repo differs from a Markdown-tracker (td-sop) repo. **For per-slice execution discipline (tracer bullets, refactor scan, TDD scope, Ralph review, slice lifecycle), use the `slice-delivery` skill instead. For PR mechanics (rebase, lockfiles, auto-merge, force-push), use `pr-discipline`.** Triggers on "Linear", "sub-issue", "blocks/blocked-by", "In Review", "linear-sop audit", "SD-SOP".
-updated: 2026-05-21
+description: Linear tracker / org-level workflow for Linear-tracked repos. Use when creating, splitting, updating, or closing Linear issues/sub-issues; mapping Linear issue-to-PR work; recording blocks/blocked-by relations; transitioning Linear status (Backlog → In Progress → In Review → Done); running the Linear drift audit; or deciding how a Linear-tracked repo differs from a Markdown-tracker (td-sop) repo. **For per-slice execution discipline (tracer bullets, refactor scan, TDD scope, Ralph review, slice lifecycle), use the `slice-delivery` skill instead. For PR mechanics (rebase, lockfiles, auto-merge, force-push), use `pr-discipline`.** Triggers on "Linear", "sub-issue", "blocks/blocked-by", "In Review", "linear-sop audit", "SD-SOP" (legacy alias — renamed to linear-sop in wave 3).
+updated: 2026-05-25
 wave: 3
 ---
 

@@ -38,8 +38,6 @@
     scripts/          ← optional helpers referenced by SKILL.md
 ```
 
-Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
-
 ## 📚 Skills
 
 ### 🏗️ Engineering
@@ -157,8 +155,6 @@ Full step-by-step in [**CONTRIBUTING.md**](CONTRIBUTING.md). Frontmatter rules a
 ---
 
 <div align="center">
-
-> *Discipline doesn't survive context resets. Skills do.*
 
 <sub>📜 [MIT](LICENSE) · ✍️ [Contribute](CONTRIBUTING.md) · 🧠 [Agent operating manual](CLAUDE.md) · 🌊 [Waves](WAVES.md) · 🌱 Inspired by <a href="https://github.com/mattpocock/skills">mattpocock/skills</a></sub>
 
