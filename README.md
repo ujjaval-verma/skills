@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/skills-12-purple?style=flat-square" alt="12 skills"/>
+  <img src="https://img.shields.io/badge/skills-13-purple?style=flat-square" alt="13 skills"/>
   <img src="https://img.shields.io/badge/format-SKILL.md-success?style=flat-square" alt="SKILL.md format"/>
   <img src="https://img.shields.io/badge/branch--protected-main-green?style=flat-square" alt="main is branch-protected"/>
   <img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs welcome"/>
@@ -43,6 +43,7 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 
 | Skill | What it owns |
 |---|---|
+| [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: pre-flight slice queue, per-slice T0 spec-review gate, hard pause conditions, final Definition-of-Done gate. |
 | [`engineering/github-ci-triage`](engineering/github-ci-triage/SKILL.md) | Diagnose GitHub Actions / PR check failures with `gh`. |
 | [`engineering/linear-sop`](engineering/linear-sop/SKILL.md) | Linear tracker / org workflow: parent-as-lane, sub-issue-as-slice, dependency edges, drift audit. |
 | [`engineering/model-routing`](engineering/model-routing/SKILL.md) | Choose model, thinking level, and review lane for delegated work. |
@@ -68,7 +69,7 @@ Inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
 
 ## 🧩 Composition (engineering)
 
-The engineering skills are deliberately **layered**, not flat. Tracker SOPs decide *what* ships; `slice-delivery` decides *how* a slice ships; `pr-discipline` owns the PR loop; tactical skills are leaf utilities the higher layers call into.
+The engineering skills are deliberately **layered**, not flat. Tracker SOPs decide *what* ships; `delivery-loop` chains multiple slices autonomously; `slice-delivery` decides *how* a single slice ships; `pr-discipline` owns the PR loop; tactical skills are leaf utilities the higher layers call into.
 
 ```text
    ┌─────────────────────────────────────────────────────────────────────────┐
@@ -76,6 +77,12 @@ The engineering skills are deliberately **layered**, not flat. Tracker SOPs deci
    └──────────────────────────────┬──────────────────────────┬───────────────┘
                                   │                          │
                                   ▼                          ▼
+   ┌─────────────────────────────────────────────────────────────────────────┐
+   │  multi-slice loop         delivery-loop  (optional)                     │
+   │                           (queue → T0 spec-review → slice → DoD gate)   │
+   └─────────────────────────────────┬───────────────────────────────────────┘
+                                     │
+                                     ▼
    ┌─────────────────────────────────────────────────────────────────────────┐
    │  execution wrapper        slice-delivery                                │
    │                           (tracer bullet → refactor scan → Ralph → DoD) │
