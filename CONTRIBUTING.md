@@ -49,6 +49,17 @@ gh pr create --fill
 
 CI is lightweight today (social enforcement); future lint may enforce frontmatter shape. Don't bypass hooks or branch protection.
 
+## Social card
+
+The repo's GitHub social preview is uploaded manually via repo Settings → Social preview. Source SVG and rendered 2:1 JPG live in [`docs/assets/`](docs/assets/). To regenerate the JPG after editing the SVG, render at 2560×1280 via headless Chrome (preserves viewBox aspect; QuickLook squares it):
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+  --window-size=2560,1280 --screenshot=/tmp/card.png \
+  "file://$PWD/docs/assets/social-card.svg"
+sips -s format jpeg -s formatOptions 92 /tmp/card.png --out docs/assets/social-card.jpg
+```
+
 ## Reporting issues
 
 Open a GitHub issue with:
