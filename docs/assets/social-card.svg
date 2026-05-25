@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 350" width="2800" height="700" font-family="'Inter', -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif">
+  <!-- ===== defs ===== -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#0b0f1d"/>
+      <stop offset="55%" stop-color="#10142a"/>
+      <stop offset="100%" stop-color="#1a1030"/>
+    </linearGradient>
+    <linearGradient id="purpleAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#6f42c1"/>
+      <stop offset="100%" stop-color="#1f6feb"/>
+    </linearGradient>
+    <linearGradient id="cardBlue"   x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1f6feb" stop-opacity=".22"/><stop offset="100%" stop-color="#1f6feb" stop-opacity=".05"/></linearGradient>
+    <linearGradient id="cardPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6f42c1" stop-opacity=".25"/><stop offset="100%" stop-color="#6f42c1" stop-opacity=".05"/></linearGradient>
+    <linearGradient id="cardGreen"  x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a7f37" stop-opacity=".22"/><stop offset="100%" stop-color="#1a7f37" stop-opacity=".05"/></linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0%"  stop-color="#6f42c1" stop-opacity=".35"/>
+      <stop offset="100%" stop-color="#6f42c1" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 L0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity=".035" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#bf8700"/>
+    </marker>
+    <marker id="arrowSm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#bf8700" fill-opacity=".9"/>
+    </marker>
+  </defs>
+
+  <!-- ===== background ===== -->
+  <rect width="1400" height="350" fill="url(#bg)"/>
+  <rect width="1400" height="350" fill="url(#grid)"/>
+  <ellipse cx="720" cy="200" rx="520" ry="220" fill="url(#halo)"/>
+
+  <!-- top hairline -->
+  <line x1="0" y1="0.5" x2="1400" y2="0.5" stroke="url(#purpleAccent)" stroke-width="1" stroke-opacity=".6"/>
+
+  <!-- ===== tag ===== -->
+  <g transform="translate(40,30)">
+    <line x1="0" y1="10" x2="22" y2="10" stroke="#6f42c1" stroke-width="2"/>
+    <circle cx="28" cy="10" r="3" fill="#1a7f37"/>
+    <text x="42" y="14" font-size="11" font-weight="700" letter-spacing="3" fill="#a78bfa">SLICE&#8201;·&#8201;DELIVERY</text>
+  </g>
+
+  <!-- ===== headline ===== -->
+  <g transform="translate(40,90)">
+    <text font-size="44" font-weight="800" fill="#ffffff" letter-spacing="-1">
+      <tspan x="0" y="0">Ship one slice.</tspan>
+      <tspan x="0" y="52" fill="#a78bfa">Ship it </tspan><tspan fill="#1a7f37">right</tspan><tspan fill="#a78bfa">.</tspan>
+    </text>
+    <text x="0" y="100" font-size="14" fill="#c9d1d9" opacity=".82">
+      <tspan x="0" dy="0">Tracer bullet · RED→GREEN→refactor scan · Ralph review · clean closeout —</tspan>
+      <tspan x="0" dy="20">one PR, one concern, end-to-end behavior every cycle.</tspan>
+    </text>
+  </g>
+
+  <!-- ===== three pillar cards ===== -->
+  <g transform="translate(720,28)">
+    <!-- Velocity -->
+    <g transform="translate(0,0)">
+      <rect width="200" height="148" rx="14" fill="url(#cardBlue)" stroke="#1f6feb" stroke-opacity=".75" stroke-width="1.4"/>
+      <rect x="22" y="-10" width="100" height="22" rx="11" fill="#1f6feb"/>
+      <text x="72" y="6" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">VELOCITY</text>
+      <!-- bolt icon -->
+      <g transform="translate(100,58)" stroke="#79b8ff" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <circle r="22" stroke-opacity=".55"/>
+        <path d="M-4 -12 L4 -2 L-2 -2 L4 12 L-4 2 L2 2 Z" fill="#79b8ff" stroke="none"/>
+      </g>
+      <text x="100" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Small, verifiable chunks</text>
+      <text x="100" y="126" text-anchor="middle" font-size="11" fill="#9ec5ff">Tracer bullet first · one concern/commit</text>
+    </g>
+    <!-- Rigor -->
+    <g transform="translate(220,0)">
+      <rect width="200" height="148" rx="14" fill="url(#cardPurple)" stroke="#6f42c1" stroke-opacity=".8" stroke-width="1.4"/>
+      <rect x="22" y="-10" width="100" height="22" rx="11" fill="#6f42c1"/>
+      <text x="72" y="6" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">RIGOR</text>
+      <!-- microscope-ish icon -->
+      <g transform="translate(100,58)" stroke="#c8a8ff" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <circle r="22" stroke-opacity=".55"/>
+        <circle cx="-3" cy="-3" r="7"/>
+        <path d="M2 2 L11 11"/>
+        <path d="M-12 12 L8 12"/>
+      </g>
+      <text x="100" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Prove the change</text>
+      <text x="100" y="126" text-anchor="middle" font-size="11" fill="#d6c2ff">RED→GREEN→refactor · Ralph review</text>
+    </g>
+    <!-- Hygiene -->
+    <g transform="translate(440,0)">
+      <rect width="200" height="148" rx="14" fill="url(#cardGreen)" stroke="#1a7f37" stroke-opacity=".8" stroke-width="1.4"/>
+      <rect x="22" y="-10" width="100" height="22" rx="11" fill="#1a7f37"/>
+      <text x="72" y="6" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">HYGIENE</text>
+      <!-- broom-ish icon -->
+      <g transform="translate(100,58)" stroke="#7ee787" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round">
+        <circle r="22" stroke-opacity=".55"/>
+        <path d="M-9 9 L9 -9"/>
+        <path d="M2 -12 L12 -2"/>
+        <path d="M-12 2 L-2 12"/>
+      </g>
+      <text x="100" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Keep the repo operable</text>
+      <text x="100" y="126" text-anchor="middle" font-size="11" fill="#a8e6b3">Worktrees · closeout · no TODOs</text>
+    </g>
+  </g>
+
+  <!-- ===== slice-delivery loop ===== -->
+  <g transform="translate(40,230)">
+    <!-- track -->
+    <rect width="1320" height="60" rx="30" fill="#0f1530" stroke="#30363d" stroke-width="1"/>
+    <text x="22" y="22" font-size="10" font-weight="800" letter-spacing="2" fill="#a78bfa">SLICE LIFECYCLE</text>
+
+    <!-- nodes: tracer · RED · GREEN · refactor · Ralph · merge · closeout -->
+    <g font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">
+      <!-- node helper macro inline -->
+      <g transform="translate(180,40)">
+        <rect x="-58" y="-15" width="116" height="30" rx="15" fill="#1f6feb"/>
+        <text y="4">Tracer bullet</text>
+      </g>
+      <g transform="translate(340,40)">
+        <rect x="-30" y="-15" width="60" height="30" rx="15" fill="#6f42c1"/>
+        <text y="4">RED</text>
+      </g>
+      <g transform="translate(460,40)">
+        <rect x="-36" y="-15" width="72" height="30" rx="15" fill="#6f42c1"/>
+        <text y="4">GREEN</text>
+      </g>
+      <g transform="translate(610,40)">
+        <rect x="-58" y="-15" width="116" height="30" rx="15" fill="#6f42c1"/>
+        <text y="4">Refactor scan</text>
+      </g>
+      <g transform="translate(800,40)">
+        <rect x="-66" y="-15" width="132" height="30" rx="15" fill="#6f42c1" stroke="#a78bfa" stroke-dasharray="3 3"/>
+        <text y="4">Ralph (adversarial)</text>
+      </g>
+      <g transform="translate(970,40)">
+        <rect x="-36" y="-15" width="72" height="30" rx="15" fill="#1a7f37"/>
+        <text y="4">Merge</text>
+      </g>
+      <g transform="translate(1110,40)">
+        <rect x="-46" y="-15" width="92" height="30" rx="15" fill="#1a7f37"/>
+        <text y="4">Closeout</text>
+      </g>
+    </g>
+
+    <!-- forward arrows -->
+    <g stroke="#bf8700" stroke-width="1.8" fill="none" marker-end="url(#arrowSm)">
+      <line x1="238" y1="40" x2="306" y2="40"/>
+      <line x1="370" y1="40" x2="420" y2="40"/>
+      <line x1="496" y1="40" x2="548" y2="40"/>
+      <line x1="668" y1="40" x2="730" y2="40"/>
+      <line x1="866" y1="40" x2="930" y2="40"/>
+      <line x1="1006" y1="40" x2="1060" y2="40"/>
+    </g>
+
+    <!-- the inner loop arrow: refactor scan -> RED (per-behavior cycle) -->
+    <path d="M 600 25 C 560 -2 400 -2 360 25" stroke="#bf8700" stroke-width="1.6" fill="none" stroke-dasharray="4 3" marker-end="url(#arrowSm)"/>
+    <text x="480" y="6" text-anchor="middle" font-size="10" font-style="italic" fill="#e5b864">per behavior</text>
+
+    <!-- pillar tags above lifecycle -->
+    <g font-size="9" font-weight="800" letter-spacing="1">
+      <text x="180" y="78" text-anchor="middle" fill="#79b8ff">VELOCITY</text>
+      <text x="485" y="78" text-anchor="middle" fill="#c8a8ff">RIGOR</text>
+      <text x="800" y="78" text-anchor="middle" fill="#c8a8ff">RIGOR</text>
+      <text x="1040" y="78" text-anchor="middle" fill="#7ee787">HYGIENE</text>
+    </g>
+  </g>
+
+  <!-- ===== footer ===== -->
+  <g transform="translate(40,318)" font-size="12">
+    <text fill="#c9d1d9">
+      <tspan fill="#79b8ff" font-weight="700">Velocity</tspan>
+      <tspan fill="#8b949e"> + </tspan>
+      <tspan fill="#c8a8ff" font-weight="700">Rigor</tspan>
+      <tspan fill="#8b949e"> + </tspan>
+      <tspan fill="#7ee787" font-weight="700">Hygiene</tspan>
+      <tspan fill="#8b949e"> = </tspan>
+      <tspan fill="#ffffff" font-weight="700">trustworthy autonomy, one slice at a time.</tspan>
+    </text>
+    <text x="1320" y="0" text-anchor="end" fill="#8b949e">
+      Ujjaval Verma · github.com/ujjaval-verma/skills · <tspan fill="#a78bfa">engineering/slice-delivery</tspan>
+    </text>
+  </g>
+</svg>

@@ -59,3 +59,26 @@ Open a GitHub issue with:
 ## Code of conduct
 
 Be kind, be specific, assume good faith. Disagreement is fine; performative agreement is not.
+
+## Maintainer notes
+
+### Regenerating the social card
+
+The repo's GitHub social preview is uploaded manually via repo **Settings → Social preview** (no public API). Source SVG and rendered 2:1 JPG live in [`docs/assets/`](docs/assets/). To regenerate the JPG after editing the SVG, render via headless Chrome inside an HTML wrapper that pads the 4:1 SVG to a 2:1 canvas. Run from repo root:
+
+```bash
+# macOS — Chrome + sips
+cat > /tmp/card.html <<HTML
+<!doctype html><html><head><style>
+html,body{margin:0;padding:0;background:#0b0f1d}
+.wrap{width:2560px;height:1280px;display:flex;align-items:center;justify-content:center}
+img{width:2560px;height:640px;display:block}
+</style></head>
+<body><div class="wrap"><img src="file://$PWD/docs/assets/social-card.svg"/></div></body></html>
+HTML
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+  --window-size=2560,1280 --screenshot=/tmp/card.png file:///tmp/card.html
+sips -s format jpeg -s formatOptions 92 /tmp/card.png --out docs/assets/social-card.jpg
+```
+
+On Linux, swap `sips` for ImageMagick: `convert /tmp/card.png -quality 92 docs/assets/social-card.jpg`.
