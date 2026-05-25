@@ -28,7 +28,7 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
    ```
 
 4. **Keep the body focused** on reusable workflow instructions. Cut prose the agent already knows without the skill present. If the skill needs a helper script, drop it under `<skill-name>/scripts/` and reference it by relative path from `SKILL.md`. Don't add a `scripts/` folder speculatively.
-5. **Update the skill index in [`README.md`](README.md)** in the same PR — folder, `name:`, and index entry should always move together.
+5. **Update both lookup surfaces in [`README.md`](README.md)** in the same PR — the **Skills** table (the canonical "what does it own?" index) *and* the **Triggers** table (the "what should I say to invoke it?" quick reference). Folder, `name:`, and both table entries always move together.
 6. **Cross-references count too.** If you rename a skill or change its scope, update every `Related skills` line and delegation pointer in other skills in the same PR.
 
 ## Editing an existing skill

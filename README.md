@@ -138,25 +138,9 @@ flowchart TD
 
 ## ✍️ Adding a skill
 
-1. Pick a category: `engineering/`, `product/`, or `productivity/`.
-2. Create a hyphen-case folder whose name matches the `name:` you'll put in frontmatter.
-3. Write `SKILL.md`:
+Drop a new `SKILL.md` into the right category folder, declare frontmatter (`name:`, `description:`, `updated:`, optional `wave:`), update the [Skills](#-skills) and [Triggers](#-triggers) tables in the same PR, and post an adversarial review trail before merge.
 
-   ```yaml
-   ---
-   name: example-skill
-   description: Trigger-oriented description of when to use this skill.
-   updated: 2026-05-21
-   ---
-   ```
-
-   Engineering skills should declare `updated:` (ISO date of the last material edit). `wave:` is optional — only set it when the skill belongs to a deliberate refactor cohort. See [`CLAUDE.md`](CLAUDE.md#frontmatter-conventions) for the full rule and backfill convention.
-
-4. Keep the body focused on reusable workflow instructions.
-5. Check for private names/paths before publishing.
-6. Update the skill index above in the same PR.
-
-Full guidelines: [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Full step-by-step in [**CONTRIBUTING.md**](CONTRIBUTING.md). Frontmatter rules and the Ralph contract live in [**CLAUDE.md**](CLAUDE.md).
 
 ## 🚫 What not to include
 
