@@ -68,12 +68,21 @@ The repo's GitHub social preview is uploaded manually via repo **Settings → So
 
 ```bash
 # macOS — Chrome + sips
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=old --disable-gpu \
   --window-size=2560,1280 --screenshot=/tmp/card.png \
   "file://$PWD/docs/assets/social-card.svg"
-sips -s format jpeg -s formatOptions 92 /tmp/card.png --out docs/assets/social-card.jpg
+sips -s format jpeg -s formatOptions 85 /tmp/card.png --out docs/assets/social-card.jpg
 ```
 
-On Linux, swap `sips` for ImageMagick: `convert /tmp/card.png -quality 92 docs/assets/social-card.jpg`.
+`--headless=old` pins the legacy headless mode so the screenshot fills exactly `2560×1280`; Chrome ≥112 treats a bare `--headless` as the new mode, which has different viewport semantics. JPG quality 85 keeps the file under ~400 KB with no perceptible loss at GitHub's display size.
+
+On Linux, swap the macOS-specific flags and tool: drop `--disable-gpu`, add `--no-sandbox` (required in most CI containers), and pipe through ImageMagick instead of `sips`:
+
+```bash
+google-chrome --headless=old --no-sandbox \
+  --window-size=2560,1280 --screenshot=/tmp/card.png \
+  "file://$PWD/docs/assets/social-card.svg"
+convert /tmp/card.png -quality 85 docs/assets/social-card.jpg
+```
 
 If you reflow the SVG, keep meaningful content inside the safe area (40pt inset → coordinates `[40,40]` to `[1240,600]` in the 1280×640 viewBox) so GitHub's bleed crop doesn't clip anything important.

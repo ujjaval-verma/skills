@@ -143,14 +143,14 @@
       </g>
     </g>
 
-    <!-- forward arrows -->
+    <!-- forward arrows (≥5px clearance from pill edges) -->
     <g stroke="#bf8700" stroke-width="1.8" fill="none" marker-end="url(#arrowSm)">
-      <line x1="210" y1="44" x2="258" y2="44"/>
-      <line x1="319" y1="44" x2="358" y2="44"/>
-      <line x1="430" y1="44" x2="472" y2="44"/>
-      <line x1="585" y1="44" x2="634" y2="44"/>
-      <line x1="763" y1="44" x2="812" y2="44"/>
-      <line x1="885" y1="44" x2="922" y2="44"/>
+      <line x1="214" y1="44" x2="258" y2="44"/>
+      <line x1="323" y1="44" x2="358" y2="44"/>
+      <line x1="434" y1="44" x2="472" y2="44"/>
+      <line x1="589" y1="44" x2="634" y2="44"/>
+      <line x1="767" y1="44" x2="812" y2="44"/>
+      <line x1="889" y1="44" x2="922" y2="44"/>
     </g>
 
     <!-- per-behavior loop: Refactor scan ↺ RED -->
