@@ -8,7 +8,8 @@ This repo holds reusable, repo-agnostic AgentSkills. Each skill is a single `SKI
 
 ```
 <category>/<skill-name>/SKILL.md
-<category>/<skill-name>/scripts/   # optional, only if a script is referenced by SKILL.md
+<category>/<skill-name>/scripts/      # optional, only if a script is referenced by SKILL.md
+<category>/<skill-name>/references/   # optional, only for docs SKILL.md links to (read on demand, not loaded with the skill)
 ```
 
 Categories: `engineering/`, `product/`, `productivity/`. Skill folder names are hyphen-case and match the `name:` in frontmatter. Add/rename/delete in one PR — never let folder and `name:` drift.
