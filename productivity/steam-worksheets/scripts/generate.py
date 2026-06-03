@@ -111,6 +111,7 @@ def build_html(level, theme_name, topics, name, seed, n_acts):
     from icons import icon
     head_icon = icon(theme["emoji_icon"], 22)
     badge = f"Level {level}"
+    # builder keys are pre-escaped (theme data) or ASCII-safe (ints/literals); not re-escaped here
     keytext = " &middot; ".join(keys) if keys else "see activities"
 
     css = Template(CSS).substitute(

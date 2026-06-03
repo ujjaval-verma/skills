@@ -87,7 +87,7 @@ _ICONS = {
 
 
 def _parse_vb(vb):
-    """Parse a viewBox string into (x0, y0, w, h) floats."""
+    """Parse a viewBox string into a list of x0, y0, w, h floats."""
     return [float(v) for v in vb.split()]
 
 
