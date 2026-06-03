@@ -32,8 +32,8 @@ sensible defaults exist for everything except where noted.
   Default `math,literacy,patterns,problemsolving` (a balanced sheet).
 - **Child's name** — personalises the title (e.g. "Asha's Space Worksheet").
   Optional; omit for a blank name line.
-- **Number of activities** — 3–4. Default `4` (≈15 min). Capped at 4 so the
-  sheet always fits on one page.
+- **Number of activities** — `3` or `4` (the engine accepts only these values).
+  Default `4` (≈15 min). The 4-activity maximum keeps the sheet on one page.
 - **How many worksheets** — generate a pack by calling the engine repeatedly
   with different seeds/themes.
 
@@ -105,7 +105,7 @@ These are baked into the engine and the user relies on them:
   (missing glyphs). If you ever hand-edit and see `.notdef` warnings, you've
   introduced an emoji/character with no font; replace it with an SVG icon.
 - **One page**, ~15 minutes, with a parent answer key in the footer. The
-  activity count is capped at 4 to keep this guarantee.
+  engine accepts at most 4 activities to keep this guarantee.
 
 ## Extending the skill
 

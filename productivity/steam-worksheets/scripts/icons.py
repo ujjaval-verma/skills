@@ -86,10 +86,15 @@ _ICONS = {
 }
 
 
+def _parse_vb(vb):
+    """Parse a viewBox string into a list of x0, y0, w, h floats."""
+    return [float(v) for v in vb.split()]
+
+
 def _square_vb(vb):
     """Pad a viewBox to a centred square so every icon renders at a consistent
     visual size in a row, regardless of its native aspect ratio."""
-    x0, y0, w, h = [float(v) for v in vb.split()]
+    x0, y0, w, h = _parse_vb(vb)
     side = max(w, h)
     return f"{x0 - (side - w) / 2:.1f} {y0 - (side - h) / 2:.1f} {side:.1f} {side:.1f}"
 
@@ -103,7 +108,7 @@ def icon(name, size=30, cls="ico"):
 def icon_marker(name, cx, cy, s=11):
     """An icon placed at a point inside another SVG (for mazes / scenes)."""
     vb, inner = _ICONS[name]
-    x0, y0, w, h = [float(v) for v in vb.split()]
+    x0, y0, w, h = _parse_vb(vb)
     scale = (2 * s) / max(w, h)
     tx = cx - (w * scale) / 2 - x0 * scale
     ty = cy - (h * scale) / 2 - y0 * scale
