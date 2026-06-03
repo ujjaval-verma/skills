@@ -103,7 +103,7 @@ def build_html(level, theme_name, topics, name, seed, n_acts):
         if r.get("key"):
             keys.append(f'{idx}) {r["key"]}')
 
-    title_word = theme["word"]
+    title_word = escape(theme["word"])  # theme data; child name is escaped below
     if name:
         title = f"{escape(name)}&rsquo;s {title_word} Worksheet"
     else:

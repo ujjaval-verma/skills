@@ -4,7 +4,14 @@
 (level, theme, rng) so content varies per worksheet while staying on-theme and
 at the right difficulty. Difficulty scales explicitly by `level` so a future
 Level 3 slots in without redesigning anything.
+
+Escaping rule: theme-derived text (letter words, CVC words, icon names, legend
+names) is escape()d at the point it is interpolated into HTML. Literal strings
+authored in this file may embed entities (&amp;, &middot;) deliberately and are
+never escaped.
 """
+from html import escape
+
 from icons import icon, SCENES, maze_svg, trail_svg, CVC
 
 
@@ -57,6 +64,7 @@ def addition(level, theme, rng):
 
 def letter_trace(level, theme, rng):
     cap, word, ic = rng.choice(theme["letter"])
+    cap, word = escape(cap), escape(word)
     low = cap.lower()
     body = (
         f'<div class="lettercap">{icon(ic, 46)}'
@@ -72,11 +80,11 @@ def word_build(level, theme, rng):
     cards, ans = [], []
     for word, vowel, ic in picks:
         if level == 2:  # blank the middle vowel
-            lbl = f'{word[0]}<span class="blank">&nbsp;</span>{word[2]}'
-            ans.append(vowel.upper())  # card shows uppercase letters, key matches
+            lbl = f'{escape(word[0])}<span class="blank">&nbsp;</span>{escape(word[2])}'
+            ans.append(escape(vowel.upper()))  # card shows uppercase letters, key matches
         else:           # level 3: spell the whole word
             lbl = '<span class="blank">&nbsp;</span>' * 3
-            ans.append(word.lower())
+            ans.append(escape(word.lower()))
         cards.append(f'<div class="wcard">{icon(ic, 46)}<div class="lbl">{lbl}</div></div>')
     hint = ("Say the picture. Write the missing middle letter." if level == 2
             else "Say the picture. Spell the whole word.")
@@ -89,11 +97,11 @@ def pattern(level, theme, rng):
     if level == 1:                       # AB, one blank
         seq = [a, b, a, b, a]
         blanks = 1
-        keytxt = b
+        keytxt = escape(b)
     elif level == 2:                     # AAB, two blanks
         seq = [a, a, b, a, a, b]
         blanks = 2
-        keytxt = f"{a}+{a}"
+        keytxt = f"{escape(a)}+{escape(a)}"
     else:                                # growing pattern 1,2,3,_ on a single row
         cells = "".join(
             f'{_groups(a, n)}<span class="op2">&rarr;</span>' for n in (1, 2, 3))
@@ -124,7 +132,7 @@ def colour_scene(level, theme, rng):
     svg, legend, colors = SCENES[theme["scene"]]()
     names = legend.split()
     chips = "".join(
-        f'<div class="sw"><span class="chip" style="background:{c}"></span>{n}</div>'
+        f'<div class="sw"><span class="chip" style="background:{escape(c)}"></span>{escape(n)}</div>'
         for c, n in zip(colors, names))
     body = f'<div class="legend">{chips}</div><div style="text-align:center">{svg}</div>'
     return {"title": "Colour by Number", "hint": "Colour each part using the key.", "body": body, "key": None}
