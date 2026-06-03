@@ -64,8 +64,8 @@ def addition(level, theme, rng):
 
 def letter_trace(level, theme, rng):
     cap, word, ic = rng.choice(theme["letter"])
+    low = escape(cap.lower())  # transform raw value first, escape last
     cap, word = escape(cap), escape(word)
-    low = cap.lower()
     body = (
         f'<div class="lettercap">{icon(ic, 46)}'
         f'<div class="word">Say the sound: <b>/{low}/</b> &middot; <b>{low}</b>&ndash;{word.lower()[1:]}</div></div>'
