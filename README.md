@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/skills-13-purple?style=flat-square" alt="13 skills"/>
+  <img src="https://img.shields.io/badge/skills-14-purple?style=flat-square" alt="14 skills"/>
   <img src="https://img.shields.io/badge/format-SKILL.md-success?style=flat-square" alt="SKILL.md format"/>
   <img src="https://img.shields.io/badge/branch--protected-main-green?style=flat-square" alt="main is branch-protected"/>
   <img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs welcome"/>
@@ -21,7 +21,7 @@
   <a href="CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-<p align="center"><sub><b>13 skills</b> · <b>3 categories</b> · <b>5-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
+<p align="center"><sub><b>14 skills</b> · <b>3 categories</b> · <b>5-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
 
 </div>
 
@@ -66,6 +66,7 @@
 
 | Skill | What it owns |
 |---|---|
+| [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners. |
 | [`productivity/timesheet`](productivity/timesheet/SKILL.md) | Generate a formatted 80-column timesheet from GitHub activity for a date range. |
 
 ## 🎯 Triggers
@@ -84,6 +85,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"which model"*, *"spawn"*, *"subagent"*, *"delegate"*, *"escalate to bigger model"*, *"routing decision"* | [`model-routing`](engineering/model-routing/SKILL.md) |
 | *"DNS"*, *"Tailscale"*, *"gh failing"*, *"web_fetch failing"*, *"public-network"* | [`network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
+| *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
 | *"timesheet"*, *"what did I work on"*, *"GitHub activity for the week"* | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
 | *"analyze this Figma"*, *".fig file"*, *"design export"* | [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) |
 | *"product inception"*, *"turn this design into a spec"* | [`product/product-inception`](product/product-inception/SKILL.md) |
