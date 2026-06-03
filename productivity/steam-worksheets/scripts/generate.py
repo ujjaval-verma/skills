@@ -15,6 +15,7 @@ inline metadata); with plain python3, weasyprint must already be installed.
 """
 import argparse, os, random, sys
 from html import escape
+from string import Template
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icons import THEMES                                    # noqa: E402
@@ -26,7 +27,7 @@ CSS = """
 html, body { margin:0; padding:0; }
 body { font-family:"Noto Sans","DejaVu Sans",sans-serif; color:#2b2d42; }
 .head { display:flex; align-items:center; justify-content:space-between;
-  background:linear-gradient(90deg,GRAD1,GRAD2); color:#fff; border-radius:14px; padding:8px 14px; }
+  background:linear-gradient(90deg,$grad1,$grad2); color:#fff; border-radius:14px; padding:8px 14px; }
 .head h1 { margin:0; font-size:20px; line-height:1.15; }
 .head .sub { font-size:12px; opacity:.92; margin-top:2px; }
 .head .badge { font-size:11px; background:rgba(255,255,255,.22); padding:5px 11px; border-radius:20px; font-weight:700; }
@@ -34,9 +35,9 @@ body { font-family:"Noto Sans","DejaVu Sans",sans-serif; color:#2b2d42; }
 .meta .line { flex:1; border-bottom:2px dotted #b8b8c8; padding-bottom:2px; }
 .act { border:2px solid #eceaf3; border-radius:14px; padding:8px 12px 9px; margin-top:8px; page-break-inside:avoid; }
 .act .t { display:flex; align-items:center; gap:8px; margin-bottom:5px; }
-.act .num { width:24px; height:24px; border-radius:50%; background:ACCENT; color:#fff; font-weight:700;
+.act .num { width:24px; height:24px; border-radius:50%; background:$accent; color:#fff; font-weight:700;
   font-size:14px; display:flex; align-items:center; justify-content:center; flex:none; }
-.act .ttl { font-size:15.5px; font-weight:700; color:TITLEACCENT; }
+.act .ttl { font-size:15.5px; font-weight:700; color:$title_accent; }
 .act .hint { font-size:11.5px; color:#777; }
 .ico { vertical-align:middle; }
 .countrow { display:flex; align-items:center; gap:14px; margin:4px 0; }
@@ -48,17 +49,17 @@ body { font-family:"Noto Sans","DejaVu Sans",sans-serif; color:#2b2d42; }
 .lettercap .word { font-size:14px; color:#555; }
 .sum { display:flex; align-items:center; gap:10px; margin:7px 0; }
 .grp { display:flex; gap:3px; }
-.op,.eq { font-size:26px; font-weight:700; color:TITLEACCENT; }
-.op2 { font-size:26px; color:TITLEACCENT; margin-left:6px; }
+.op,.eq { font-size:26px; font-weight:700; color:$title_accent; }
+.op2 { font-size:26px; color:$title_accent; margin-left:6px; }
 .sumbox { width:44px; height:44px; border:2.5px solid #4361ee; border-radius:10px; flex:none; }
 .ns { margin-left:12px; font-size:18px; color:#b6b6c2; letter-spacing:1px; }
 .big3 .bigq { font-size:30px; font-weight:700; color:#2b2d42; }
 .words { display:flex; gap:24px; flex-wrap:wrap; margin-top:6px; align-items:flex-end; }
 .wcard { text-align:center; }
 .wcard .lbl { font-size:30px; font-weight:700; letter-spacing:10px; color:#2b2d42; margin-top:4px; }
-.wcard .blank { display:inline-block; width:24px; border-bottom:3px solid ACCENT; }
+.wcard .blank { display:inline-block; width:24px; border-bottom:3px solid $accent; }
 .pat { display:flex; align-items:center; gap:8px; font-size:24px; margin:5px 0; flex-wrap:wrap; }
-.pat .qbox { width:46px; height:46px; border:2.5px dashed ACCENT; border-radius:10px; flex:none; }
+.pat .qbox { width:46px; height:46px; border:2.5px dashed $accent; border-radius:10px; flex:none; }
 .oddrow { display:flex; gap:14px; margin-top:4px; }
 .oddbox { width:56px; height:56px; border:2px solid #d7d7e2; border-radius:12px; display:flex;
   align-items:center; justify-content:center; }
@@ -112,9 +113,9 @@ def build_html(level, theme_name, topics, name, seed, n_acts):
     badge = f"Level {level}"
     keytext = " &middot; ".join(keys) if keys else "see activities"
 
-    # NB: TITLEACCENT must be replaced before ACCENT — ACCENT is a substring of it.
-    css = (CSS.replace("GRAD1", theme["grad"][0]).replace("GRAD2", theme["grad"][1])
-              .replace("TITLEACCENT", theme["title_accent"]).replace("ACCENT", theme["accent"]))
+    css = Template(CSS).substitute(
+        grad1=theme["grad"][0], grad2=theme["grad"][1],
+        title_accent=theme["title_accent"], accent=theme["accent"])
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><style>{css}</style></head><body>
 <div class="head"><div><h1>{head_icon} {title}</h1>
 <div class="sub">STEAM Worksheet &middot; ~15 minutes</div></div>
