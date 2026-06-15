@@ -131,9 +131,10 @@ These are baked into the engine and the user relies on them:
 ## Extending the skill
 
 - **New theme**: add an entry to `THEMES` in `scripts/icons.py` (palette, icon
-  list, letter words, and a `scenes` list). The icon list needs **at least 6
-  distinct icons** (patterns sample 3; a larger pool keeps packs from repeating)
-  and **at least 2 scenes** so the creative finisher varies across a pack.
+  list, letter words, and a `scenes` list). The hard minimum is **3 distinct
+  icons** (patterns sample 3 without replacement), but use **6+** so a multi-sheet
+  pack does not repeat the same trio. Provide **at least 2 scenes** so the
+  creative finisher varies across a pack.
 - **New icon**: add an SVG to `_ICONS` in `scripts/icons.py` (auto-normalises to
   a square) and a spoken name to `ICON_NAME` (used by Sound Search / sorting).
 - **More words**: extend `CVC_BY_VOWEL` (keyed by short vowel) — each new word is

@@ -123,12 +123,13 @@ _ICONS = {
         '<rect x="13" y="19" width="14" height="4" fill="#f72585"/>'
         '<rect x="5" y="24" width="30" height="5" rx="2.5" fill="#3a0ca3" stroke="#1d1147" stroke-width="2"/>'),
     "hen": ("0 0 44 44",
-        '<path d="M36 24 q8 0 6 11 q-4 -5 -8 -3Z" fill="#e76f51"/>'
-        '<ellipse cx="24" cy="28" rx="13" ry="11" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
-        '<circle cx="13" cy="18" r="7" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
-        '<path d="M13 11 q-2 -5 2 -5 q1 3 2 4Z" fill="#e63946"/>'
-        '<path d="M6 18 L0 16 L6 21Z" fill="#ffb703"/>'
-        '<circle cx="11" cy="17" r="1.6" fill="#1d3557"/>'),
+        '<path d="M35 25 q9 2 5 13 q-4 -6 -9 -3Z" fill="#e76f51"/>'
+        '<ellipse cx="22" cy="29" rx="14" ry="11" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<circle cx="12" cy="17" r="8" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<path d="M7 10 q1.5 -4 3 0 q1.5 -4 3 0 q1.5 -4 3 0 q.5 3 -.5 5 h-8 q-1 -2 -.5 -5Z" fill="#e63946"/>'
+        '<path d="M4 17 L0 16 L4 21Z" fill="#ffb703"/>'
+        '<path d="M10 24 q2 4 4 0Z" fill="#e63946"/>'
+        '<circle cx="11" cy="16" r="1.7" fill="#1d3557"/>'),
     "bed": ("0 0 48 36",
         '<rect x="4" y="13" width="7" height="17" fill="#a86c44" stroke="#6a4a2a" stroke-width="2"/>'
         '<rect x="41" y="20" width="5" height="10" fill="#a86c44" stroke="#6a4a2a" stroke-width="2"/>'
@@ -151,6 +152,25 @@ _ICONS = {
         '<rect x="29" y="16" width="7" height="6" fill="#a8dadc" stroke="#1d3557" stroke-width="1.2"/>'
         '<rect x="38" y="16" width="3" height="8" fill="#e63946"/>'
         '<circle cx="14" cy="31" r="4" fill="#2b2d42"/><circle cx="34" cy="31" r="4" fill="#2b2d42"/>'),
+    "bag": ("0 0 40 40",
+        '<path d="M9 14 H31 L33 36 H7Z" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<path d="M15 16 V12 a5 5 0 0 1 10 0 V16" fill="none" stroke="#c97a3a" stroke-width="2.5"/>'),
+    "net": ("0 0 44 44",
+        '<line x1="10" y1="40" x2="24" y2="20" stroke="#8a5a36" stroke-width="3"/>'
+        '<circle cx="28" cy="16" r="11" fill="#cfeffd" stroke="#3a86ff" stroke-width="2"/>'
+        '<path d="M20 10 L36 22 M36 12 L20 22 M28 5 L28 27 M17 16 H39" stroke="#3a86ff" stroke-width="1" fill="none"/>'),
+    "pin": ("0 0 28 44",
+        '<path d="M14 4 C9 4 9 12 11 16 C7 22 7 34 14 40 C21 34 21 22 17 16 C19 12 19 4 14 4Z" fill="#fff" stroke="#7a7a88" stroke-width="2"/>'
+        '<rect x="9" y="13" width="10" height="4" fill="#e63946"/>'),
+    "box": ("0 0 40 40",
+        '<rect x="8" y="12" width="24" height="22" fill="#d8a468" stroke="#9a6a36" stroke-width="2"/>'
+        '<line x1="20" y1="12" x2="20" y2="34" stroke="#9a6a36" stroke-width="2"/>'
+        '<line x1="8" y1="20" x2="32" y2="20" stroke="#9a6a36" stroke-width="2"/>'
+        '<path d="M14 9 q6 4 6 3 q0 1 6 -3" fill="none" stroke="#e63946" stroke-width="2"/>'),
+    "cup": ("0 0 40 40",
+        '<path d="M14 8 q2 -3 0 -5 M20 8 q2 -3 0 -5" stroke="#c4c4d0" stroke-width="1.5" fill="none"/>'
+        '<path d="M10 12 H28 V28 Q28 34 22 34 H16 Q10 34 10 28Z" fill="#4cc9f0" stroke="#3a86ff" stroke-width="2"/>'
+        '<path d="M28 16 q7 0 7 6 q0 6 -7 6" fill="none" stroke="#3a86ff" stroke-width="2"/>'),
 }
 
 
@@ -230,18 +250,19 @@ ICON_NAME = {
     "peacock": "peacock", "lotus": "lotus", "diya": "diya", "apple": "apple", "ball": "ball",
     "comet": "comet", "satellite": "satellite", "bird": "bird", "rabbit": "rabbit",
     "kite": "kite", "drum": "drum", "hat": "hat", "hen": "hen", "bed": "bed",
-    "tin": "tin", "pot": "pot", "bus": "bus",
+    "tin": "tin", "pot": "pot", "bus": "bus", "bag": "bag", "net": "net",
+    "pin": "pin", "box": "box", "cup": "cup",
 }
 
 # CVC words for word-building, keyed by their middle short vowel so a pack can
 # rotate across all five vowels (incl. short e/i/u) instead of repeating a few.
 # Each entry is (WORD, icon); the middle vowel is the dict key. Theme-neutral.
 CVC_BY_VOWEL = {
-    "a": [("CAT", "cat"), ("HAT", "hat")],
-    "e": [("HEN", "hen"), ("BED", "bed")],
-    "i": [("PIG", "pig"), ("TIN", "tin")],
-    "o": [("DOG", "dog"), ("POT", "pot")],
-    "u": [("SUN", "sun"), ("BUS", "bus")],
+    "a": [("CAT", "cat"), ("HAT", "hat"), ("BAG", "bag")],
+    "e": [("HEN", "hen"), ("BED", "bed"), ("NET", "net")],
+    "i": [("PIG", "pig"), ("TIN", "tin"), ("PIN", "pin")],
+    "o": [("DOG", "dog"), ("POT", "pot"), ("BOX", "box")],
+    "u": [("SUN", "sun"), ("BUS", "bus"), ("CUP", "cup")],
 }
 VOWELS = list(CVC_BY_VOWEL)  # ["a","e","i","o","u"] — canonical rotation order
 

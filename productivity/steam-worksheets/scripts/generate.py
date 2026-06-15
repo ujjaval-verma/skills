@@ -79,9 +79,14 @@ def build_html(level, theme_name, topics, name, seed, n_acts, ctx=None, sheet_id
     if ctx is None:
         ctx = A.Ctx()
     A.plan_sheet(ctx, theme, rng, sheet_idx)
-    # resolve & expand topics to the requested number of activities
-    chosen = [A.TOPIC_ALIASES.get(t.strip().lower()) for t in topics if t.strip()]
-    chosen = [t for t in chosen if t]
+    # resolve & expand topics to the requested number of activities, dropping
+    # duplicates (keep first occurrence) so a sheet never repeats an activity type
+    chosen, seen = [], set()
+    for t in topics:
+        resolved = A.TOPIC_ALIASES.get(t.strip().lower())
+        if resolved and resolved not in seen:
+            seen.add(resolved)
+            chosen.append(resolved)
     if not chosen:
         chosen = list(DEFAULT_TOPICS)
     pool = DEFAULT_TOPICS + ["arts", "science"]

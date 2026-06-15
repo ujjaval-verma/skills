@@ -138,7 +138,8 @@ def addition(level, theme, rng, ctx=None):
 
 
 def subitize(level, theme, rng, ctx=None):
-    """Ten-frame 'how many?' — builds subitizing and cardinality (DREME)."""
+    """Ten-frame 'how many?' — builds number sense and cardinality, anchoring
+    quantities against ten (DREME). Small frames also support subitizing."""
     color = theme["accent"]
     lo = 3 if level == 2 else 6
     counts = []
@@ -195,11 +196,18 @@ def word_build(level, theme, rng, ctx=None):
             "body": f'<div class="words">{"".join(cards)}</div>', "key": ", ".join(ans)}
 
 
+# Icons whose spoken name is outside a typical 4-7 vocabulary — fine as a maze
+# or counting object, but not as the *target* of a "say the picture" sound task
+# (they can still appear as distractors).
+SOUND_HARD_TARGETS = {"satellite"}
+
+
 def initial_sound(level, theme, rng, ctx=None):
     """Circle the picture that begins with a target sound — initial-phoneme
     awareness (FCRR phonics strand)."""
     icons = theme["icons"]
-    target = ctx.take_unused(icons, rng) if ctx else rng.choice(icons)
+    namable = [i for i in icons if i not in SOUND_HARD_TARGETS] or icons
+    target = ctx.take_unused(namable, rng) if ctx else rng.choice(namable)
     letter = ICON_NAME[target][0].upper()
     pool = [i for i in icons if i != target and ICON_NAME[i][0].upper() != letter]
     distractors = rng.sample(pool, 3) if len(pool) >= 3 else pool
@@ -268,9 +276,10 @@ def maze(level, theme, rng, ctx=None):
 
 # ----------------------------------------------------------------- arts ------
 def colour_scene(level, theme, rng, ctx=None):
+    # Scene rotation is owned by plan_sheet (deterministic per sheet); we must NOT
+    # add the scene name to ctx.used, or a scene that shares a name with an icon
+    # (e.g. "rocket"/"star"/"fish") would be excluded from later sound/sort tasks.
     scene_name = ctx.scene_name if ctx and ctx.scene_name else rng.choice(theme["scenes"])
-    if ctx:
-        ctx.used.add(scene_name)
     svg, legend, colors = SCENES[scene_name]()
     names = legend.split()
     chips = "".join(
