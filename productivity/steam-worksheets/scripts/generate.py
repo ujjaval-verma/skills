@@ -73,9 +73,12 @@ body { font-family:"Noto Sans","DejaVu Sans",sans-serif; color:#2b2d42; }
 DEFAULT_TOPICS = ["math", "literacy", "patterns", "problemsolving"]
 
 
-def build_html(level, theme_name, topics, name, seed, n_acts):
+def build_html(level, theme_name, topics, name, seed, n_acts, ctx=None, sheet_idx=None):
     rng = random.Random(seed)
     theme = THEMES[theme_name]
+    if ctx is None:
+        ctx = A.Ctx()
+    A.plan_sheet(ctx, theme, rng, sheet_idx)
     # resolve & expand topics to the requested number of activities
     chosen = [A.TOPIC_ALIASES.get(t.strip().lower()) for t in topics if t.strip()]
     chosen = [t for t in chosen if t]
@@ -95,7 +98,7 @@ def build_html(level, theme_name, topics, name, seed, n_acts):
         fn = A.builder_for(topic, level)
         if fn is None:
             continue
-        r = fn(level, theme, rng)
+        r = fn(level, theme, rng, ctx)
         blocks.append(
             f'<div class="act"><div class="t"><div class="num">{idx}</div>'
             f'<div class="ttl">{r["title"]}</div><div class="hint">&nbsp;{r["hint"]}</div></div>'
@@ -139,7 +142,13 @@ def main():
     p.add_argument("--activities", type=int, default=4, choices=[3, 4], help="number of activity blocks")
     p.add_argument("--name", default="", help="child's name for the title (optional)")
     p.add_argument("--seed", type=int, default=None, help="seed for reproducible content")
+    p.add_argument("--count", type=int, default=1, help="generate a pack of N sheets; "
+                   "one shared planner rotates vowels/patterns/variants/scenes and "
+                   "excludes already-used content so the pack covers rather than repeats")
     args = p.parse_args()
+
+    if args.count < 1:
+        sys.exit("--count must be >= 1")
 
     try:
         from weasyprint import HTML
@@ -148,11 +157,26 @@ def main():
                  "(resolves dependencies automatically), or install it first "
                  "(`uv pip install weasyprint` / `pip install weasyprint`).")
 
-    seed = args.seed if args.seed is not None else random.randint(1, 10 ** 6)
-    html = build_html(args.level, args.theme,
-                      args.topics.split(","), args.name, seed, args.activities)
-    HTML(string=html, base_url=".").write_pdf(args.out)
-    print(f"wrote {args.out} (level {args.level}, theme {args.theme}, seed {seed})")
+    base_seed = args.seed if args.seed is not None else random.randint(1, 10 ** 6)
+    topics = args.topics.split(",")
+
+    if args.count == 1:
+        html = build_html(args.level, args.theme, topics, args.name, base_seed, args.activities)
+        HTML(string=html, base_url=".").write_pdf(args.out)
+        print(f"wrote {args.out} (level {args.level}, theme {args.theme}, seed {base_seed})")
+        return
+
+    # pack: one Ctx shared across sheets gives cross-sheet exclusion; each sheet
+    # gets its own seed (base_seed + i) so the whole pack is reproducible.
+    ctx = A.Ctx()
+    root, ext = os.path.splitext(args.out)
+    for i in range(args.count):
+        seed = base_seed + i
+        out = f"{root} {i + 1}{ext or '.pdf'}"
+        html = build_html(args.level, args.theme, topics, args.name, seed,
+                          args.activities, ctx=ctx, sheet_idx=i)
+        HTML(string=html, base_url=".").write_pdf(out)
+        print(f"wrote {out} (level {args.level}, theme {args.theme}, seed {seed}, sheet {i + 1}/{args.count})")
 
 
 if __name__ == "__main__":
