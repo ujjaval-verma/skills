@@ -141,7 +141,9 @@ def subitize(level, theme, rng, ctx=None):
     """Ten-frame 'how many?' — builds number sense and cardinality, anchoring
     quantities against ten (DREME). Small frames also support subitizing."""
     color = theme["accent"]
-    lo = 3 if level == 2 else 6
+    # subitize is only routed at L2 (math_activity sends L3 to addition). Floor of
+    # 4 keeps the top row mostly filled so the ten-frame anchors against 5/10.
+    lo = 4
     counts = []
     while len(counts) < 3:
         c = rng.randint(lo, 10)

@@ -61,7 +61,10 @@ uv run generate.py \
 Notes:
 - `--seed` makes content reproducible. Omit it for fresh content each run; pass
   a fixed number to regenerate an identical sheet (or an identical pack — pack
-  sheet *i* uses `seed + i`).
+  sheet *i* uses `seed + i`). Note: a single sheet (`--count 1`) and sheet 1 of a
+  pack with the same seed are *not* identical — the pack planner fixes the
+  rotation deterministically, while a single sheet randomises it. Reproduce a
+  pack the same way you made it (same seed + same `--count`).
 - Save the PDF directly into the user's worksheets folder, then show it with the
   file-presentation tool so they can open and print it.
 - For a **pack of one theme**, add `--count N`. `--out` is treated as a base

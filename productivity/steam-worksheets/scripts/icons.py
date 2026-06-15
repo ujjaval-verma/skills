@@ -159,9 +159,9 @@ _ICONS = {
         '<line x1="10" y1="40" x2="24" y2="20" stroke="#8a5a36" stroke-width="3"/>'
         '<circle cx="28" cy="16" r="11" fill="#cfeffd" stroke="#3a86ff" stroke-width="2"/>'
         '<path d="M20 10 L36 22 M36 12 L20 22 M28 5 L28 27 M17 16 H39" stroke="#3a86ff" stroke-width="1" fill="none"/>'),
-    "pin": ("0 0 28 44",
-        '<path d="M14 4 C9 4 9 12 11 16 C7 22 7 34 14 40 C21 34 21 22 17 16 C19 12 19 4 14 4Z" fill="#fff" stroke="#7a7a88" stroke-width="2"/>'
-        '<rect x="9" y="13" width="10" height="4" fill="#e63946"/>'),
+    "pin": ("0 0 28 44",  # pearl-head sewing pin (not a bowling pin)
+        '<line x1="9" y1="9" x2="21" y2="37" stroke="#b8b8c2" stroke-width="2.5" stroke-linecap="round"/>'
+        '<circle cx="8" cy="8" r="5" fill="#f72585" stroke="#b5176a" stroke-width="1"/>'),
     "box": ("0 0 40 40",
         '<rect x="8" y="12" width="24" height="22" fill="#d8a468" stroke="#9a6a36" stroke-width="2"/>'
         '<line x1="20" y1="12" x2="20" y2="34" stroke="#9a6a36" stroke-width="2"/>'
