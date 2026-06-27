@@ -83,6 +83,94 @@ _ICONS = {
     "ball": ("0 0 40 40",
         '<circle cx="20" cy="20" r="15" fill="#ffb703" stroke="#e07a00" stroke-width="2"/>'
         '<path d="M5 20 h30 M20 5 v30 M9 9 q11 11 22 22 M31 9 q-11 11 -22 22" fill="none" stroke="#e07a00" stroke-width="1.5"/>'),
+    # --- extra theme icons (space / animals / indian) ---
+    "comet": ("0 0 48 40",
+        '<path d="M28 18 L6 34 M30 14 L4 22 M31 21 L10 38" fill="none" stroke="#f4a261" stroke-width="3" stroke-linecap="round"/>'
+        '<circle cx="34" cy="14" r="8" fill="#ffd166" stroke="#f3a712" stroke-width="2"/>'),
+    "satellite": ("0 0 48 40",
+        '<rect x="4" y="16" width="12" height="8" fill="#4361ee" stroke="#1d3557" stroke-width="1.5"/>'
+        '<rect x="36" y="16" width="12" height="8" fill="#4361ee" stroke="#1d3557" stroke-width="1.5"/>'
+        '<line x1="16" y1="20" x2="20" y2="20" stroke="#1d3557" stroke-width="2"/>'
+        '<line x1="32" y1="20" x2="36" y2="20" stroke="#1d3557" stroke-width="2"/>'
+        '<rect x="20" y="14" width="12" height="12" rx="2" fill="#a8dadc" stroke="#1d3557" stroke-width="2"/>'
+        '<path d="M26 14 l4 -6" stroke="#1d3557" stroke-width="2" fill="none"/><circle cx="30" cy="8" r="2.2" fill="#f72585"/>'),
+    "bird": ("0 0 44 40",
+        '<path d="M10 24 q-6 2 -2 8 q6 -2 6 -6Z" fill="#3a86ff"/>'
+        '<circle cx="22" cy="24" r="12" fill="#4cc9f0" stroke="#3a86ff" stroke-width="2"/>'
+        '<circle cx="26" cy="14" r="7" fill="#4cc9f0" stroke="#3a86ff" stroke-width="2"/>'
+        '<path d="M33 14 L41 12 L33 17Z" fill="#ffb703"/>'
+        '<circle cx="28" cy="13" r="1.8" fill="#1d3557"/>'),
+    "rabbit": ("0 0 44 48",
+        '<ellipse cx="15" cy="13" rx="4" ry="11" fill="#e9e3f5" stroke="#9b8bbf" stroke-width="2"/>'
+        '<ellipse cx="29" cy="13" rx="4" ry="11" fill="#e9e3f5" stroke="#9b8bbf" stroke-width="2"/>'
+        '<ellipse cx="15" cy="13" rx="1.8" ry="7" fill="#ff8fab"/><ellipse cx="29" cy="13" rx="1.8" ry="7" fill="#ff8fab"/>'
+        '<ellipse cx="22" cy="32" rx="12" ry="13" fill="#e9e3f5" stroke="#9b8bbf" stroke-width="2"/>'
+        '<circle cx="17" cy="30" r="2" fill="#2b2d42"/><circle cx="27" cy="30" r="2" fill="#2b2d42"/>'
+        '<path d="M22 35 l-2.5 2.5 h5Z" fill="#ff8fab"/>'),
+    "kite": ("0 0 40 52",
+        '<path d="M20 4 L34 22 L20 34 L6 22Z" fill="#f72585" stroke="#b5179e" stroke-width="2"/>'
+        '<path d="M20 4 L20 34 M6 22 L34 22" stroke="#b5179e" stroke-width="1.5" fill="none"/>'
+        '<path d="M20 34 q5 5 -1 9 q7 3 2 8" fill="none" stroke="#f3a712" stroke-width="2"/>'
+        '<path d="M16 41 l5 1 M14 48 l5 1" stroke="#f3722c" stroke-width="3"/>'),
+    "drum": ("0 0 44 44",
+        '<rect x="10" y="12" width="24" height="20" rx="2" fill="#c1121f" stroke="#7a0c16" stroke-width="2"/>'
+        '<path d="M11 14 L33 30 M33 14 L11 30" stroke="#ffd166" stroke-width="1.5"/>'
+        '<ellipse cx="22" cy="12" rx="12" ry="4" fill="#ffe8c2" stroke="#7a0c16" stroke-width="2"/>'
+        '<ellipse cx="22" cy="32" rx="12" ry="4" fill="#e8c9a0" stroke="#7a0c16" stroke-width="2"/>'),
+    # --- CVC picture icons (literacy) ---
+    "hat": ("0 0 40 40",
+        '<rect x="13" y="8" width="14" height="18" rx="1" fill="#3a0ca3" stroke="#1d1147" stroke-width="2"/>'
+        '<rect x="13" y="19" width="14" height="4" fill="#f72585"/>'
+        '<rect x="5" y="24" width="30" height="5" rx="2.5" fill="#3a0ca3" stroke="#1d1147" stroke-width="2"/>'),
+    "hen": ("0 0 44 44",
+        '<path d="M35 25 q9 2 5 13 q-4 -6 -9 -3Z" fill="#e76f51"/>'
+        '<ellipse cx="22" cy="29" rx="14" ry="11" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<circle cx="12" cy="17" r="8" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<path d="M7 10 q1.5 -4 3 0 q1.5 -4 3 0 q1.5 -4 3 0 q.5 3 -.5 5 h-8 q-1 -2 -.5 -5Z" fill="#e63946"/>'
+        '<path d="M4 17 L0 16 L4 21Z" fill="#ffb703"/>'
+        '<path d="M10 24 q2 4 4 0Z" fill="#e63946"/>'
+        '<circle cx="11" cy="16" r="1.7" fill="#1d3557"/>'),
+    "bed": ("0 0 48 36",
+        '<rect x="4" y="13" width="7" height="17" fill="#a86c44" stroke="#6a4a2a" stroke-width="2"/>'
+        '<rect x="41" y="20" width="5" height="10" fill="#a86c44" stroke="#6a4a2a" stroke-width="2"/>'
+        '<rect x="8" y="20" width="36" height="8" fill="#4cc9f0" stroke="#3a86ff" stroke-width="2"/>'
+        '<rect x="11" y="15" width="13" height="7" rx="2" fill="#fff" stroke="#b8b8c8" stroke-width="1.5"/>'),
+    "tin": ("0 0 36 44",
+        '<rect x="9" y="10" width="18" height="26" fill="#c0c0cc" stroke="#7a7a88" stroke-width="2"/>'
+        '<rect x="9" y="18" width="18" height="10" fill="#e63946"/>'
+        '<ellipse cx="18" cy="36" rx="9" ry="3" fill="#a8a8b6" stroke="#7a7a88" stroke-width="2"/>'
+        '<ellipse cx="18" cy="10" rx="9" ry="3" fill="#d8d8e2" stroke="#7a7a88" stroke-width="2"/>'),
+    "pot": ("0 0 44 40",
+        '<path d="M4 20 q-3 2 0 5" fill="none" stroke="#343a40" stroke-width="2"/>'
+        '<path d="M40 20 q3 2 0 5" fill="none" stroke="#343a40" stroke-width="2"/>'
+        '<path d="M8 16 H36 V30 Q36 36 30 36 H14 Q8 36 8 30Z" fill="#6c757d" stroke="#343a40" stroke-width="2"/>'
+        '<rect x="6" y="12" width="32" height="5" rx="2.5" fill="#868e96" stroke="#343a40" stroke-width="1.5"/>'),
+    "bus": ("0 0 48 40",
+        '<rect x="5" y="12" width="38" height="18" rx="3" fill="#ffb703" stroke="#c97a00" stroke-width="2"/>'
+        '<rect x="9" y="16" width="7" height="6" fill="#a8dadc" stroke="#1d3557" stroke-width="1.2"/>'
+        '<rect x="19" y="16" width="7" height="6" fill="#a8dadc" stroke="#1d3557" stroke-width="1.2"/>'
+        '<rect x="29" y="16" width="7" height="6" fill="#a8dadc" stroke="#1d3557" stroke-width="1.2"/>'
+        '<rect x="38" y="16" width="3" height="8" fill="#e63946"/>'
+        '<circle cx="14" cy="31" r="4" fill="#2b2d42"/><circle cx="34" cy="31" r="4" fill="#2b2d42"/>'),
+    "bag": ("0 0 40 40",
+        '<path d="M9 14 H31 L33 36 H7Z" fill="#f4a261" stroke="#c97a3a" stroke-width="2"/>'
+        '<path d="M15 16 V12 a5 5 0 0 1 10 0 V16" fill="none" stroke="#c97a3a" stroke-width="2.5"/>'),
+    "net": ("0 0 44 44",
+        '<line x1="10" y1="40" x2="24" y2="20" stroke="#8a5a36" stroke-width="3"/>'
+        '<circle cx="28" cy="16" r="11" fill="#cfeffd" stroke="#3a86ff" stroke-width="2"/>'
+        '<path d="M20 10 L36 22 M36 12 L20 22 M28 5 L28 27 M17 16 H39" stroke="#3a86ff" stroke-width="1" fill="none"/>'),
+    "pin": ("0 0 28 44",  # pearl-head sewing pin (not a bowling pin)
+        '<line x1="9" y1="9" x2="21" y2="37" stroke="#b8b8c2" stroke-width="2.5" stroke-linecap="round"/>'
+        '<circle cx="8" cy="8" r="5" fill="#f72585" stroke="#b5176a" stroke-width="1"/>'),
+    "box": ("0 0 40 40",
+        '<rect x="8" y="12" width="24" height="22" fill="#d8a468" stroke="#9a6a36" stroke-width="2"/>'
+        '<line x1="20" y1="12" x2="20" y2="34" stroke="#9a6a36" stroke-width="2"/>'
+        '<line x1="8" y1="20" x2="32" y2="20" stroke="#9a6a36" stroke-width="2"/>'
+        '<path d="M14 9 q6 4 6 3 q0 1 6 -3" fill="none" stroke="#e63946" stroke-width="2"/>'),
+    "cup": ("0 0 40 40",
+        '<path d="M14 8 q2 -3 0 -5 M20 8 q2 -3 0 -5" stroke="#c4c4d0" stroke-width="1.5" fill="none"/>'
+        '<path d="M10 12 H28 V28 Q28 34 22 34 H16 Q10 34 10 28Z" fill="#4cc9f0" stroke="#3a86ff" stroke-width="2"/>'
+        '<path d="M28 16 q7 0 7 6 q0 6 -7 6" fill="none" stroke="#3a86ff" stroke-width="2"/>'),
 }
 
 
@@ -116,39 +204,67 @@ def icon_marker(name, cx, cy, s=11):
 
 
 # ------------------------------------------------------------- themes --------
+# Each theme has >= 6 icons (activities sample up to 3 without replacement, so a
+# larger pool keeps a multi-sheet pack from repeating the same trio) and a list
+# of >= 2 distinct colour scenes so the creative finisher varies across a pack.
 THEMES = {
     "space": {
         "word": "Space", "emoji_icon": "rocket",
         "grad": ("#3a0ca3", "#4361ee"), "accent": "#f72585", "title_accent": "#3a0ca3",
-        "icons": ["star", "rocket", "planet", "moon"],
-        "letter": [("R", "Rocket", "rocket"), ("S", "Star", "star"), ("P", "Planet", "planet"), ("M", "Moon", "moon")],
-        "scene": "rocket",
+        "icons": ["star", "rocket", "planet", "moon", "comet", "satellite"],
+        "letter": [("R", "Rocket", "rocket"), ("S", "Star", "star"), ("P", "Planet", "planet"),
+                   ("M", "Moon", "moon"), ("C", "Comet", "comet")],
+        "scenes": ["rocket", "star"],
     },
     "animals": {
         "word": "Animal Friends", "emoji_icon": "elephant",
         "grad": ("#2a9d8f", "#43aa8b"), "accent": "#f3722c", "title_accent": "#2a7d6f",
-        "icons": ["cat", "dog", "pig", "fish"],
-        "letter": [("C", "Cat", "cat"), ("D", "Dog", "dog"), ("P", "Pig", "pig"), ("F", "Fish", "fish")],
-        "scene": "fish",
+        "icons": ["cat", "dog", "pig", "fish", "bird", "rabbit"],
+        "letter": [("C", "Cat", "cat"), ("D", "Dog", "dog"), ("P", "Pig", "pig"),
+                   ("F", "Fish", "fish"), ("B", "Bird", "bird"), ("R", "Rabbit", "rabbit")],
+        "scenes": ["fish", "butterfly"],
     },
     "indian": {
         "word": "Festival of Colours", "emoji_icon": "peacock",
         "grad": ("#b5179e", "#f3722c"), "accent": "#f3722c", "title_accent": "#b5179e",
-        "icons": ["peacock", "elephant", "lotus", "diya"],
-        "letter": [("E", "Elephant", "elephant"), ("L", "Lotus", "lotus"), ("D", "Diya", "diya"), ("P", "Peacock", "peacock")],
-        "scene": "rangoli",
+        "icons": ["peacock", "elephant", "lotus", "diya", "kite", "drum"],
+        "letter": [("E", "Elephant", "elephant"), ("L", "Lotus", "lotus"), ("D", "Diya", "diya"),
+                   ("P", "Peacock", "peacock"), ("K", "Kite", "kite")],
+        "scenes": ["rangoli", "flower"],
     },
     "mixed": {
         "word": "Discovery", "emoji_icon": "star",
         "grad": ("#3a0ca3", "#7209b7"), "accent": "#f72585", "title_accent": "#3a0ca3",
-        "icons": ["star", "cat", "apple", "ball"],
-        "letter": [("A", "Apple", "apple"), ("B", "Ball", "ball"), ("C", "Cat", "cat"), ("S", "Star", "star")],
-        "scene": "rangoli",
+        "icons": ["star", "cat", "apple", "ball", "sun", "moon", "fish"],
+        "letter": [("A", "Apple", "apple"), ("B", "Ball", "ball"), ("C", "Cat", "cat"),
+                   ("S", "Star", "star"), ("D", "Dog", "dog")],
+        "scenes": ["butterfly", "flower"],
     },
 }
 
-# CVC words for word-building: (word, middle vowel, icon). Literacy is theme-neutral.
-CVC = [("CAT", "a", "cat"), ("SUN", "u", "sun"), ("PIG", "i", "pig"), ("DOG", "o", "dog")]
+# Spoken name for any icon — used by the initial-sound literacy activity and to
+# keep "odd one out" describable. Every key in _ICONS should appear here.
+ICON_NAME = {
+    "star": "star", "moon": "moon", "rocket": "rocket", "planet": "planet", "sun": "sun",
+    "cat": "cat", "dog": "dog", "pig": "pig", "fish": "fish", "elephant": "elephant",
+    "peacock": "peacock", "lotus": "lotus", "diya": "diya", "apple": "apple", "ball": "ball",
+    "comet": "comet", "satellite": "satellite", "bird": "bird", "rabbit": "rabbit",
+    "kite": "kite", "drum": "drum", "hat": "hat", "hen": "hen", "bed": "bed",
+    "tin": "tin", "pot": "pot", "bus": "bus", "bag": "bag", "net": "net",
+    "pin": "pin", "box": "box", "cup": "cup",
+}
+
+# CVC words for word-building, keyed by their middle short vowel so a pack can
+# rotate across all five vowels (incl. short e/i/u) instead of repeating a few.
+# Each entry is (WORD, icon); the middle vowel is the dict key. Theme-neutral.
+CVC_BY_VOWEL = {
+    "a": [("CAT", "cat"), ("HAT", "hat"), ("BAG", "bag")],
+    "e": [("HEN", "hen"), ("BED", "bed"), ("NET", "net")],
+    "i": [("PIG", "pig"), ("TIN", "tin"), ("PIN", "pin")],
+    "o": [("DOG", "dog"), ("POT", "pot"), ("BOX", "box")],
+    "u": [("SUN", "sun"), ("BUS", "bus"), ("CUP", "cup")],
+}
+VOWELS = list(CVC_BY_VOWEL)  # ["a","e","i","o","u"] — canonical rotation order
 
 
 # --------------------------------------------------------------- maze --------
@@ -249,4 +365,49 @@ def scene_fish():
         "1=Orange 2=Yellow 3=White 4=Blue", ["#f3722c", "#ffd166", "#ffffff", "#3a86ff"])
 
 
-SCENES = {"rocket": scene_rocket, "rangoli": scene_rangoli, "fish": scene_fish}
+def scene_star():
+    return ('<svg width="200" height="182" viewBox="0 0 220 200">'
+        '<g fill="#fff" stroke="#333" stroke-width="2.5">'
+        '<path d="M110 18 l22 50 54 4 -42 36 14 53 -48 -30 -48 30 14 -53 -42 -36 54 -4Z"/>'
+        '<path d="M182 150 a22 22 0 1 1 -18 -38 a17 17 0 1 0 18 38Z"/>'
+        '<path d="M40 150 l5 12 13 1 -10 9 3 13 -11 -7 -11 7 3 -13 -10 -9 13 -1Z"/></g>'
+        '<g font-size="18" text-anchor="middle" fill="#9aa0a6" font-family="Noto Sans">'
+        '<text x="110" y="100">1</text><text x="170" y="140">2</text><text x="40" y="170">3</text></g></svg>',
+        "1=Yellow 2=Purple 3=Orange", ["#ffd166", "#cdb4db", "#f3a712"])
+
+
+def scene_butterfly():
+    return ('<svg width="205" height="177" viewBox="0 0 220 190">'
+        '<g fill="#fff" stroke="#333" stroke-width="2.5">'
+        '<path d="M106 58 q-8 -14 -16 -16 M114 58 q8 -14 16 -16" fill="none"/>'
+        '<path d="M104 70 C60 30 30 60 50 95 C70 110 98 96 104 80Z"/>'
+        '<path d="M116 70 C160 30 190 60 170 95 C150 110 122 96 116 80Z"/>'
+        '<path d="M104 100 C70 110 55 150 80 165 C100 167 105 130 104 110Z"/>'
+        '<path d="M116 100 C150 110 165 150 140 165 C120 167 115 130 116 110Z"/>'
+        '<ellipse cx="110" cy="95" rx="7" ry="42"/></g>'
+        '<g font-size="18" text-anchor="middle" fill="#9aa0a6" font-family="Noto Sans">'
+        '<text x="72" y="78">1</text><text x="148" y="78">1</text>'
+        '<text x="76" y="140">2</text><text x="144" y="140">2</text><text x="110" y="100">3</text></g></svg>',
+        "1=Orange 2=Blue 3=Purple", ["#f3722c", "#3a86ff", "#7209b7"])
+
+
+def scene_flower():
+    # Petal centres on a ring around (100,82); numbers sit at the same points so
+    # every colour region carries a visible numeral.
+    pos = [(100, 46), (69, 64), (69, 100), (100, 118), (131, 100), (131, 64)]
+    petals = "".join(f'<circle cx="{x}" cy="{y}" r="15"/>' for x, y in pos)
+    pnums = "".join(f'<text x="{x}" y="{y + 5}">2</text>' for x, y in pos)
+    return ('<svg width="190" height="190" viewBox="0 0 200 200">'
+        '<g fill="#fff" stroke="#333" stroke-width="2.5">'
+        '<rect x="96" y="100" width="8" height="76"/>'
+        '<path d="M100 146 q-30 -10 -38 12 q26 6 38 -4Z"/>'
+        f'{petals}'
+        '<circle cx="100" cy="82" r="20"/></g>'
+        '<g font-size="15" text-anchor="middle" fill="#9aa0a6" font-family="Noto Sans">'
+        f'<text x="100" y="87">1</text>{pnums}'
+        '<text x="100" y="150">3</text><text x="74" y="152">3</text></g></svg>',
+        "1=Yellow 2=Pink 3=Green", ["#ffd166", "#ff8fab", "#52b788"])
+
+
+SCENES = {"rocket": scene_rocket, "rangoli": scene_rangoli, "fish": scene_fish,
+          "star": scene_star, "butterfly": scene_butterfly, "flower": scene_flower}
