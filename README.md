@@ -27,7 +27,7 @@
 
 ---
 
-**What this is.** A curated library of [AgentSkills](https://github.com/mattpocock/skills) — single-file Markdown playbooks an LLM coding agent loads on demand. Each skill encodes a *workflow*: when to invoke it, what discipline to apply, what artifact to produce. They layer rather than overlap, so an agent picks the highest layer that fits and lets it delegate downward.
+**What this is.** A curated library of [AgentSkills](https://github.com/mattpocock/skills) — Markdown playbooks an LLM coding agent loads on demand. Each skill is a `SKILL.md` encoding a *workflow* (when to invoke it, what discipline to apply, what artifact to produce), with some bundling helper scripts or reference docs the agent pulls in only when needed. They layer rather than overlap, so an agent picks the highest layer that fits and lets it delegate downward.
 
 > **Why a library.** *Discipline doesn't survive context resets. Skills do.*
 
