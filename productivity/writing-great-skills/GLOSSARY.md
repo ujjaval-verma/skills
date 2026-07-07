@@ -1,5 +1,5 @@
 <!-- Vendored from https://github.com/mattpocock/skills/tree/main/skills/productivity/writing-great-skills
-     © Matt Pocock, MIT License. -->
+     © Matt Pocock, MIT License — full notice in NOTICE. -->
 
 # Glossary — Building Great Skills
 

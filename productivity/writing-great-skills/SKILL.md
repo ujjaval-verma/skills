@@ -6,7 +6,7 @@ updated: 2026-07-07
 ---
 
 <!-- Vendored from https://github.com/mattpocock/skills/tree/main/skills/productivity/writing-great-skills
-     © Matt Pocock, MIT License. Sibling reference: GLOSSARY.md -->
+     © Matt Pocock, MIT License — full notice in NOTICE. Sibling reference: GLOSSARY.md -->
 
 A skill exists to wrangle determinism out of a stochastic system. **Predictability** — the agent taking the same _process_ every run, not producing the same output — is the root virtue; every lever below serves it.
 
