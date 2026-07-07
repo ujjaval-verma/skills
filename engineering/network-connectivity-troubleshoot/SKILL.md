@@ -1,7 +1,7 @@
 ---
 name: network-connectivity-troubleshoot
 description: Diagnose and work around public-network, DNS, GitHub gh, Linear, web_search/web_fetch, package install, OAuth/API, or model-provider connectivity failures, especially when Tailscale/tailnet routing may be interfering. Use before assuming auth/model/provider failure when public internet calls fail while Tailscale is connected. Provides a Tailscale escape hatch: disconnect and stay disconnected unless tailnet access is needed.
-updated: 2026-05-21
+updated: 2026-07-07
 ---
 
 # Network Connectivity Troubleshoot
@@ -29,7 +29,9 @@ gh api rate_limit
 linear issue get TEAM-123
 ```
 
-**Stay disconnected** if the user/workstream only needs public internet. Do not automatically reconnect unless tailnet access is needed or the user explicitly asks.
+**Done when** the originally-failing command, re-run with Tailscale down, returns success. If it still fails, Tailscale routing was not the cause — move on to public-outage or auth/provider diagnosis (keys, OAuth, provider status, model fallback).
+
+**Stay disconnected.** Reconnect only when a tailnet command is next, or the user asks.
 
 ## One-off safe wrapper when you must restore tailnet
 
@@ -57,7 +59,3 @@ tailscale up
 tailscale status
 # Example: ssh <tailnet-host> true, kubectl --context <tailnet-context> get ns, or curl https://<private-service>
 ```
-
-## Do not overdiagnose auth/model failures
-
-If a model/provider/API call fails during Tailscale trouble, first retry public connectivity with Tailscale down. Only investigate keys, OAuth, provider status, or model fallback after public connectivity is proven good.

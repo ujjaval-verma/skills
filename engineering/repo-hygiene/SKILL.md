@@ -1,7 +1,7 @@
 ---
 name: repo-hygiene
-description: Inspect and safely clean local git repository hygiene: stale branches, gone upstreams, old worktrees, forgotten uncommitted changes, merged branches, large caches, and cleanup candidates. Use when asked about branch cleanup, orphaned branches, worktree cleanup, or repo housekeeping.
-updated: 2026-05-21
+description: Inspect and safely clean local git repository hygiene: stale/merged local branches, gone upstreams, old worktrees, and forgotten uncommitted changes. Use when asked about branch cleanup, worktree cleanup, or repo housekeeping.
+updated: 2026-07-07
 ---
 
 # Repo Hygiene
@@ -24,7 +24,7 @@ Then, if network/state mutation is acceptable for the task, update remote-tracki
 git fetch --prune --quiet
 ```
 
-If there is active uncommitted work, running agents, or recent edits, avoid destructive cleanup and report candidates instead.
+When the tree is unclean (`git status --short` non-empty) or an agent/process is running against the repo, report candidates only — do not run destructive cleanup.
 
 ## Branch categories
 
@@ -44,12 +44,13 @@ Classify:
 
 ## Safe local branch deletion
 
-Auto-delete only if all are true:
-- upstream is gone or the user explicitly selected the branch for cleanup
-- not checked out in any worktree
-- not the head of an open PR
-- merged to base by ancestry
-- no uncommitted work depends on it
+Auto-delete only if every condition below is verifiably true — each is a checkable command, not a judgment call:
+- upstream is gone (`git branch -vv` shows `: gone]`) or the user explicitly selected the branch for cleanup
+- not checked out in any worktree (`git worktree list`)
+- not the head of an open PR (`gh pr list --state open`)
+- merged to base by ancestry (`git merge-base --is-ancestor <branch> <base>` exits 0)
+
+Ancestry-merged plus not-checked-out already guarantees no unique commits are stranded, so `git branch -d` (which itself refuses to delete unmerged branches) is safe here.
 
 Ambiguous branches, local-only branches, and squash-merged-looking branches require explicit approval.
 
@@ -59,7 +60,7 @@ Command:
 git branch -d <branch>
 ```
 
-Use `-D` only with explicit approval. Do not infer disposability from age alone.
+Use `-D` only with explicit approval. Treat branch age as a signal to investigate, never as authorization — route every age-based candidate to approval rather than deleting on "old" or "recent".
 
 ## Open PR check
 
@@ -80,8 +81,7 @@ git worktree prune --dry-run
 
 Candidate for removal if:
 - no uncommitted changes
-- branch has no recent commits
-- branch is merged or PR closed
+- branch is merged to base or its PR is closed
 - no active agent/process is using the path
 
 Remove only after approval unless the worktree is missing/broken and `git worktree prune --dry-run` shows it as pruneable.
@@ -92,7 +92,7 @@ Find old uncommitted changes:
 
 ```bash
 git status --porcelain
-# inspect mtimes carefully; do not assume old means unwanted
+# report modification age as a signal to surface for the user; never discard on age
 ```
 
 Report:

@@ -1,8 +1,8 @@
 ---
 name: slice-delivery
-description: Tracker-agnostic vertical-slice delivery discipline for any repo. Use when implementing, reviewing, or shipping a non-trivial change. Covers the three pillars (velocity, rigor, hygiene), the per-cycle refactor scan, deep-module design, tracer-bullet sequencing, the adversarial Ralph review loop, the per-surface TDD scope table pattern, and the start-lane / PR lifecycle gates. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph loop", "per-cycle refactor", "vertical slice", "definition of done".
+description: Tracker-agnostic vertical-slice delivery discipline for any repo. Use when implementing, reviewing, or shipping a non-trivial change. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
 wave: 3
-updated: 2026-05-21
+updated: 2026-07-07
 ---
 
 # Slice delivery
@@ -38,15 +38,8 @@ A good slice:
 
 - **Tracer bullet end-to-end, then incrementally**. One test red → one test green → refactor scan → next test. Never write all the tests first. Never write all the implementation first. The vertical (RED→GREEN per behavior) ordering is what produces tests that verify actual behavior instead of imagined behavior.
 - **Deep modules over shallow**. Small interface, rich implementation. Before adding a parameter to an interface, ask: "can this be one method instead of three?" Before adding a new module, ask: "is the public surface describable in two sentences?"
-- **Refactor scan after every green**, not at PR time. Candidates:
-  - Duplication → extract function / value object.
-  - Long methods → break into private helpers (tests stay on the public interface).
-  - Shallow modules → combine or deepen.
-  - Feature envy → move logic to where the data lives.
-  - Primitive obsession → introduce a typed value.
-  - **What does new code reveal about existing code?** The most powerful candidate. Your new code often makes a previously-tolerable wart obvious. Fix it now, in this slice, as a separate commit. Do not accumulate a cleanup PR backlog.
-- Refactors are separate commits from features. Refactor-then-feature is two commits.
-- **Adversarial (Ralph) review on non-trivial PRs**, before merge. Spawn an independent code-reviewer subagent with: the PR diff, the relevant spec / invariants / DOD, and explicit instruction to be adversarial. Post its findings as a Markdown PR comment. Address blocking findings with fix commits and verification; record dispositions (fixed / deferred / rejected) in commit bodies or a follow-up comment. Local confidence + green CI is not enough — the PR's comment trail must show adversarial observations and dispositions, or the merge is blocked.
+- **Refactor scan after every green**, not at PR time. See [references/refactor-scan.md](references/refactor-scan.md) for the candidate catalogue; the highest-value one is *what does new code reveal about existing code?* Refactors are separate commits from features.
+- **Adversarial (Ralph) review on non-trivial PRs**, before merge: an independent reviewer's adversarial findings and their dispositions must appear on the PR, or the merge is blocked. Local confidence + green CI is not enough. The full loop is the Slice lifecycle gate, step 7 below.
 - Honesty gates always apply: no fake-live behavior, no mocked-but-presented-as-real data paths, no logs containing sensitive raw input.
 
 ### 3. Hygiene — keep the repo operable
@@ -97,8 +90,8 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 4. Run the repo's full local CI gate before push.
 5. Commit with conventional format + slice scope (`feat(<slice-id>): ...`).
 6. Open the PR. PR body lists: slice ID, scope, non-scope, verification evidence, evidence for any addendum that applies (UI screenshots / AI fixtures+evals / migration up+down / deploy rollback).
-7. **Ralph review loop** for non-trivial PRs: dispatch an adversarial code-reviewer subagent against the repo's invariants / DOD; post findings as a PR comment; address blocking findings as fix commits with verification; record dispositions. Repeat until no blocking findings remain.
-8. Watch hosted CI and review until green + LGTM-level confidence.
+7. **Ralph review loop** for non-trivial PRs: dispatch an adversarial code-reviewer subagent against the PR diff + the repo's invariants / DOD; post findings as a PR comment; address blocking findings as fix commits with verification; record dispositions (fixed / deferred / rejected). Repeat until no blocking findings remain.
+8. Watch hosted CI until green on the PR head, and until the Ralph loop (step 7) shows no unresolved blocking findings.
 9. Merge. Update the tracker if not already part of the slice's PR.
 10. Closeout: run repo hygiene; remove the worktree if used; QA wave gate if applicable.
 
