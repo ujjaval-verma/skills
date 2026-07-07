@@ -1,7 +1,7 @@
 ---
 name: github-ci-triage
-description: Diagnose GitHub Actions and PR check failures with gh. Use when CI is failing, pending, cancelled, blocked, flaky, missing required checks, or when asked to inspect PR/build status and propose the smallest fix.
-updated: 2026-05-21
+description: Diagnose GitHub Actions and PR check failures with gh. Use when CI is failing, pending, cancelled, blocked, flaky, or missing required checks.
+updated: 2026-07-07
 ---
 
 # GitHub CI Triage
