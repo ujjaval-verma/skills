@@ -14,10 +14,11 @@ set -euo pipefail
 #
 # The roster is deliberately picky: skills excluded here are either
 # repo/org-coupled (linear-sop, td-sop), superseded by an installed plugin
-# (tdd, diagnosing-bugs — superpowers owns TDD and debugging), or collide
-# with harness built-ins (code-review).
+# (tdd, diagnosing-bugs — superpowers owns TDD and debugging), collide
+# with harness built-ins (code-review), or were trimmed as low-value at
+# user level (improve-codebase-architecture, network-connectivity-troubleshoot).
 
-UJJU_REPO="$(cd "$(dirname "$0")/.." && pwd)"
+UJJU_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MATT_REPO="${MATT_SKILLS_REPO:-$HOME/src/mattpocock/skills}"
 DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
 
@@ -44,10 +45,13 @@ SOURCES=(
   "$UJJU_REPO/engineering/github-ci-triage"
 )
 
-# Previously-installed skills now off-roster; remove from each dest.
+# Previously-installed (or plausibly-installed) skills now off-roster;
+# remove from each dest. Entries never installed are a no-op.
 REMOVE=(
   tdd
+  diagnosing-bugs
   improve-codebase-architecture
+  network-connectivity-troubleshoot
 )
 
 # --- Validate sources before touching anything -------------------------------
@@ -66,7 +70,7 @@ for DEST in "${DESTS[@]}"; do
 
   for name in "${REMOVE[@]}"; do
     target="$DEST/$name"
-    if [ -L "$target" ] || [ -d "$target" ]; then
+    if [ -L "$target" ] || [ -e "$target" ]; then
       rm -rf "$target"
       echo "removed $name ($DEST)"
     fi

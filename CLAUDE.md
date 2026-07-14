@@ -83,7 +83,9 @@ Local confidence + green CI is not sufficient evidence to merge a non-trivial ch
 
 ## `scripts/` folder
 
-Optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `linear-sop/scripts/linear_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
+Per-skill `scripts/` folders are optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `linear-sop/scripts/linear_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
+
+The repo-root `scripts/` folder is different: it holds repo-level tooling that operates on the library itself rather than belonging to any one skill (e.g., `scripts/link-user-skills.sh`, which symlinks the curated user-level roster into `~/.claude/skills` and `~/.agents/skills`). Same bar applies — no speculative additions.
 
 ## Editing skills
 
