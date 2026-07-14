@@ -36,6 +36,7 @@
   <skill-name>/
     SKILL.md          ← the playbook
     scripts/          ← optional helpers referenced by SKILL.md
+scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 ```
 
 ## 📚 Skills
