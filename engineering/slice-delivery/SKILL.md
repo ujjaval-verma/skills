@@ -2,7 +2,7 @@
 name: slice-delivery
 description: Tracker-agnostic vertical-slice delivery discipline for any repo. Use when implementing, reviewing, or shipping a non-trivial change. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
 wave: 3
-updated: 2026-07-07
+updated: 2026-07-14
 ---
 
 # Slice delivery
@@ -11,7 +11,7 @@ The execution wrapper for any non-trivial change. Tracker-agnostic — applies w
 
 This skill is the **how** of shipping a single slice well. It assumes a higher-level skill (or repo-local doc) has already told you **which** slice to ship. For tracker-specific workflows, see `linear-sop` (Linear) or `td-sop` (Markdown + GitHub).
 
-For the underlying TDD philosophy, defer to your repo's TDD skill or to `tdd` if no local one exists.
+For the underlying TDD philosophy, defer to your repo's TDD skill if one exists; otherwise to `superpowers:test-driven-development`. If neither is available, apply the red → green → refactor discipline described inline below. For deep-module vocabulary (interfaces, seams, deepening), defer to `codebase-design` when installed.
 
 ## What is a slice
 
@@ -37,7 +37,7 @@ A good slice:
 ### 2. Rigor — prove the change
 
 - **Tracer bullet end-to-end, then incrementally**. One test red → one test green → refactor scan → next test. Never write all the tests first. Never write all the implementation first. The vertical (RED→GREEN per behavior) ordering is what produces tests that verify actual behavior instead of imagined behavior.
-- **Deep modules over shallow**. Small interface, rich implementation. Before adding a parameter to an interface, ask: "can this be one method instead of three?" Before adding a new module, ask: "is the public surface describable in two sentences?"
+- **Deep modules over shallow**. Small interface, rich implementation. Before adding a parameter to an interface, ask: "can this be one method instead of three?" Before adding a new module, ask: "is the public surface describable in two sentences?" The full vocabulary and design moves live in the `codebase-design` skill — consult it when designing or reshaping an interface rather than re-deriving the principles here.
 - **Refactor scan after every green**, not at PR time. See [references/refactor-scan.md](references/refactor-scan.md) for the candidate catalogue; the highest-value one is *what does new code reveal about existing code?* Refactors are separate commits from features.
 - **Adversarial (Ralph) review on non-trivial PRs**, before merge: an independent reviewer's adversarial findings and their dispositions must appear on the PR, or the merge is blocked. Local confidence + green CI is not enough. The full loop is the Slice lifecycle gate, step 7 below.
 - Honesty gates always apply: no fake-live behavior, no mocked-but-presented-as-real data paths, no logs containing sensitive raw input.
@@ -77,9 +77,9 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 2. Read the repo's invariants / architecture / DOD / testing contracts. If any are missing, that's a slice in itself — fix that first.
 3. Check open PRs and worktree/branch hygiene. If hygiene is already out of bounds, run closeout before opening new work.
 4. Pick one slice from the tracker that moves a stated acceptance bullet forward.
-5. **Design the public interface first**. Identify the deep-module candidate. If there isn't one, ask whether the slice is really needed or whether it's three smaller slices.
-6. **Get explicit user approval of the scope and the chosen behaviors to test** before writing any code. "You can't test everything. Confirm with the user exactly which behaviors matter most." This is a gate, not a footnote — skipping it produces tests for imagined behavior.
-7. **T0 adversarial spec-review** (mandatory when the repo has a `docs/engineering/spec-review.md` or equivalent template; recommended otherwise). Dispatch a `feature-dev:code-reviewer` (or `general-purpose`) subagent with the repo's spec-review template, against the spec + plan + invariants + ADRs + Definition of Done. Apply BLOCKING / NIT / DEFERRED dispositions. BLOCKING at this gate means **fix the spec/plan, then continue** — never "fix code", because no code has been written. T0 does not count against the slice's task budget. Skip explicitly with reason recorded in the plan (e.g. the bootstrap slice that *creates* the spec-review template can't apply it to itself).
+5. **Design the public interface first**. Identify the deep-module candidate (use `codebase-design` for the design moves). If there isn't one, ask whether the slice is really needed or whether it's three smaller slices.
+6. **Get explicit user approval of the scope and the chosen behaviors to test** before writing any code. "You can't test everything. Confirm with the user exactly which behaviors matter most." Run this as a `grilling` session when the scope has open questions — one question at a time, recommended answer per question. If the spec's terminology is fuzzy or contested, sharpen it with `domain-modeling` before locking scope. This is a gate, not a footnote — skipping it produces tests for imagined behavior.
+7. **T0 adversarial spec-review** (mandatory when the repo has a `docs/engineering/spec-review.md` or equivalent template; recommended otherwise). Dispatch an adversarial code-reviewer subagent (whatever reviewer agent type the environment provides) with the repo's spec-review template, against the spec + plan + invariants + ADRs + Definition of Done. Apply BLOCKING / NIT / DEFERRED dispositions. BLOCKING at this gate means **fix the spec/plan, then continue** — never "fix code", because no code has been written. T0 does not count against the slice's task budget. Skip explicitly with reason recorded in the plan (e.g. the bootstrap slice that *creates* the spec-review template can't apply it to itself).
 8. Create a dedicated branch/worktree from latest base.
 
 ## Slice lifecycle gate
@@ -114,8 +114,14 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 
 ## Related skills
 
-- `tdd` — the underlying red-green-refactor discipline this skill wraps.
+Skills outside this library (`superpowers:*`, and the mattpocock set: `codebase-design`, `grilling`, `domain-modeling`) are composed when installed; in an environment without them, treat each reference as "the repo-local equivalent if one exists, else inline the discipline manually."
+
+- `superpowers:test-driven-development` — the underlying red-green-refactor discipline this skill wraps (a repo-local TDD skill wins if present).
+- `codebase-design` — deep-module vocabulary and interface-design moves.
+- `grilling` — the one-question-at-a-time scope-approval interview at the start-lane gate.
+- `domain-modeling` — sharpening spec terminology and recording ADR-worthy decisions.
 - `linear-sop` — Linear-based tracker mechanics.
 - `td-sop` — Markdown + GitHub Issues hybrid tracker mechanics.
 - `pr-discipline` — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
 - `repo-hygiene` — worktree/branch cleanup.
+- `delivery-loop` — the operator-invoked multi-slice wrapper that composes this skill N times via subagents.

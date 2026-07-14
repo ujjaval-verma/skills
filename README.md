@@ -36,6 +36,7 @@
   <skill-name>/
     SKILL.md          ← the playbook
     scripts/          ← optional helpers referenced by SKILL.md
+scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 ```
 
 ## 📚 Skills
@@ -44,7 +45,7 @@
 
 | Skill | What it owns |
 |---|---|
-| [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: pre-flight slice queue, per-slice T0 spec-review gate, hard pause conditions, final Definition-of-Done gate. |
+| [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: operator-supplied Definition of Done as required input, pre-flight slice queue, per-slice T0 spec-review gate, per-slice subagent dispatch, hard pause conditions, final DOD gate. |
 | [`engineering/github-ci-triage`](engineering/github-ci-triage/SKILL.md) | Diagnose GitHub Actions / PR check failures with `gh`. |
 | [`engineering/linear-sop`](engineering/linear-sop/SKILL.md) | Linear tracker / org workflow: parent-as-lane, sub-issue-as-slice, dependency edges, drift audit. |
 | [`engineering/model-routing`](engineering/model-routing/SKILL.md) | Choose model, thinking level, and review lane for delegated work. |
