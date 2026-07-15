@@ -1,8 +1,9 @@
 ---
 name: delivery-loop
-description: Multi-slice autonomous delivery wrapper around slice-delivery, driven by subagents. Use when an operator hands you a goal that spans multiple slices, supplies a Definition of Done, and wants the slices shipped in one session without per-slice approval gates. Encodes the slice queue, the T0 spec-review gate that substitutes for human-in-the-loop, per-slice subagent dispatch that keeps the orchestrating session lean, and the explicit pause conditions that prevent the loop from running off a cliff. Triggers on "deliver multiple slices", "execute v0.X", "ship the remaining bullets", "run the delivery loop".
+description: Multi-slice autonomous delivery wrapper around slice-delivery — operator-invoked loop that ships a pre-flight slice queue against a supplied Definition of Done via per-slice subagents.
+disable-model-invocation: true
 wave: 3
-updated: 2026-07-14
+updated: 2026-07-15
 ---
 
 # Delivery loop
@@ -70,7 +71,7 @@ Invoke `superpowers:brainstorming` (if the slice has design ambiguity) or skip d
 
 ### 2. T0 spec-review (load-bearing pause point)
 
-Dispatch an adversarial code-reviewer subagent with the repo's spec-review template — or, absent one, these lenses: (A) internal consistency of spec/plan against invariants, ADRs, and the DOD input; (B) value judgments the spec makes that need human sign-off; (C) scope against the slice budget. The subagent reads spec + plan + invariants + ADRs + DOD and reports BLOCKING / NIT / DEFERRED.
+Dispatch an adversarial code-reviewer subagent per `slice-delivery`'s start-lane T0 (the repo's spec-review template, or its fallback lens set A/B/C). The subagent reads spec + plan + invariants + ADRs + DOD and reports BLOCKING / NIT / DEFERRED.
 
 Branch on the report:
 
@@ -83,7 +84,7 @@ T0 is the human-substitute gate. The autonomy of `delivery-loop` is bounded by T
 
 ### 3. Dispatch the slice subagent
 
-Hand the approved spec + plan to a fresh implementation subagent per **Subagent-driven delivery** above. It runs the standard `slice-delivery` lifecycle: tracer bullet, RED → GREEN → refactor scan per behavior, commits with `<scope>(<slice-id>): T<n> ...`. No deviation from slice-delivery's discipline.
+Hand the approved spec + plan to a fresh implementation subagent per **Subagent-driven delivery** above. It runs the standard `slice-delivery` lifecycle end to end — no deviation from its discipline, including commit format.
 
 ### 4. Post-code Ralph review
 
@@ -111,7 +112,7 @@ The loop **stops immediately** and surfaces to the operator when:
 5. The DOD check regresses below the running baseline.
 6. A pre-push/pre-commit hook fails for a reason other than transient network.
 7. The slice-id token collides with a prior shipped slice.
-8. Any slice exceeds the scope budget (the repo's declared budget; default: >8 tasks or >3 new production modules).
+8. Any slice exceeds the scope budget (per `slice-delivery`; repo may override).
 9. A slice subagent dies, stalls, or returns a report the orchestrator can't reconcile with the queue.
 10. Operator interrupt (ctrl-C, explicit "stop" message).
 
@@ -122,16 +123,6 @@ When the loop stops, the next slice has NOT started. The repo is in a clean stat
 1. Run the full DOD check one last time, including any closeout-only bullets (e.g. no unpushed commits, hygiene thresholds).
 2. Report the final state: starting pass count, ending pass count, slices shipped, slices stopped on, total commits.
 3. If all DOD bullets PASS, state explicitly: `DOD GREEN — ship`. Do not say this otherwise.
-
-## Anti-patterns this skill prevents
-
-- **Running a goal as one big "ship everything" prompt.** The slice queue + per-slice T0 review keeps each spec honest.
-- **Starting without a DOD.** No DOD means no termination condition, no regression floor, and no honest final gate.
-- **Inline delivery bloat.** Executing slices in the orchestrating session until its own gates drown in diff context — the reason subagent dispatch is the default.
-- **Skipping the spec-review gate "because the slice is small".** Small slices accumulate lies just like large ones; the cost of T0 is bounded; skip it explicitly with reason or run it.
-- **Treating "all tests pass" as "shipped".** The repo's CI gate is the per-change gate; the DOD check is the per-goal gate; the two are not interchangeable.
-- **Cascading from a bad spec decision into multiple slices.** T0 catches this at the spec layer; the regression gate at step 5 catches it at the integration layer; both must hold.
-- **Hiding pause conditions in the loop output.** Every stop surfaces the reason in plain text. Operators should be able to read the last 50 lines of session output and know what to do next.
 
 ## Related skills
 
@@ -151,4 +142,3 @@ Skills prefixed `superpowers:` are external plugin-namespaced skills that this s
 - Pick the next goal or author the DOD. That's the operator's call; the DOD arrives as input.
 - Substitute for human design judgment on contested decisions. T0 will surface those; the operator resolves them.
 - Run forever. The loop terminates when the queue is empty OR a hard stop fires. There is no retry loop on stops.
-- Replace `slice-delivery`. If you are shipping one slice, use that directly.

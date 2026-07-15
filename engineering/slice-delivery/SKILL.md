@@ -1,8 +1,8 @@
 ---
 name: slice-delivery
-description: Tracker-agnostic vertical-slice delivery discipline for any repo. Use when implementing, reviewing, or shipping a non-trivial change. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
+description: Tracker-agnostic vertical-slice delivery discipline. Use when the work is framed in slice terms or a tracker SOP delegates per-slice execution here. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
 wave: 3
-updated: 2026-07-14
+updated: 2026-07-15
 ---
 
 # Slice delivery
@@ -23,6 +23,7 @@ A good slice:
 - Ships behind a complete (if minimal) public path — the tracer bullet proves the path before you scale it.
 - Owns exactly one branch (or worktree), one PR, one merge.
 - Is rollback-safe by itself.
+- Fits the scope budget: default ≤8 tasks and ≤3 new production modules (repo may override).
 
 ## Three pillars
 
@@ -30,13 +31,13 @@ A good slice:
 
 - Slice = delivery unit. One concern per slice; one slice per PR; one concern per commit.
 - Tracer bullet first. The first work in any slice is one test that proves the end-to-end path with the minimum possible implementation. Everything after thickens this skeleton.
-- The tracker is whatever your repo already uses. Do not invent a parallel one. If a tracker entry doesn't exist for the slice, create it before opening the PR — not after.
+- The tracker is whatever your repo already uses. If a tracker entry doesn't exist for the slice, create it before opening the PR — not after.
 - Commits carry the slice scope: `feat(<slice-id>): ...`. This lets `git log --grep='(<slice-id>)'` reconstruct slice progress in seconds.
 - "Shipped" — see `pr-discipline`'s "Definition of shipped" for the exact verification (`gh pr view` returns `MERGED` **and** CI is green on the merge commit on the target branch). Locally green is not shipped.
 
 ### 2. Rigor — prove the change
 
-- **Tracer bullet end-to-end, then incrementally**. One test red → one test green → refactor scan → next test. Never write all the tests first. Never write all the implementation first. The vertical (RED→GREEN per behavior) ordering is what produces tests that verify actual behavior instead of imagined behavior.
+- **Tracer bullet end-to-end, then incrementally**. One test red → one test green → refactor scan → next test. The vertical (RED→GREEN per behavior) ordering is what produces tests that verify actual behavior instead of imagined behavior. Test real paths — a suite that is green because everything is mocked verifies nothing.
 - **Deep modules over shallow**. Small interface, rich implementation. Before adding a parameter to an interface, ask: "can this be one method instead of three?" Before adding a new module, ask: "is the public surface describable in two sentences?" The full vocabulary and design moves live in the `codebase-design` skill — consult it when designing or reshaping an interface rather than re-deriving the principles here.
 - **Refactor scan after every green**, not at PR time. See [references/refactor-scan.md](references/refactor-scan.md) for the candidate catalogue; the highest-value one is *what does new code reveal about existing code?* Refactors are separate commits from features.
 - **Adversarial (Ralph) review on non-trivial PRs**, before merge: an independent reviewer's adversarial findings and their dispositions must appear on the PR, or the merge is blocked. Local confidence + green CI is not enough. The full loop is the Slice lifecycle gate, step 7 below.
@@ -78,8 +79,8 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 3. Check open PRs and worktree/branch hygiene. If hygiene is already out of bounds, run closeout before opening new work.
 4. Pick one slice from the tracker that moves a stated acceptance bullet forward.
 5. **Design the public interface first**. Identify the deep-module candidate (use `codebase-design` for the design moves). If there isn't one, ask whether the slice is really needed or whether it's three smaller slices.
-6. **Get explicit user approval of the scope and the chosen behaviors to test** before writing any code. "You can't test everything. Confirm with the user exactly which behaviors matter most." Run this as a `grilling` session when the scope has open questions — one question at a time, recommended answer per question. If the spec's terminology is fuzzy or contested, sharpen it with `domain-modeling` before locking scope. This is a gate, not a footnote — skipping it produces tests for imagined behavior.
-7. **T0 adversarial spec-review** (mandatory when the repo has a `docs/engineering/spec-review.md` or equivalent template; recommended otherwise). Dispatch an adversarial code-reviewer subagent (whatever reviewer agent type the environment provides) with the repo's spec-review template, against the spec + plan + invariants + ADRs + Definition of Done. Apply BLOCKING / NIT / DEFERRED dispositions. BLOCKING at this gate means **fix the spec/plan, then continue** — never "fix code", because no code has been written. T0 does not count against the slice's task budget. Skip explicitly with reason recorded in the plan (e.g. the bootstrap slice that *creates* the spec-review template can't apply it to itself).
+6. **Lock the scope and the behaviors to test before writing code.** You can't test everything. When the scope has open questions or the behavior choices are contested, confirm them with the user via a `grilling` session — one question at a time, recommended answer per question. If the spec's terminology is fuzzy, sharpen it with `domain-modeling` before locking scope. Locking scope on an ambiguous slice without this produces tests for imagined behavior.
+7. **T0 adversarial spec-review** (mandatory when the repo has a `docs/engineering/spec-review.md` or equivalent template; recommended otherwise). Dispatch an adversarial code-reviewer subagent (whatever reviewer agent type the environment provides) with the repo's spec-review template — or, absent one, these fallback lenses: (A) internal consistency of spec + plan against invariants, ADRs, and the Definition of Done; (B) value judgments the spec makes that need human sign-off; (C) scope against the slice budget — against the spec + plan + invariants + ADRs + Definition of Done. Apply BLOCKING / NIT / DEFERRED dispositions. BLOCKING at this gate means **fix the spec/plan, then continue** — never "fix code", because no code has been written. T0 does not count against the slice's task budget. Skip explicitly with reason recorded in the plan (e.g. the bootstrap slice that *creates* the spec-review template can't apply it to itself).
 8. Create a dedicated branch/worktree from latest base.
 
 ## Slice lifecycle gate
@@ -94,16 +95,6 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 8. Watch hosted CI until green on the PR head, and until the Ralph loop (step 7) shows no unresolved blocking findings.
 9. Merge. Update the tracker if not already part of the slice's PR.
 10. Closeout: run repo hygiene; remove the worktree if used; QA wave gate if applicable.
-
-## Anti-patterns this skill prevents
-
-- **Horizontal slicing** — writing all tests then all implementation; tests verify imagined behavior.
-- **Layers-first delivery** — shipping shelves of code that don't reach the user.
-- **Cleanup PR backlog** — refactor candidates discovered mid-slice are deferred to a future cleanup PR that never lands.
-- **Local-green = shipped** — confidence without the integration branch + CI + adversarial review.
-- **Tracker drift** — implementation diverges from the tracker; status reconciliation PRs become a thing.
-- **Shallow modules** — interfaces grow new parameters faster than they grow new methods, hiding nothing.
-- **Mock-everything tests** — tests pass because everything is mocked; production breaks because nothing was real.
 
 ## What this skill does not cover
 
