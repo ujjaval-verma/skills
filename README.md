@@ -78,10 +78,10 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | Representative phrases | Reach for |
 |---|---|
 | *"ship slice X"*, *"tracer bullet"*, *"refactor scan"*, *"Ralph review"*, *"deep module"* | [`slice-delivery`](engineering/slice-delivery/SKILL.md) |
-| *"deliver multiple slices"*, *"execute v0.X"*, *"ship the remaining bullets"* | [`delivery-loop`](engineering/delivery-loop/SKILL.md) |
+| *(user-invoked — type the name)* *"deliver multiple slices"*, *"execute v0.X"*, *"ship the remaining bullets"* | [`delivery-loop`](engineering/delivery-loop/SKILL.md) |
 | *"Linear"*, *"sub-issue"*, *"blocks/blocked-by"*, *"In Review"*, *"linear-sop audit"* | [`linear-sop`](engineering/linear-sop/SKILL.md) |
 | *"TD-SOP"*, *"Tech Dolphins"*, *"build-progress"*, *"td-sop-plan"*, *"td:closeout"* | [`td-sop`](engineering/td-sop/SKILL.md) |
-| *"PR"*, *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
+| *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
 | *"CI is failing"*, *"PR check"*, *"gh status"*, *"smallest fix"* | [`github-ci-triage`](engineering/github-ci-triage/SKILL.md) |
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
 | *"which model"*, *"spawn"*, *"subagent"*, *"delegate"*, *"escalate to bigger model"*, *"routing decision"* | [`model-routing`](engineering/model-routing/SKILL.md) |
