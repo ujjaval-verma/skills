@@ -1,7 +1,7 @@
 ---
 name: pr-discipline
-description: Safety rules and tactical mechanics for opening, iterating on, reviewing, rebasing, auto-merging, or landing pull requests. Use before branch protection edits, required-check changes, auto-merge, lockfile conflict resolution, force-pushes, when PRs are stuck/dirty/blocked, or when running the open → push → watch CI → fix → merge loop. Triggers on "PR", "auto-merge", "lockfile", "force-push", "branch protection", "stuck PR", "DIRTY".
-updated: 2026-07-07
+description: Safety rules and tactical mechanics for opening, iterating on, reviewing, rebasing, auto-merging, or landing pull requests. Use before branch protection edits, required-check changes, auto-merge, lockfile conflict resolution, force-pushes, when PRs are stuck/dirty/blocked, or when running the open → push → watch CI → fix → merge loop. Triggers on "auto-merge", "lockfile", "force-push", "branch protection", "stuck PR", "DIRTY".
+updated: 2026-07-15
 wave: 3
 ---
 
@@ -23,7 +23,7 @@ These apply on every invocation. They are the conservative baseline; a more perm
 - **Force-push only with `--force-with-lease`, and only on your own branch.** Stop and ask before force-pushing over shared or unfamiliar history.
 - **Regenerate lockfiles through the package manager** (see recovery reference), rather than editing conflict markers by hand.
 - **Fix pre-commit/pre-push hooks in place, never bypass them** — see *Pre-push hooks* below.
-- **Give each parallel agent its own `git worktree`** — a shared checkout corrupts concurrent work. See the loop's *Isolate* step.
+- **Give each parallel agent its own `git worktree`** — a shared checkout corrupts concurrent work. See the iteration loop's worktree rule.
 - **Land a required check producer-first** — add the requirement only after its workflow is green on the protected branch (see recovery reference).
 - **Merge on green CI with real evidence** — verify flake history before re-running a red check, and report "merged" only once the platform reports `MERGED` (see *Definition of "shipped"*).
 
@@ -46,45 +46,20 @@ Pre-commit and pre-push hooks are part of the contract. Keep `--no-verify` (and 
 
 ## The iteration loop
 
-Use this for end-to-end PR work. Keep the loop tight: small change, real verification, clear handoff.
+Orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep. The first five stages need no script; their non-default parts:
 
-### 1. Orient
+- Branch names carry the scope: `feat/<slice-id>-<slug>`, `fix/<slice-id>-<slug>`, `refactor/<area>-<slug>`.
+- If another agent or person may touch the repo concurrently, take a worktree — one checkout per agent (see Safety):
 
-- `git status --short --branch` — confirm clean tree before starting.
-- Identify base branch and remote (`git rev-parse --abbrev-ref --symbolic-full-name @{u}`).
-- Read the issue / spec / PR context the change implements.
-- Choose a branch name that reflects the scope (`feat/<slice-id>-<slug>`, `fix/<slice-id>-<slug>`, `refactor/<area>-<slug>`).
+  ```bash
+  git worktree add ../<repo>-WORKTREE-<slug> -b <branch> origin/<base>
+  ```
 
-### 2. Isolate
+  Prefer a repo-adjacent or user-approved path over temporary directories that may be cleaned or made inaccessible.
+- **One concern per commit**, per `slice-delivery` — a refactor surfaced mid-iteration lands as its own commit ahead of the next feature push. Conventional Commits unless the repo overrides; scope by slice ID or skill name; justify generated/lockfile changes in the commit body.
+- Capture exact verification commands and outcomes for the PR body.
 
-If another agent or person may touch the repo concurrently, create a worktree:
-
-```bash
-git worktree add ../<repo>-WORKTREE-<slug> -b <branch> origin/<base>
-```
-
-Otherwise use the current checkout only if it's clean or explicitly approved — one checkout per agent (see Safety). Prefer a repo-adjacent or user-approved path over temporary directories that may be cleaned or made inaccessible.
-
-### 3. Implement
-
-- Make the smallest coherent change that moves the PR's stated scope forward.
-- Justify generated/lockfile changes in the commit body.
-- Update docs/tests only when relevant to the change.
-
-### 4. Verify locally
-
-- Run the narrowest meaningful test first.
-- Then the repo's standard lint/type/test gate (commonly `make verify`, `npm test`, `cargo test`, etc.) if cheap enough.
-- Capture exact commands and outcomes for the PR body.
-
-### 5. Commit
-
-- Review diff before committing (`git diff --staged`).
-- **One concern per commit**, per `slice-delivery`. A refactor surfaced mid-iteration lands as its own commit ahead of the next feature push.
-- Conventional Commits unless the repo overrides — `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`. Scope by slice ID or skill name where useful.
-- Body explains *why* if non-obvious.
-
-### 6. Open or update PR
+### Open or update PR
 
 If opening:
 
@@ -101,25 +76,15 @@ If opening:
 
 If updating: push and comment only if useful (e.g. "addressed review finding X in <sha>"). A force-push needs no announcement comment.
 
-### 7. Watch CI
+### Watch CI
 
 Classify failures per [CI failure triage](references/recovery.md#ci-failure-triage) and fix actionable ones in a fresh small commit.
 
-### 8. Review and merge prep
+### Review and merge prep
 
 - For non-trivial PRs, dispatch the adversarial (Ralph) review per `slice-delivery`.
 - Arm auto-merge only after checks are green and branch-protection state is understood ([auto-merge discipline](references/recovery.md#auto-merge-discipline)).
 - Verify the `MERGED` state per the *Definition of "shipped"* above.
-
-## Final report (when handing off)
-
-Always include:
-
-- branch / PR link or local branch name;
-- commits made;
-- tests run with result;
-- CI status if applicable;
-- blockers / follow-ups.
 
 ## Related skills
 
