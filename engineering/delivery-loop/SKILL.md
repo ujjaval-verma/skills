@@ -2,8 +2,8 @@
 name: delivery-loop
 description: Multi-slice autonomous delivery wrapper around slice-delivery — operator-invoked loop that ships a pre-flight slice queue against a supplied Definition of Done via per-slice subagents.
 disable-model-invocation: true
-wave: 3
 updated: 2026-07-15
+wave: 3
 ---
 
 # Delivery loop
@@ -35,7 +35,7 @@ If the DOD has bullets but no runnable harness, the loop still works: the per-sl
 
 - A Definition of Done supplied as input (see above).
 - Repo has invariants / architecture notes / ADRs in tracked locations (or the operator explicitly waives this with "no invariants exist yet").
-- A spec-review template (repo-local `spec-review.md` or equivalent). If none exists, use the T0 lens set inline in this skill's step 2.
+- A spec-review template (repo-local `spec-review.md` or equivalent). If none exists, use `slice-delivery`'s T0 fallback lens set (referenced in step 2).
 - Operator has explicitly invoked this skill (do not auto-promote from `slice-delivery`).
 
 If a precondition is missing, **stop** and tell the operator which one. Do not bootstrap them mid-loop — that's its own slice.
