@@ -1,7 +1,7 @@
 ---
 name: repo-hygiene
 description: Inspect and safely clean local git repository hygiene: stale/merged local branches, gone upstreams, old worktrees, and forgotten uncommitted changes. Use when asked about branch cleanup, worktree cleanup, or repo housekeeping.
-updated: 2026-07-07
+updated: 2026-07-15
 ---
 
 # Repo Hygiene
@@ -47,7 +47,7 @@ Classify:
 Auto-delete only if every condition below is verifiably true — each is a checkable command, not a judgment call:
 - upstream is gone (`git branch -vv` shows `: gone]`) or the user explicitly selected the branch for cleanup
 - not checked out in any worktree (`git worktree list`)
-- not the head of an open PR (`gh pr list --state open`)
+- not the head of an open PR (`gh pr list --state open --json number,headRefName,title`); an abandoned PR's head branch needs explicit user approval
 - merged to base by ancestry (`git merge-base --is-ancestor <branch> <base>` exits 0)
 
 Ancestry-merged plus not-checked-out already guarantees no unique commits are stranded, so `git branch -d` (which itself refuses to delete unmerged branches) is safe here.
@@ -60,17 +60,7 @@ Command:
 git branch -d <branch>
 ```
 
-Use `-D` only with explicit approval. Treat branch age as a signal to investigate, never as authorization — route every age-based candidate to approval rather than deleting on "old" or "recent".
-
-## Open PR check
-
-For GitHub repos:
-
-```bash
-gh pr list --state open --json number,headRefName,title
-```
-
-Never delete a branch that is the head of an open PR unless the PR is intentionally abandoned and the user approves.
+Use `-D` only with explicit approval, and prefer recoverable commands (`git branch -d`, `trash`) over irreversible ones. Treat branch age as a signal to investigate, never as authorization — route every age-based candidate to approval rather than deleting on "old" or "recent".
 
 ## Worktree cleanup
 
@@ -103,28 +93,6 @@ Report:
 
 Never discard uncommitted changes without explicit approval.
 
-## Suggested report
+## Reporting candidates
 
-```markdown
-Repo hygiene candidates:
-
-Safe-delete local branches:
-- <branch> — upstream gone, merged to <base>, not in worktree/open PR
-
-Needs approval:
-- <branch> — upstream gone, not merged by ancestry; maybe squash-merged
-- <worktree> — old and clean, branch closed
-
-Do not touch:
-- <branch> — open PR #123
-- <branch> — checked out in <path>
-- <repo> — uncommitted changes
-```
-
-## Destructive command checklist
-
-Before deleting branches/worktrees/stashes:
-1. Re-run status/fetch checks.
-2. Confirm not active in a worktree or open PR.
-3. Prefer recoverable commands (`git branch -d`, `trash`) over irreversible ones.
-4. Show exactly what will be deleted if asking for approval.
+Group candidates as **safe-delete** / **needs approval** / **do not touch**, each with the evidence for its classification. When asking for approval, show exactly what will be deleted.
