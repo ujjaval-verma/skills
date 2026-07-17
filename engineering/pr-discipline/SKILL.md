@@ -7,7 +7,7 @@ wave: 3
 
 # PR Discipline
 
-Hard rules + tactical mechanics for shipping pull requests in high-velocity repositories. Prefer slow correct merges over fast broken `main`. This skill is repo-agnostic — repo-specific gates live in the repo's `CLAUDE.md` or its tracker SOP (`linear-sop`, `td-sop`).
+Hard rules + tactical mechanics for shipping pull requests in high-velocity repositories. Prefer slow correct merges over fast broken `main`. This skill is repo-agnostic — repo-specific gates live in the repo's `CLAUDE.md` or its tracker SOP.
 
 This skill owns PR-shaped concerns end to end: the iteration loop, the safety rules, the recovery procedures. It does **not** own per-slice rigor (tracer bullets, refactor scan, TDD, Ralph review) — that's `slice-delivery`.
 
@@ -89,7 +89,6 @@ Classify failures per [CI failure triage](references/recovery.md#ci-failure-tria
 ## Related skills
 
 - `slice-delivery` — per-slice execution discipline (tracer bullets, refactor scan, Ralph review, DoD). `pr-discipline` is what `slice-delivery` delegates PR mechanics to; the adversarial review loop lives there.
-- `linear-sop` / `td-sop` — tracker mechanics. They delegate PR mechanics here.
 - `github-ci-triage` — deeper `gh` workflows for CI failures, missing checks, and pending/cancelled runs.
 - `repo-hygiene` — post-merge worktree/branch cleanup.
 - `model-routing` — model/delegation choices for parallel sub-agents.
