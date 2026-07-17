@@ -18,8 +18,8 @@ Two rules:
 | Skill | Wave-3 change |
 |---|---|
 | [`slice-delivery`](engineering/slice-delivery/SKILL.md) | New skill (`89e234d`). Owns *how* a single slice ships — tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, Ralph review, lifecycle gate. Later: T0 spec-review added to start-lane (`392cca4`). |
-| [`td-sop`](engineering/td-sop/SKILL.md) | Collapsed to org-level only (`89e234d`, `adfc9b9`). Per-slice rigor delegates to `slice-delivery`. |
-| [`linear-sop`](engineering/linear-sop/SKILL.md) | Renamed from `sd-sop` (`b79b0b2`). Same collapse pattern as `td-sop`: tracker mechanics only, delegates per-slice rigor downward. |
+| `td-sop` *(removed 2026-07)* | Collapsed to org-level only (`89e234d`, `adfc9b9`). Per-slice rigor delegates to `slice-delivery`. |
+| `linear-sop` *(removed 2026-07)* | Renamed from `sd-sop` (`b79b0b2`). Same collapse pattern as `td-sop`: tracker mechanics only, delegates per-slice rigor downward. |
 | [`pr-discipline`](engineering/pr-discipline/SKILL.md) | Folded `pr-iterate` into `pr-discipline` (`0f42c5f`). One skill for both the iteration loop and the safety rules. |
 | [`delivery-loop`](engineering/delivery-loop/SKILL.md) | New skill (`0c6e80a`). Operator-invoked autonomous wrapper around `slice-delivery` for multi-slice runs. Composes — does not replace — the execution wrapper. |
 

@@ -9,7 +9,7 @@ updated: 2026-07-15
 
 The execution wrapper for any non-trivial change. Tracker-agnostic — applies whether your repo uses Linear, GitHub Issues, a Markdown tracker, or `git log` alone.
 
-This skill is the **how** of shipping a single slice well. It assumes a higher-level skill (or repo-local doc) has already told you **which** slice to ship. For tracker-specific workflows, see `linear-sop` (Linear) or `td-sop` (Markdown + GitHub).
+This skill is the **how** of shipping a single slice well. It assumes the operator (or a repo-local doc) has already told you **which** slice to ship.
 
 For the underlying TDD philosophy, defer to your repo's TDD skill if one exists; otherwise to `superpowers:test-driven-development`. If neither is available, apply the red → green → refactor discipline described inline below. For deep-module vocabulary (interfaces, seams, deepening), defer to `codebase-design` when installed.
 
@@ -99,7 +99,7 @@ Decide which class a new doc belongs to before writing it. If it's transient, do
 ## What this skill does not cover
 
 - Picking which slice to ship next — that's a planning / tracker skill.
-- Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see `linear-sop` or `td-sop` or the repo's local execution doc.
+- Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see the repo's local execution doc.
 - PR mechanics that are independent of slice content — see `pr-discipline`.
 - Repo-agnostic CI / merge-queue strategy — separate concern.
 
@@ -111,8 +111,6 @@ Skills outside this library (`superpowers:*`, and the mattpocock set: `codebase-
 - `codebase-design` — deep-module vocabulary and interface-design moves.
 - `grilling` — the one-question-at-a-time scope-approval interview at the start-lane gate.
 - `domain-modeling` — sharpening spec terminology and recording ADR-worthy decisions.
-- `linear-sop` — Linear-based tracker mechanics.
-- `td-sop` — Markdown + GitHub Issues hybrid tracker mechanics.
 - `pr-discipline` — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
 - `repo-hygiene` — worktree/branch cleanup.
 - `delivery-loop` — the operator-invoked multi-slice wrapper that composes this skill N times via subagents.

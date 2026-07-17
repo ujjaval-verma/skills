@@ -38,21 +38,22 @@ Enforcement is currently social, not mechanical. Adding a lint/CI check that eng
 
 Skills layer rather than overlap. When a task fits multiple skills, pick the highest layer and let it delegate:
 
-- **Tracker SOPs** — `linear-sop` (Linear), `td-sop` (Markdown + GitHub Issues). Own *which* slice ships and the tracker artifacts (issues, build-progress, PRD).
 - **Multi-slice loop (optional, operator-invoked)** — `delivery-loop`. A separate entry point the operator invokes directly (never auto-promoted from `slice-delivery`) that runs `slice-delivery` across a pre-flight slice queue, dispatching each slice to a fresh subagent so the orchestrating session stays lean, with a per-slice T0 spec-review gate substituting for human approval and hard pause conditions inside the loop. Requires the operator to supply a Definition of Done (inline or by artifact reference) at invocation; not used in this skills repo.
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
 - **PR mechanics** — `pr-discipline`. Iteration loop (orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep) + safety rules (branch protection, lockfiles, auto-merge, force-pushes, hook bypass, stuck PRs).
 - **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
 
-Tracker SOPs delegate per-slice rigor directly to `slice-delivery`. `delivery-loop` is a parallel operator-invoked path that composes `slice-delivery` N times for autonomous multi-slice runs — tracker SOPs do not hand off to it. `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
+Ad-hoc tracker-issue authoring lives outside this stack: `productivity/create-tracker-issue` owns the content shape of a single issue (terse user-story template, draft-then-create) and carries no delivery workflow.
+
+Operators enter the stack in one of two ways: invoke `slice-delivery` directly (one slice at a time), or invoke `delivery-loop`, which composes `slice-delivery` N times for autonomous multi-slice runs. `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
 
 ```text
    operator entry points
    ┌──────────────────────────────────────────────────────────────────────────┐
-   │  linear-sop   ·   td-sop   ·   delivery-loop  (optional, autonomous)     │
-   └────────┬───────────────┬───────────────────────┬─────────────────────────┘
-            │               │                       │   (composes N×)
-            └───────────────┴────────┬──────────────┘
+   │  slice-delivery (direct, one slice)  ·  delivery-loop  (autonomous, N×)  │
+   └──────────────────┬──────────────────────────────┬────────────────────────┘
+                      │                              │   (composes N×)
+                      └──────────────┬───────────────┘
                                      ▼
    ┌──────────────────────────────────────────────────────────────────────────┐
    │  slice-delivery     tracer bullet · refactor scan · Ralph · DoD          │
@@ -84,7 +85,7 @@ Local confidence + green CI is not sufficient evidence to merge a non-trivial ch
 
 ## `scripts/` folder
 
-Per-skill `scripts/` folders are optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `linear-sop/scripts/linear_sop_audit.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
+Per-skill `scripts/` folders are optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `steam-worksheets/scripts/generate.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
 
 The repo-root `scripts/` folder is different: it holds repo-level tooling that operates on the library itself rather than belonging to any one skill (e.g., `scripts/link-user-skills.sh`, which symlinks the curated user-level roster into `~/.claude/skills` and `~/.agents/skills`). Same bar applies — no speculative additions.
 
@@ -98,4 +99,4 @@ The repo-root `scripts/` folder is different: it holds repo-level tooling that o
 
 ## Commit conventions
 
-Conventional Commits, scoped by category or skill name where useful: `feat(slice-delivery): ...`, `docs(readme): ...`, `refactor(linear-sop): ...`. One concern per commit.
+Conventional Commits, scoped by category or skill name where useful: `feat(slice-delivery): ...`, `docs(readme): ...`, `refactor(repo-hygiene): ...`. One concern per commit.

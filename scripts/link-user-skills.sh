@@ -13,7 +13,7 @@ set -euo pipefail
 # Re-run after changing the roster below.
 #
 # The roster is deliberately picky: skills excluded here are either
-# repo/org-coupled (linear-sop, td-sop), superseded by an installed plugin
+# repo/org-coupled, superseded by an installed plugin
 # (tdd, diagnosing-bugs — superpowers owns TDD and debugging), collide
 # with harness built-ins (code-review), or were trimmed as low-value at
 # user level (improve-codebase-architecture, network-connectivity-troubleshoot).

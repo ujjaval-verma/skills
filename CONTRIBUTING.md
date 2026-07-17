@@ -9,7 +9,7 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
 1. **One concern per PR.** Add one skill, rename one skill, or fix one bug — not all three. Small PRs land; large ones rot.
 2. **Branch protection is on.** `main` requires a pull request and a linear history. No direct pushes, no force-pushes, no branch deletions.
 3. **No secrets, no private paths.** No tokens, internal hostnames, user home directories, or repo-specific assumptions unless the skill is explicitly scoped to that repo. See [README → What not to include](README.md#what-not-to-include).
-4. **Follow Conventional Commits.** Scope by category or skill name: `feat(slice-delivery): …`, `docs(readme): …`, `refactor(linear-sop): …`. See `git log` for examples.
+4. **Follow Conventional Commits.** Scope by category or skill name: `feat(slice-delivery): …`, `docs(readme): …`, `refactor(repo-hygiene): …`. See `git log` for examples.
 5. **Adversarial review for non-trivial changes.** Any change beyond a typo, link fix, or single-line config tweak must show an adversarial review trail before merge. See [`CLAUDE.md` → Adversarial review (Ralph) — contract](CLAUDE.md#adversarial-review-ralph--contract).
 
 ## Adding a new skill
