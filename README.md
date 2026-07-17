@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/skills-15-purple?style=flat-square" alt="15 skills"/>
+  <img src="https://img.shields.io/badge/skills-14-purple?style=flat-square" alt="14 skills"/>
   <img src="https://img.shields.io/badge/format-SKILL.md-success?style=flat-square" alt="SKILL.md format"/>
   <img src="https://img.shields.io/badge/branch--protected-main-green?style=flat-square" alt="main is branch-protected"/>
   <img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs welcome"/>
@@ -21,7 +21,7 @@
   <a href="CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-<p align="center"><sub><b>15 skills</b> · <b>3 categories</b> · <b>5-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
+<p align="center"><sub><b>14 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
 
 </div>
 
@@ -47,13 +47,11 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 |---|---|
 | [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: operator-supplied Definition of Done as required input, pre-flight slice queue, per-slice T0 spec-review gate, per-slice subagent dispatch, hard pause conditions, final DOD gate. |
 | [`engineering/github-ci-triage`](engineering/github-ci-triage/SKILL.md) | Diagnose GitHub Actions / PR check failures with `gh`. |
-| [`engineering/linear-sop`](engineering/linear-sop/SKILL.md) | Linear tracker / org workflow: parent-as-lane, sub-issue-as-slice, dependency edges, drift audit. |
 | [`engineering/model-routing`](engineering/model-routing/SKILL.md) | Choose model, thinking level, and review lane for delegated work. |
 | [`engineering/network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) | Diagnose public-network, DNS, `gh`, or Tailscale connectivity failures. |
 | [`engineering/pr-discipline`](engineering/pr-discipline/SKILL.md) | PR iteration loop + merge safety: open → watch CI → fix → merge, branch protection, lockfiles, auto-merge, force-pushes, stuck PRs. |
 | [`engineering/repo-hygiene`](engineering/repo-hygiene/SKILL.md) | Safely inspect stale branches, worktrees, and cleanup candidates. |
 | [`engineering/slice-delivery`](engineering/slice-delivery/SKILL.md) | Tracker-agnostic vertical-slice execution: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review, slice lifecycle. |
-| [`engineering/td-sop`](engineering/td-sop/SKILL.md) | Tech Dolphins Markdown + GitHub execution wrapper: PRD/build-progress, Mermaid dependency graphs, velocity/rigor/hygiene gates. |
 | [`engineering/validate-infra-change`](engineering/validate-infra-change/SKILL.md) | Safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths. |
 
 ### 🎨 Product
@@ -67,6 +65,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 
 | Skill | What it owns |
 |---|---|
+| [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) | Tracker-agnostic ad-hoc issue authoring: terse user-story template (Objective / Context / Acceptance Criteria / Technical Notes), draft-then-create in Jira, Linear, GitHub Issues, or plain Markdown. |
 | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners. |
 | [`productivity/timesheet`](productivity/timesheet/SKILL.md) | Generate a formatted 80-column timesheet from GitHub activity for a date range. |
 | [`productivity/writing-great-skills`](productivity/writing-great-skills/SKILL.md) | Reference vocabulary and principles for writing predictable skills (user-invoked; type its name). Vendored from [mattpocock/skills](https://github.com/mattpocock/skills), MIT. |
@@ -79,14 +78,13 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 |---|---|
 | *"ship slice X"*, *"tracer bullet"*, *"refactor scan"*, *"Ralph review"*, *"deep module"* | [`slice-delivery`](engineering/slice-delivery/SKILL.md) |
 | *(user-invoked — type the name)* *"deliver multiple slices"*, *"execute v0.X"*, *"ship the remaining bullets"* | [`delivery-loop`](engineering/delivery-loop/SKILL.md) |
-| *"Linear"*, *"sub-issue"*, *"blocks/blocked-by"*, *"In Review"*, *"linear-sop audit"* | [`linear-sop`](engineering/linear-sop/SKILL.md) |
-| *"TD-SOP"*, *"Tech Dolphins"*, *"build-progress"*, *"td-sop-plan"*, *"td:closeout"* | [`td-sop`](engineering/td-sop/SKILL.md) |
 | *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
 | *"CI is failing"*, *"PR check"*, *"gh status"*, *"smallest fix"* | [`github-ci-triage`](engineering/github-ci-triage/SKILL.md) |
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
 | *"which model"*, *"spawn"*, *"subagent"*, *"delegate"*, *"escalate to bigger model"*, *"routing decision"* | [`model-routing`](engineering/model-routing/SKILL.md) |
 | *"DNS"*, *"Tailscale"*, *"gh failing"*, *"web_fetch failing"*, *"public-network"* | [`network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
+| *"file a ticket"*, *"create an issue"*, *"log a bug"*, *"write this up as a story"* | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) |
 | *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
 | *"timesheet"*, *"what did I work on"*, *"GitHub activity for the week"* | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
 | *(user-invoked — type the name)* *"writing-great-skills"*, *"how to write a skill"* | [`productivity/writing-great-skills`](productivity/writing-great-skills/SKILL.md) |
@@ -95,7 +93,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 
 ## 🧩 Composition (engineering)
 
-The engineering skills are deliberately **layered**, not flat. Operators have three entry points — two tracker SOPs (`linear-sop`, `td-sop`) and the optional autonomous `delivery-loop` — all of which fan into `slice-delivery`. `slice-delivery` owns per-slice execution and delegates PR mechanics to `pr-discipline`. Tactical skills are leaf utilities the higher layers call into.
+The engineering skills are deliberately **layered**, not flat. Operators have two entry points — invoking `slice-delivery` directly (one slice at a time) or the optional autonomous `delivery-loop`, which composes `slice-delivery` N times. `slice-delivery` owns per-slice execution and delegates PR mechanics to `pr-discipline`. Tactical skills are leaf utilities the higher layers call into.
 
 ```mermaid
 flowchart TD
@@ -106,8 +104,7 @@ flowchart TD
 
     subgraph EP["operator entry points"]
         direction LR
-        linear["**linear-sop**<br/>Linear tracker"]:::entry
-        td["**td-sop**<br/>Markdown + GH tracker"]:::entry
+        direct["**slice-delivery** (direct)<br/>one slice at a time"]:::entry
         loop["**delivery-loop** (optional)<br/>autonomous multi-slice"]:::entry
     end
 
@@ -115,14 +112,13 @@ flowchart TD
     pr["**pr-discipline**<br/>the loop + the safety rules"]:::pr
     tactical["**tactical**<br/>github-ci-triage · repo-hygiene · model-routing<br/>network-connectivity-troubleshoot · validate-infra-change"]:::tactical
 
-    linear --> slice
-    td --> slice
+    direct --> slice
     loop -. "composes N×" .-> slice
     slice --> pr
     pr --> tactical
 ```
 
-**How to read this.** Pick the highest layer that fits the task and let it delegate. Tracker SOPs hand off *directly* to `slice-delivery` (one slice at a time). `delivery-loop` is a **parallel** operator entry point — never auto-promoted from `slice-delivery` — that composes `slice-delivery` N times for autonomous multi-slice runs; it is not invoked by the tracker SOPs. Duplication across layers is a refactor trigger — not a feature.
+**How to read this.** Pick the highest layer that fits the task and let it delegate. `delivery-loop` is a **parallel** operator entry point — never auto-promoted from `slice-delivery` — that composes `slice-delivery` N times for autonomous multi-slice runs. Ad-hoc issue authoring (`productivity/create-tracker-issue`) sits outside this stack: it owns the content shape of a single issue, not delivery workflow. Duplication across layers is a refactor trigger — not a feature.
 
 > The ASCII version of this diagram lives in [`CLAUDE.md`](CLAUDE.md#composition-engineering) — that file is loaded into agent context as raw text where Mermaid would just be noise.
 
