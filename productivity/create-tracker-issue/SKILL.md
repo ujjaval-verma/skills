@@ -10,7 +10,7 @@ Author a terse, specific issue and file it in whichever tracker the environment 
 
 ## Template
 
-At most four sections, in this order. **Title + Acceptance Criteria is a valid complete issue.** An absent section beats an empty or padded one.
+A title plus at most four body sections, in this order. **Title + Acceptance Criteria is a valid complete issue.** An absent section beats an empty or padded one.
 
 | Section | Carries | Include when |
 |---|---|---|
