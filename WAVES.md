@@ -13,7 +13,7 @@ Two rules:
 
 **Goal.** Stop letting tracker SOPs duplicate per-slice execution discipline, and introduce a single autonomous multi-slice entry point so that operators with a runnable Definition-of-Done harness can ship without per-slice approval gates.
 
-**Cohort (5 skills, all carry `wave: 3`):**
+**Cohort (5 skills at the time; 3 still live and carry `wave: 3`, 2 removed 2026-07):**
 
 | Skill | Wave-3 change |
 |---|---|
