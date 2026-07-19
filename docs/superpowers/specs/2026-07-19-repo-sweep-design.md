@@ -94,6 +94,15 @@ Hard rules: never force-push `main`; never delete uncommitted work (no `checkout
 `clean`, or `reset --hard` on user changes); never rewrite pushed `main` history; commit
 messages end without AI attribution unless the repo's convention shows otherwise.
 
+> **Erratum (2026-07-19, implementation review):** the skills repo's `main` is
+> branch-protected (PR + linear history; no direct pushes — see CONTRIBUTING.md), so
+> "commits on `main`, pushed" cannot hold there as written. When origin rejects a push of
+> `main`, the sweep must not bypass protection: move those commits intact to a pushed
+> branch (`wip/YYYY-MM-DD`, or a PR branch when the work is ready), then set local `main`
+> back to `origin/main` only after the commits are safe on the pushed branch. Same rule
+> applies to wip-branch resolution ("merge into `main`") in protected repos — land via PR
+> instead.
+
 ## Error handling
 
 - Offline / fetch failure: skip repo, log, non-fatal.
