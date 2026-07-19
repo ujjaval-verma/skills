@@ -42,6 +42,7 @@ SOURCES=(
   "$UJJU_REPO/engineering/delivery-loop"
   "$UJJU_REPO/engineering/pr-discipline"
   "$UJJU_REPO/engineering/repo-hygiene"
+  "$UJJU_REPO/engineering/repo-sweep"
   "$UJJU_REPO/engineering/github-ci-triage"
 )
 
