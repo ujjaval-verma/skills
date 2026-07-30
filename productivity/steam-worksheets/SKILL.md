@@ -11,7 +11,10 @@ description: >-
   pack of practice pages. Trigger even if they don't say the word "worksheet"
   but clearly want a printable learning activity for a young kid. Handles inputs
   for level (difficulty), theme, topics, child's name, and number of activities.
-updated: 2026-06-15
+  Also covers dedicated handwriting practice — "letter tracing pages", "writing
+  practice", "big letters and numbers", "trace and write" sets — via a separate
+  generator that emits one A4 page per letter and per number.
+updated: 2026-07-29
 ---
 
 # STEAM Worksheets
@@ -82,6 +85,61 @@ Notes:
 
 Each run prints the level/theme/seed used — record the seed if the user might
 want that exact sheet again.
+
+## Handwriting practice (a second engine)
+
+For pure writing practice — "big letters and numbers, traced and free-hand" —
+use `scripts/handwriting.py` instead of `generate.py`. Same guarantees (A4,
+18 mm left margin, full colour, no glyph gaps), different sheet shape: big
+characters on three-line handwriting rules, a grey model to copy, a dashed
+outline to trace, and an empty ruled line to write free-hand.
+
+```bash
+cd <skill>/scripts
+uv run handwriting.py --out "<output folder>/Handwriting Practice.pdf"
+```
+
+Defaults give the whole alphabet plus digits: `--letters A-Z --numbers 0-9
+--case both --layout grid` → 62 characters, 12 per page in a 3×4 grid, 6 pages.
+Deliver the tricky-character set as its **own PDF**, not extra pages in the main
+one:
+
+```bash
+uv run handwriting.py --layout tricky \
+  --out "<output folder>/Handwriting Practice - Tricky Characters.pdf"
+```
+
+- `--layout grid` (default) — 12 characters a page: capitals, then small
+  letters, then digits. Two rows per cell (trace, then write). Cover page is
+  opt-in via `--cover`.
+- `--layout tricky` — a separate, dedicated set for the reversal-prone
+  characters: **4 a page** in a 2×2 grid, each with a spoken stroke cue
+  ("b: line down, then the ball in front"), a bigger trace row (model + 2
+  dashed) and **two** free-hand rows. Defaults to
+  `b,d,p,q,g,a,e,s,n,u,m,w,2,5,6,9` (look-alikes paired on the same page) →
+  4 pages; override with `--chars`. Cover is opt-in via `--cover`. Cues live in
+  `TRICKY_CUES` — add one whenever you add a character.
+- `--layout page` — one full page per letter and per number, with the key word
+  to trace, a draw box, dot-counting, and free-hand review pages at the end.
+  Ships a parent cover page unless `--no-cover`.
+- `--case upper|lower|both`, `--letters 'A-F,S,T'`, `--numbers '1-10'|none`
+  narrow the set; `--name` personalises the header; `--split` also writes one
+  single-page PDF per sheet.
+
+Every run prints the page count and **warns if any worksheet overflowed onto a
+second page** — one worksheet must be exactly one page, so treat that warning as
+a failure and shrink a row (`GRID_FS`) or drop a row before delivering.
+
+Engine notes (both are WeasyPrint quirks, don't "fix" them back):
+- Glyphs are SVG `<text>` with an explicit baseline, and those row SVGs carry
+  **no `viewBox`** — WeasyPrint mis-scales stroked text inside a viewBox.
+- `stroke-dasharray` on text with **more than one character** compresses glyph
+  advances, so multi-character strings (words, `10`) trace as solid hollow
+  outlines instead of dashed ones.
+- Rule positions come from measured Comic Sans MS metrics (`CAP`/`XH`/`DESC`).
+  The font stack prefers primary-school faces with a single-storey `a` and `g`;
+  if you change it, re-measure those three constants or the letters will float
+  off the rules.
 
 ## Levels (difficulty)
 
