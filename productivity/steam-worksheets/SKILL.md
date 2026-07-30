@@ -13,7 +13,8 @@ description: >-
   for level (difficulty), theme, topics, child's name, and number of activities.
   Also covers dedicated handwriting practice — "letter tracing pages", "writing
   practice", "big letters and numbers", "trace and write" sets — via a separate
-  generator that emits one A4 page per letter and per number.
+  generator whose default sheet packs 12 characters onto one A4 page (with
+  optional layouts for reversal-prone characters, or one full page per letter).
 updated: 2026-07-29
 ---
 

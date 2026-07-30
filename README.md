@@ -67,7 +67,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 | Skill | What it owns |
 |---|---|
 | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) | Tracker-agnostic ad-hoc issue authoring: terse user-story template (Objective / Context / Acceptance Criteria / Technical Notes), draft-then-create in Jira, Linear, GitHub Issues, or plain Markdown. |
-| [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners. |
+| [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners, plus handwriting-practice sets (trace and free-hand letters and numbers). |
 | [`productivity/timesheet`](productivity/timesheet/SKILL.md) | Generate a formatted 80-column timesheet from GitHub activity for a date range. |
 | [`productivity/writing-great-skills`](productivity/writing-great-skills/SKILL.md) | Reference vocabulary and principles for writing predictable skills (user-invoked; type its name). Vendored from [mattpocock/skills](https://github.com/mattpocock/skills), MIT. |
 

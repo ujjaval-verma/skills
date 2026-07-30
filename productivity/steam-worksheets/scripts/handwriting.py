@@ -9,8 +9,13 @@ Big letters and numbers on three-line handwriting rules: a solid grey model to
 copy, dashed outlines to trace, then empty ruled rows for free-hand writing.
 
 Usage:
-  uv run handwriting.py --out PATH.pdf [--name Asha] [--letters A-Z] \
-      [--numbers 0-10] [--case both|upper|lower] [--no-cover]
+  uv run handwriting.py --out PATH.pdf [--layout grid|tricky|page] [--name Asha] \
+      [--letters A-Z] [--numbers 0-10] [--case both|upper|lower] \
+      [--chars b,d,p,q] [--cover|--no-cover] [--no-review] [--split]
+
+Default layout is `grid`: 12 characters a page (capitals, small letters, digits).
+`tricky` gives 4 reversal-prone characters a page with spoken stroke cues;
+`page` gives one full page per letter and per number.
 
 Every glyph is drawn as SVG <text> with an explicit baseline, so the letters sit
 exactly on the rules. Font stack prefers primary-school print faces with a
@@ -43,7 +48,10 @@ LETTER_WORDS = {
     "G": "goat", "H": "hat", "I": "igloo", "J": "jam", "K": "kite", "L": "leaf",
     "M": "moon", "N": "nest", "O": "orange", "P": "pig", "Q": "queen",
     "R": "rain", "S": "sun", "T": "tree", "U": "umbrella", "V": "van",
-    "W": "web", "X": "box", "Y": "yak", "Z": "zip",
+    # every word must *start* with its letter — the page says "X is for ..." next
+    # to "draw something that starts with Xx", so "box"/"fox" would teach the
+    # wrong letter-sound pairing.
+    "W": "web", "X": "xylophone", "Y": "yak", "Z": "zip",
 }
 NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven",
                 "eight", "nine", "ten", "eleven", "twelve"]
@@ -361,6 +369,13 @@ GRID_CONTENTS = f"""<ul>
 empty ruled line underneath to write it free-hand.</li>
 </ul>"""
 
+TRICKY_CONTENTS = f"""<ul>
+<li><b>{TRICKY_COLS * TRICKY_ROWS} characters a page</b> &mdash; only the ones that
+are easy to flip or muddle, with the look-alikes side by side.</li>
+<li><b>Each box</b> has a spoken stroke cue to read out loud, a big grey model with
+two dashed copies to trace, and <b>two</b> empty ruled lines to write free-hand.</li>
+</ul>"""
+
 PAGE_CONTENTS = """<ul>
 <li><b>One page per letter</b> &mdash; big capital and small letter: a grey model to
 copy, dashed outlines to trace, an empty line to write on your own, the key word
@@ -371,15 +386,26 @@ then count the dots and write the number.</li>
 </ul>"""
 
 
-def cover_page(name, letters, numbers, layout="grid"):
+def cover_page(name, letters, numbers, layout="grid", chars=None):
+    """Parent cover. Describes the layout it is actually fronting — the tricky set
+    covers only `chars`, not the --letters/--numbers range the other layouts use."""
     who = f" for {escape(name)}" if name else ""
-    az = " ".join(letters) if letters else "&mdash;"
-    nums = " ".join(str(n) for n in numbers) if numbers else "&mdash;"
+    if layout == "tricky":
+        title, sub = f"Tricky Characters{who}", \
+            "The ones that are easy to flip &middot; trace and free-hand"
+        contents = TRICKY_CONTENTS
+        strip = " ".join(escape(c) for c in (chars or [])) or "&mdash;"
+    else:
+        title, sub = f"Handwriting Practice{who}", \
+            "Big letters and numbers &middot; trace and free-hand"
+        contents = GRID_CONTENTS if layout == "grid" else PAGE_CONTENTS
+        az = " ".join(letters) if letters else "&mdash;"
+        nums = " ".join(str(n) for n in numbers) if numbers else "&mdash;"
+        strip = f"Letters: {az}<br>Numbers: {nums}"
     return f"""<div class="page cover">
-{head(f"Handwriting Practice{who}", "Big letters and numbers &middot; trace and free-hand",
-      "A1", GRADS[0])}
+{head(title, sub, "A1", GRADS[0])}
 <div class="card"><h2>What is in this set</h2>
-{GRID_CONTENTS if layout == "grid" else PAGE_CONTENTS}</div>
+{contents}</div>
 <div class="card"><h2>How to use it</h2>
 <ul>
 <li>One page a day is plenty &mdash; about 10&ndash;15 minutes.</li>
@@ -391,7 +417,7 @@ page that is still wobbly.</li>
 <li>A4 with an 18&nbsp;mm left margin &mdash; punches cleanly into a ring binder.</li>
 </ul></div>
 <div class="card"><h2>In this set</h2>
-<div class="strip">Letters: {az}<br>Numbers: {nums}</div></div>
+<div class="strip">{strip}</div></div>
 <div class="foot"><div>Handwriting Practice &middot; print on A4, single-sided</div>
 <div>Made at home &middot; reprint any page as often as you like.</div></div>
 </div>"""
@@ -462,7 +488,7 @@ def build_html(name, letters, numbers, case, cover, review, layout="grid",
     so the caller can assert the rendered page count and catch any overflow."""
     pages = []
     if cover:
-        pages.append(cover_page(name, letters, numbers, layout))
+        pages.append(cover_page(name, letters, numbers, layout, chars))
 
     if layout == "tricky":
         per_page = TRICKY_COLS * TRICKY_ROWS
@@ -512,7 +538,8 @@ def main():
                    help="comma list of characters for --layout tricky "
                         f"(default '{TRICKY_DEFAULT}')")
     p.add_argument("--cover", action="store_true",
-                   help="add a parent cover page in front (grid layout omits it by default)")
+                   help="add a parent cover page in front (grid and tricky layouts "
+                        "omit it by default)")
     p.add_argument("--no-cover", action="store_true",
                    help="skip the parent cover page (page layout includes it by default)")
     p.add_argument("--no-review", action="store_true",
@@ -526,6 +553,11 @@ def main():
     if args.layout == "tricky":
         if not tricky:
             sys.exit("nothing to generate: --chars is empty")
+        # one glyph per cell: a longer token would render as a solid-outline string
+        # (see _dash) and carry no stroke cue, which is not what the sheet promises
+        bad = [c for c in tricky if len(c) != 1]
+        if bad:
+            sys.exit(f"--chars takes single characters; got {', '.join(bad)}")
     elif not letters and not numbers:
         sys.exit("nothing to generate: --letters and --numbers are both empty")
 
