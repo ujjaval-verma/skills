@@ -1,7 +1,7 @@
 ---
 name: create-tracker-issue
-description: Draft and file a terse, well-shaped issue in whatever tracker is at hand (Jira, Linear, GitHub Issues, …). Use for ad-hoc issue creation — "file a ticket", "create an issue", "log a bug", "write this up as a story" — outside any delivery workflow.
-updated: 2026-07-17
+description: Draft and file a terse, well-shaped issue in whatever tracker is at hand (Jira, Linear, GitHub Issues, …). Invoke only on an explicit request for ad-hoc issue creation — "/create-tracker-issue", "file a ticket", "create an issue", "log a bug", "write this up as a story" — never as a side effect of a delivery workflow or when issue-shaped work is merely discussed.
+updated: 2026-08-05
 ---
 
 # Create tracker issue
