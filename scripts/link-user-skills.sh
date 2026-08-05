@@ -44,6 +44,8 @@ SOURCES=(
   "$UJJU_REPO/engineering/repo-hygiene"
   "$UJJU_REPO/engineering/repo-sweep"
   "$UJJU_REPO/engineering/github-ci-triage"
+  # this repo — productivity
+  "$UJJU_REPO/productivity/create-tracker-issue"
 )
 
 # Previously-installed (or plausibly-installed) skills now off-roster;
