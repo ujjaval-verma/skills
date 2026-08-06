@@ -88,7 +88,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
 | *"file a ticket"*, *"create an issue"*, *"log a bug"*, *"write this up as a story"* | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) |
 | *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
-| *"timesheet"*, *"what did I work on"*, *"GitHub activity for the week"* | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
+| *"/timesheet"*, *"generate a timesheet"*, *"what did I work on last week"* (explicit ask only) | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
 | *(user-invoked — type the name)* *"writing-great-skills"*, *"how to write a skill"* | [`productivity/writing-great-skills`](productivity/writing-great-skills/SKILL.md) |
 | *"analyze this Figma"*, *".fig file"*, *"design export"* | [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) |
 | *"product inception"*, *"turn this design into a spec"* | [`product/product-inception`](product/product-inception/SKILL.md) |

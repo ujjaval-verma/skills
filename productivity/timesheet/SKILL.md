@@ -1,6 +1,7 @@
 ---
 name: timesheet
-description: Use when generating a work timesheet from GitHub activity for a date range, optionally scoped to a specific repo or org. Triggered by: "timesheet", "show my work", "what did I work on", "generate timesheet", date range questions about GitHub activity.
+description: Generate a formatted 80-column work timesheet from GitHub activity for a date range, optionally scoped to a repo or org. Invoke only on an explicit request — "/timesheet", "generate a timesheet", "what did I work on last week" — never as a side effect of summarising activity, reviewing commits, or answering questions about a repo's history.
+updated: 2026-08-05
 ---
 
 # Timesheet
