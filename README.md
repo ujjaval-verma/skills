@@ -51,7 +51,6 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 | [`engineering/network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) | Diagnose public-network, DNS, `gh`, or Tailscale connectivity failures. |
 | [`engineering/pr-discipline`](engineering/pr-discipline/SKILL.md) | PR iteration loop + merge safety: open → watch CI → fix → merge, branch protection, lockfiles, auto-merge, force-pushes, stuck PRs. |
 | [`engineering/repo-hygiene`](engineering/repo-hygiene/SKILL.md) | Safely inspect stale branches, worktrees, and cleanup candidates. |
-| [`engineering/repo-sweep`](engineering/repo-sweep/SKILL.md) | Autonomous scheduled sweep of one repo: resolve `wip/*` branches, group uncommitted work into coherent commits, triage ready→`main` vs doubtful→`wip/YYYY-MM-DD`, verify, push. |
 | [`engineering/slice-delivery`](engineering/slice-delivery/SKILL.md) | Tracker-agnostic vertical-slice execution: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review, slice lifecycle. |
 | [`engineering/validate-infra-change`](engineering/validate-infra-change/SKILL.md) | Safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths. |
 
@@ -82,7 +81,6 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
 | *"CI is failing"*, *"PR check"*, *"gh status"*, *"smallest fix"* | [`github-ci-triage`](engineering/github-ci-triage/SKILL.md) |
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
-| *(headless — invoked as `/repo-sweep` by the scheduled sweep job)*, *"sweep uncommitted work into commits"* | [`repo-sweep`](engineering/repo-sweep/SKILL.md) |
 | *"which model"*, *"spawn"*, *"subagent"*, *"delegate"*, *"escalate to bigger model"*, *"routing decision"* | [`model-routing`](engineering/model-routing/SKILL.md) |
 | *"DNS"*, *"Tailscale"*, *"gh failing"*, *"web_fetch failing"*, *"public-network"* | [`network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
