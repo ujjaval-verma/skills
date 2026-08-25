@@ -22,7 +22,6 @@ import datetime as dt
 import glob
 import json
 import os
-import sys
 
 UTC = dt.timezone.utc
 
@@ -50,9 +49,10 @@ def parse_date(s, end=False):
 
 
 def lookup(model, prices):
-    for key, val in prices.items():
-        if model.startswith(key):
-            return val
+    """Longest-prefix match; also tolerates partner-style ids (us.anthropic.claude-opus-5-v1)."""
+    for key in sorted(prices, key=len, reverse=True):
+        if key in model:
+            return prices[key]
     return None
 
 
@@ -60,10 +60,13 @@ def aggregate(root, start, end):
     agg = collections.defaultdict(lambda: [0, 0, 0, 0, 0])  # in, out, cw, cr, reqs
     seen = set()
     for path in glob.glob(os.path.join(root, "**", "*.jsonl"), recursive=True):
-        if os.path.getmtime(path) < start.timestamp():
+        try:
+            if os.path.getmtime(path) < start.timestamp():
+                continue  # mtime pre-filter; assumes mtime >= last write (true unless files were copied with preserved times)
+        except OSError:
             continue
         with open(path, errors="ignore") as fh:
-            for line in fh:
+            for lineno, line in enumerate(fh):
                 try:
                     d = json.loads(line)
                 except ValueError:
@@ -78,9 +81,15 @@ def aggregate(root, start, end):
                     t = dt.datetime.fromisoformat(d.get("timestamp", "").replace("Z", "+00:00"))
                 except ValueError:
                     continue
+                if t.tzinfo is None:
+                    t = t.replace(tzinfo=UTC)
                 if not (start <= t <= end):
                     continue
-                key = (m.get("id"), d.get("requestId"))
+                # Dedup only when both ids are present; otherwise every line is its own request.
+                if m.get("id") and d.get("requestId"):
+                    key = (m["id"], d["requestId"])
+                else:
+                    key = (path, lineno)
                 if key in seen:
                     continue
                 seen.add(key)
@@ -96,6 +105,8 @@ def aggregate(root, start, end):
 def fmt_tokens(n):
     if n == 0:
         return "~0"
+    if n >= 1e9:
+        return f"{n / 1e9:.2f}G"
     if n >= 1e6:
         return f"{n / 1e6:.2f}M" if n < 10e6 else f"{n / 1e6:.1f}M"
     if n >= 1e3:
@@ -103,7 +114,7 @@ def fmt_tokens(n):
     return f"{n:,}"
 
 
-def box(headers, rows, align_first_center=True):
+def box(headers, rows):
     widths = [max(len(str(r[i])) for r in [headers] + rows) for i in range(len(headers))]
     def line(l, m, r):
         return l + m.join("─" * (w + 2) for w in widths) + r
@@ -116,7 +127,9 @@ def box(headers, rows, align_first_center=True):
     lines = [line("┌", "┬", "┐"), cells(headers, center=True), line("├", "┼", "┤")]
     for i, r in enumerate(rows):
         lines.append(cells(r))
-        lines.append(line("├", "┼", "┤") if i < len(rows) - 1 else line("└", "┴", "┘"))
+        if i < len(rows) - 1:
+            lines.append(line("├", "┼", "┤"))
+    lines.append(line("└", "┴", "┘"))
     return "\n".join(lines)
 
 
@@ -129,17 +142,29 @@ def main():
     args = ap.parse_args()
 
     now = dt.datetime.now(UTC)
-    start = parse_date(args.start) if args.start else (now - dt.timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0)
-    end = parse_date(args.end, end=True) if args.end else now
-    prices = DEFAULT_PRICES
+    try:
+        start = parse_date(args.start) if args.start else (now - dt.timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0)
+        end = parse_date(args.end, end=True) if args.end else now
+    except ValueError as e:
+        ap.error(f"dates must be YYYY-MM-DD: {e}")
+    if start > end:
+        ap.error(f"START ({start:%Y-%m-%d}) is after END ({end:%Y-%m-%d})")
+    prices = dict(DEFAULT_PRICES)  # --prices merges onto (never replaces) the defaults
     if args.prices:
-        with open(args.prices) as fh:
-            prices = {k: tuple(v) for k, v in json.load(fh).items()}
+        try:
+            with open(args.prices) as fh:
+                overrides = json.load(fh)
+            for k, v in overrides.items():
+                if not (isinstance(v, list) and len(v) == 3):
+                    raise ValueError(f"{k}: expected [name, input_per_M, output_per_M]")
+                prices[k] = (v[0], float(v[1]), float(v[2]))
+        except (OSError, ValueError) as e:
+            ap.error(f"--prices: {e}")
 
     agg = aggregate(args.root, start, end)
     priced = [(k, v, lookup(k, prices)) for k, v in agg.items()]
     unknown = [k for k, v, p in priced if p is None and k != "<synthetic>"]
-    priced = [(k, v, p) for k, v, p in priced if p]
+    priced = [(k, v, p) for k, v, p in priced if p is not None]
 
     label_end = "now" if not args.end else end.strftime("%a %d %b")
     window = f"{start.strftime('%a %d %b')} → {label_end}"
@@ -161,15 +186,17 @@ def main():
         ))
     entries.sort(key=lambda e: -e[0])  # most expensive model first, same order in both tables
     usage_rows = [e[1] for e in entries]
-    cost_rows = [e[2] for e in entries] + [["All models", "", "", "", "", f"≈ ${total_5m:,.0f}"]]
+    cost_rows = [e[2] for e in entries] + [["All models", "", "", "", "", f"${total_5m:,.2f}"]]
 
     print(f"Token usage ({window})\n")
     print(box(["Model", "Requests", "Input", "Output", "Cache write", "Cache read"], usage_rows))
-    print(f"\nEstimated API cost (5-minute cache pricing)\n")
+    print("\nEstimated API cost (5-minute cache pricing)\n")
     print(box(["Model", "Input", "Output", "Cache write", "Cache read", "Total"], cost_rows))
-    print(f"\n1-hour cache TTL upper bound: ≈ ${total_1h:,.0f}")
+    print(f"\n1-hour cache TTL upper bound: ${total_1h:,.2f}")
     if unknown:
-        print(f"Unpriced models skipped: {', '.join(unknown)}", file=sys.stderr)
+        print(f"WARNING — unpriced models excluded from both tables: {', '.join(unknown)}")
+    if not entries:
+        print("No priced usage found in this window.")
 
 
 if __name__ == "__main__":

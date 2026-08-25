@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/skills-14-purple?style=flat-square" alt="14 skills"/>
+  <img src="https://img.shields.io/badge/skills-16-purple?style=flat-square" alt="16 skills"/>
   <img src="https://img.shields.io/badge/format-SKILL.md-success?style=flat-square" alt="SKILL.md format"/>
   <img src="https://img.shields.io/badge/branch--protected-main-green?style=flat-square" alt="main is branch-protected"/>
   <img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs welcome"/>
@@ -21,7 +21,7 @@
   <a href="CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-<p align="center"><sub><b>14 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
+<p align="center"><sub><b>16 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
 
 </div>
 

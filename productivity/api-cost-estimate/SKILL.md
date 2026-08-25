@@ -24,13 +24,14 @@ Two box-drawn tables — per-model token usage and per-model estimated cost — 
 python3 <skill-dir>/scripts/estimate.py [START] [END]
 ```
 
-`<skill-dir>` is the directory holding this `SKILL.md`. The script needs only the standard library and reads `~/.claude/projects/**/*.jsonl` (assistant turns only, deduped by message id + request id — retries and streamed partials are not double-counted).
+`<skill-dir>` is the directory holding this `SKILL.md`. The script needs only the standard library and reads `~/.claude/projects/**/*.jsonl` (override with `--root`). It counts assistant turns only, deduped by message id + request id so a streamed response logged across several lines is counted once; API retries carry fresh ids and are counted (as they are billed). Files whose mtime predates the window are skipped — if `~/.claude` was restored or copied with preserved timestamps, results may undercount.
 
 ## Step 2 — Check the pricing table
 
 Rates are hard-coded in `DEFAULT_PRICES` inside the script (USD per 1M tokens; cache write = 1.25× input for the 5-minute TTL, cache read = 0.1× input). Before reporting:
 
-- If the `claude-api` skill is available, compare its model/pricing table against `DEFAULT_PRICES`. On a mismatch, or a model the script reports as *unpriced*, pass a corrected table via `--prices prices.json` (`{"model-prefix": ["Display name", input, output]}`) and note the correction in the reply. Update `DEFAULT_PRICES` in the same PR if the change is durable.
+- If the `claude-api` skill is available, compare its model/pricing table against `DEFAULT_PRICES`. On a mismatch, or a model the script reports as *unpriced*, pass overrides via `--prices prices.json` (`{"model-prefix": ["Display name", input, output]}`; entries merge onto the built-in table, so list only what changed) and note the correction in the reply. Update `DEFAULT_PRICES` in the same PR if the change is durable.
+- A `WARNING — unpriced models excluded` line in the output means the tables understate the total; price those models before reporting.
 - Never guess a rate from memory.
 
 ## Step 3 — Report
