@@ -49,7 +49,7 @@ def parse_date(s, end=False):
 
 
 def lookup(model, prices):
-    """Longest-prefix match; also tolerates partner-style ids (us.anthropic.claude-opus-5-v1)."""
+    """Longest-key containment match; also tolerates partner-style ids (us.anthropic.claude-opus-5-v1)."""
     for key in sorted(prices, key=len, reverse=True):
         if key in model:
             return prices[key]
@@ -145,7 +145,7 @@ def main():
     try:
         start = parse_date(args.start) if args.start else (now - dt.timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0)
         end = parse_date(args.end, end=True) if args.end else now
-    except ValueError as e:
+    except (ValueError, OverflowError) as e:
         ap.error(f"dates must be YYYY-MM-DD: {e}")
     if start > end:
         ap.error(f"START ({start:%Y-%m-%d}) is after END ({end:%Y-%m-%d})")
@@ -154,17 +154,28 @@ def main():
         try:
             with open(args.prices) as fh:
                 overrides = json.load(fh)
+            if not isinstance(overrides, dict):
+                raise ValueError("top-level value must be an object")
             for k, v in overrides.items():
                 if not (isinstance(v, list) and len(v) == 3):
                     raise ValueError(f"{k}: expected [name, input_per_M, output_per_M]")
                 prices[k] = (v[0], float(v[1]), float(v[2]))
-        except (OSError, ValueError) as e:
+        except (OSError, ValueError, TypeError) as e:
             ap.error(f"--prices: {e}")
 
     agg = aggregate(args.root, start, end)
-    priced = [(k, v, lookup(k, prices)) for k, v in agg.items()]
-    unknown = [k for k, v, p in priced if p is None and k != "<synthetic>"]
-    priced = [(k, v, p) for k, v, p in priced if p is not None]
+    # Merge raw ids that resolve to one price entry (e.g. dated and undated variants).
+    merged, unknown = {}, []
+    for k, v in agg.items():
+        p = lookup(k, prices)
+        if p is None:
+            if k != "<synthetic>":
+                unknown.append(k)
+            continue
+        acc = merged.setdefault(p[0], [[0, 0, 0, 0, 0], p])[0]
+        for i in range(5):
+            acc[i] += v[i]
+    priced = [(name, v, p) for name, (v, p) in merged.items()]
 
     label_end = "now" if not args.end else end.strftime("%a %d %b")
     window = f"{start.strftime('%a %d %b')} → {label_end}"
