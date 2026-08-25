@@ -66,6 +66,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 
 | Skill | What it owns |
 |---|---|
+| [`productivity/api-cost-estimate`](productivity/api-cost-estimate/SKILL.md) | Per-model token usage and pay-as-you-go API-equivalent cost of local Claude Code sessions for a date window (default last 7 days). |
 | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) | Tracker-agnostic ad-hoc issue authoring: terse user-story template (Objective / Context / Acceptance Criteria / Technical Notes), draft-then-create in Jira, Linear, GitHub Issues, or plain Markdown. |
 | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners, plus handwriting-practice sets (trace and free-hand letters and numbers). |
 | [`productivity/timesheet`](productivity/timesheet/SKILL.md) | Generate a formatted 80-column timesheet from GitHub activity for a date range. |
@@ -86,6 +87,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"which model"*, *"spawn"*, *"subagent"*, *"delegate"*, *"escalate to bigger model"*, *"routing decision"* | [`model-routing`](engineering/model-routing/SKILL.md) |
 | *"DNS"*, *"Tailscale"*, *"gh failing"*, *"web_fetch failing"*, *"public-network"* | [`network-connectivity-troubleshoot`](engineering/network-connectivity-troubleshoot/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
+| *"/api-cost-estimate"*, *"what would this week have cost on the API"* (explicit ask only) | [`productivity/api-cost-estimate`](productivity/api-cost-estimate/SKILL.md) |
 | *"file a ticket"*, *"create an issue"*, *"log a bug"*, *"write this up as a story"* | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) |
 | *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
 | *"/timesheet"*, *"generate a timesheet"*, *"what did I work on last week"* (explicit ask only) | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
