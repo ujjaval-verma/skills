@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+  :root{
+    --paper:#ffffff; --ink:#191d1a; --ink-soft:#4a534c; --ink-faint:#7a847c;
+    --line:#e3e7e2; --line-strong:#c9cfc8; --panel:#f6f8f5;
+    --accent:#14532d; --accent-soft:#e6efe8;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  html{background:var(--paper)}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+  .page{max-width:820px;margin:0 auto;padding:48px 28px 64px}
+  header{border-bottom:2px solid var(--accent);padding-bottom:18px;margin-bottom:8px}
+  h1{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+  .meta{color:var(--ink-soft);font-size:13.5px;line-height:1.6}
+  .meta b{color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:22px 0 6px;font-size:14px}
+  th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);padding:10px 12px;border-bottom:1px solid var(--line-strong)}
+  td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+  td.date{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--ink-soft)}
+  td.hours{font-family:var(--mono);font-size:13px;text-align:right;white-space:nowrap}
+  th.hours{text-align:right}
+  tr.total td{border-top:2px solid var(--accent);border-bottom:none;font-weight:600;background:var(--accent-soft)}
+  tr.total td.hours{color:var(--accent)}
+  .note{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--ink-soft);line-height:1.6;margin-top:20px}
+  .note code{font-family:var(--mono);font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  .note ul{margin:6px 0 0;padding-left:18px}
+  @media print{.page{padding:0}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Work Timesheet — {{ENGAGEMENT}}</h1>
+    <div class="meta">
+      <b>Period:</b> {{PERIOD}} &nbsp;·&nbsp;
+      <b>Person:</b> {{PERSON}} &nbsp;·&nbsp;
+      <b>Repos:</b> {{REPOS}}<br>
+      <b>Scope:</b> {{SCOPE}}
+    </div>
+  </header>
+
+  <table>
+    <thead>
+      <tr><th>Date</th><th class="hours">Hours</th><th>Work Summary</th></tr>
+    </thead>
+    <tbody>
+      <!-- one row per day, ascending by date:
+      <tr>
+        <td class="date">YYYY-MM-DD</td><td class="hours">H.H</td>
+        <td>Narrative for the day.</td>
+      </tr>
+      -->
+      {{ROWS}}
+      <tr class="total">
+        <td class="date">Total</td><td class="hours">{{TOTAL}}</td><td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>Method &amp; parameters used for this run</b>
+    <ul>
+      <li><code>skip-non-code-effort: {{SKIP_NON_CODE}}</code> — {{SKIP_NON_CODE_MEANING}}</li>
+      <li>Sources: {{SOURCES}}</li>
+      <li>Code commits in the period: <b>{{COMMIT_COUNT}}</b>. {{EVIDENCE_NOTE}}</li>
+      <li>{{EXCLUSIONS}}</li>
+      <li>Hours are judgment estimates from activity volume; days with no activity ({{EMPTY_DAYS}}) are omitted.</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
