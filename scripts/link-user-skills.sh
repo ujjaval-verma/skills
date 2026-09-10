@@ -47,6 +47,7 @@ SOURCES=(
   # this repo — productivity
   "$UJJU_REPO/productivity/create-tracker-issue"
   "$UJJU_REPO/productivity/timesheet"
+  "$UJJU_REPO/productivity/sanitize-transcript"
 )
 
 # Previously-installed (or plausibly-installed) skills now off-roster;
