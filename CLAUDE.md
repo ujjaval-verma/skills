@@ -11,7 +11,7 @@ This repo holds reusable, repo-agnostic AgentSkills: one `SKILL.md` per skill un
 <category>/<skill-name>/scripts/      # optional, only if SKILL.md references a script the agent will execute
 <category>/<skill-name>/references/   # optional, docs SKILL.md links to (read on demand)
 <category>/<skill-name>/assets/       # optional, templates or static files SKILL.md references (e.g. product-inception)
-scripts/                              # repo-level tooling (not skill-specific)
+scripts/                              # repo-level tooling (not skill-specific); lint-skills.sh is the CI lint
 ```
 
 Categories: `engineering/`, `product/`, `productivity/`. Folder names are hyphen-case and match `name:`; add/rename/delete in one PR so they never drift.

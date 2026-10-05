@@ -8,7 +8,7 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
 
 1. **One concern per PR.** Add one skill, rename one skill, or fix one bug — not all three. Small PRs land; large ones rot.
 2. **Branch protection is on.** `main` requires a pull request and a linear history. No direct pushes, no force-pushes, no branch deletions.
-3. **No secrets, no private paths.** No tokens, internal hostnames, user home directories, or repo-specific assumptions unless the skill is explicitly scoped to that repo. See [README → What not to include](README.md#what-not-to-include).
+3. **No secrets, no private paths.** No tokens, internal hostnames, user home directories, or repo-specific assumptions unless the skill is explicitly scoped to that repo. See [README → What not to include](README.md#-what-not-to-include).
 4. **Follow Conventional Commits.** Scope by category or skill name: `feat(slice-delivery): …`, `docs(readme): …`, `refactor(repo-hygiene): …`. See `git log` for examples.
 5. **Adversarial review for non-trivial changes.** Any change beyond a typo, link fix, or single-line config tweak must show an adversarial review trail before merge. See [`CLAUDE.md` → Adversarial review (Ralph) — contract](CLAUDE.md#adversarial-review-ralph--contract).
 
@@ -41,11 +41,12 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
 git checkout -b <kebab-case-branch>
 # edit
 git commit -m "feat(<scope>): <imperative summary>"
+bash scripts/lint-skills.sh   # names, updated:, README index, relative links
 git push -u origin HEAD
 gh pr create --fill
 ```
 
-CI is lightweight today (social enforcement); future lint may enforce frontmatter shape. Don't bypass hooks or branch protection.
+CI runs `scripts/lint-skills.sh` (names, `updated:`, README index, relative links); run it before opening a PR. Don't bypass hooks or branch protection.
 
 ## Reporting issues
 
