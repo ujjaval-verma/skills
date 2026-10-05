@@ -78,7 +78,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 |---|---|
 | *"ship slice X"*, *"tracer bullet"*, *"refactor scan"*, *"Ralph review"*, *"deep module"* | [`slice-delivery`](engineering/slice-delivery/SKILL.md) |
 | *(user-invoked — type the name)* *"deliver multiple slices"*, *"execute v0.X"*, *"ship the remaining bullets"* | [`delivery-loop`](engineering/delivery-loop/SKILL.md) |
-| *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
+| *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"*, *"CI is red on main"*, *"why is this check failing"*, *"is this flaky"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
 | *"/api-cost-estimate"*, *"what would this week have cost on the API"* (explicit ask only) | [`productivity/api-cost-estimate`](productivity/api-cost-estimate/SKILL.md) |

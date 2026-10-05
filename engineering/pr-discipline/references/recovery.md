@@ -77,8 +77,6 @@ Before editing branch protection, default branch, merge methods, repo visibility
 4. **Change one policy dimension per operation** so each is reversible.
 5. **Keep visibility private unless the user explicitly confirms public.** Some workflows appear to require public (GitHub features like Pages on free tier); if you see that prompt, stop and ask.
 
-Weaken a setting to land a PR only when the user explicitly approves and understands the risk.
-
 ## Stuck PR checklist
 
 1. List open PRs (`gh pr list --author @me --state open --json number,title,mergeStateStatus,statusCheckRollup`).

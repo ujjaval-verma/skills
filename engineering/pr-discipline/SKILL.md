@@ -6,34 +6,34 @@ updated: 2026-10-04
 
 # PR Discipline
 
-Prefer slow correct merges over fast broken `main`. Repo-agnostic; repo-specific gates live in the repo's `CLAUDE.md`. Per-slice rigor (tracer bullets, TDD, adversarial review) belongs to `slice-delivery`. Procedures for CI failures (on a PR, `main`, or any branch), required-check changes, auto-merge, lockfile regeneration, content conflicts, repo-settings edits, and stuck/DIRTY PRs live in [references/recovery.md](references/recovery.md); read it when one of them appears.
+Prefer slow correct merges over fast broken `main`. Repo-agnostic; repo-specific gates live in the repo's `CLAUDE.md`. Per-slice rigor belongs to `slice-delivery`. Procedures for CI failures (on a PR, `main`, or any branch), required-check changes, auto-merge, lockfile regeneration, content conflicts, repo-settings edits, and stuck/DIRTY PRs live in [references/recovery.md](references/recovery.md); read it when one of them appears.
 
 ## Definition of "shipped"
 
-This is the canonical definition for the whole skills repo; other skills defer here. A change is **shipped** when both hold:
+Other skills defer to this definition. A change is **shipped** when both hold:
 
 1. The PR is `MERGED` (`gh pr view <n> --json state`).
 2. CI on the merge commit on the target branch is green (`gh run list --branch <base> --commit <merge_sha>`).
 
-Local `HEAD` green is not sufficient. Armed auto-merge is not shipped: confirm `MERGED` within ~15 minutes of the gate clearing, and chase if it hasn't landed.
+Local `HEAD` green is not sufficient; don't report a change as shipped, merged, or done until both hold. Armed auto-merge is not shipped: confirm `MERGED` within ~15 minutes of the gate clearing, and chase if it hasn't landed.
 
 ## Safety
 
-- **Never weaken a test or protection to get green.** No loosened assertions, skipped tests, or relaxed branch protection; fix the first real cause.
+- **Never weaken a test to get green.** No loosened assertions or skipped tests; fix the first real cause with the smallest change that preserves the test's intent. Relaxing a protection setting needs explicit user approval.
 - **Fix a broken pre-commit/pre-push hook in a separate commit** with a one-line rationale, then retry; don't bypass it. A bypass needs explicit user authorization and a note in the PR body.
 - **Required checks go producer-first.** Never make a check required before its producing workflow is on the base branch and has run green.
 - **Check flake history before re-running a red check.** A single red is not a flake.
-- **Stop and ask** before changing branch protection, required checks, or repo visibility, and before merging a high-risk PR without independent review.
+- **Stop and ask** before changing branch protection, required checks, or repo visibility, before force-pushing a branch someone else has pushed to, and before merging a high-risk PR without independent review.
 
 ## Iteration loop
 
 - Branch names carry the scope: `feat/<slice-id>-<slug>`, `fix/<slice-id>-<slug>`, `refactor/<area>-<slug>`.
 - Concurrent agents or people on one repo each get their own `git worktree`, at a repo-adjacent or user-approved path rather than a temp directory.
-- One concern per commit, per `slice-delivery`; a refactor surfaced mid-iteration lands as its own commit. Justify generated or lockfile changes in the commit body.
+- Justify generated or lockfile changes in the commit body.
 - Non-trivial PRs get the adversarial (Ralph) review per `slice-delivery`.
 - Arm auto-merge only after checks are green and branch-protection state is understood.
 
 ## Related skills
 
-- `slice-delivery` delegates PR mechanics here; the adversarial review loop lives there.
+- `slice-delivery` delegates PR mechanics here.
 - `repo-hygiene` handles post-merge worktree and branch cleanup.
