@@ -46,7 +46,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 | Skill | What it owns |
 |---|---|
 | [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: operator-supplied Definition of Done as required input, pre-flight slice queue, per-slice T0 spec-review gate, per-slice subagent dispatch, hard pause conditions, final DOD gate. |
-| [`engineering/pr-discipline`](engineering/pr-discipline/SKILL.md) | PR iteration loop + merge safety: open → watch CI → fix → merge, branch protection, lockfiles, auto-merge, force-pushes, stuck PRs. |
+| [`engineering/pr-discipline`](engineering/pr-discipline/SKILL.md) | PR safety rails and recovery: shipped definition, red-CI triage, branch protection, lockfiles, auto-merge, force-pushes, stuck PRs. |
 | [`engineering/repo-hygiene`](engineering/repo-hygiene/SKILL.md) | Safely inspect stale branches, worktrees, and cleanup candidates. |
 | [`engineering/slice-delivery`](engineering/slice-delivery/SKILL.md) | Tracker-agnostic vertical-slice execution: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review, slice lifecycle. |
 | [`engineering/validate-infra-change`](engineering/validate-infra-change/SKILL.md) | Safely live-smoke Kubernetes/IaC PR changes in dev/staging while preserving GitOps ownership and rollback paths. |

@@ -11,7 +11,7 @@ When CI is red or stuck, on a PR, `main`, or any other branch, classify before r
 | **FAILURE** | Check completed with non-success conclusion. | Fetch logs (`gh run view <run-id> --log-failed`), find the first real error, reproduce locally, fix in a new commit. |
 | **CANCELLED** | Check was cancelled. | Determine whether superseded by a newer run. If yes, ignore. If no, investigate why. |
 | **PENDING (excessive)** | Check pending for far longer than its usual duration. | Check runner capacity, required-check naming, missing producer workflow. |
-| **DIRTY / CONFLICT** | `mergeStateStatus: DIRTY` or merge conflict markers. | Rebase or merge the base branch, resolve, force-push with lease. See *Lockfile conflicts* or *Real content conflicts* below depending on file type. |
+| **DIRTY / CONFLICT** | `mergeStateStatus: DIRTY` or merge conflict markers. | Rebase or merge the base branch, resolve, force-push with lease (own branch only; ask first if others have pushed to it). See *Lockfile conflicts* or *Real content conflicts* below depending on file type. |
 | **MISSING REQUIRED** | A required check is not running because the producer workflow doesn't exist or wasn't triggered. | Per *Required-check changes* below — fix the producer; don't drop the requirement. |
 | **FLAKE** | Failure with strong evidence (history, known issue) of non-determinism. | Re-run only per the flake-history rule in the skill body. Address the flake itself in a separate PR. |
 

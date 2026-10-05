@@ -19,7 +19,7 @@ Local `HEAD` green is not sufficient; don't report a change as shipped, merged, 
 
 ## Safety
 
-- **Never weaken a test to get green.** No loosened assertions or skipped tests; fix the first real cause with the smallest change that preserves the test's intent. Relaxing a protection setting needs explicit user approval.
+- **Never weaken a test or protection to get green.** No loosened assertions, skipped tests, or relaxed protection; fix the first real cause with the smallest change that preserves the test's intent.
 - **Fix a broken pre-commit/pre-push hook in a separate commit** with a one-line rationale, then retry; don't bypass it. A bypass needs explicit user authorization and a note in the PR body.
 - **Required checks go producer-first.** Never make a check required before its producing workflow is on the base branch and has run green.
 - **Check flake history before re-running a red check.** A single red is not a flake.
