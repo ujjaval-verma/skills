@@ -25,7 +25,7 @@ Local `HEAD` green is not sufficient; don't report a change as shipped, merged, 
 - **Check flake history before re-running a red check.** A single red is not a flake.
 - **Stop and ask** before changing branch protection, required checks, or repo visibility, before force-pushing a branch someone else has pushed to, and before merging a high-risk PR without independent review.
 
-## Iteration loop
+## Branch and PR conventions
 
 - Branch names carry the scope: `feat/<slice-id>-<slug>`, `fix/<slice-id>-<slug>`, `refactor/<area>-<slug>`.
 - Concurrent agents or people on one repo each get their own `git worktree`, at a repo-adjacent or user-approved path rather than a temp directory.
