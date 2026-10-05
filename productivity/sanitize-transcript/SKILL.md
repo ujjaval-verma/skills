@@ -16,7 +16,7 @@ Turn a raw speech-to-text transcript into a clean, complete, readable one. The *
 
 - Input: a path to a plain-text or Markdown file (preferred), or the transcript pasted inline. Turns are `Speaker: text` lines; any label style works (`Dana Reyes:`, `Alex Kim (You):`, `[Sam]:`, `Speaker 1 (00:12):`). Subtitle formats (`.vtt`, `.srt`) are not accepted; convert them to `Speaker: text` first.
 - `--names`: glossary of proper-noun corrections the operator already knows (`Acmee=Acme`). Applied verbatim; overrides the subagent's own guesses.
-- `--model`: subagent model. Default `opus`; the task is long-form fidelity, so use a strong model. See `model-routing` when overriding.
+- `--model`: subagent model. Default `opus`; the task is long-form fidelity, so use a strong model.
 
 ## Scope
 
@@ -84,7 +84,3 @@ Send `$OUT` to the user (SendUserFile or equivalent when available; otherwise st
 | "Tightening" verbose answers while removing fillers | Out of scope. Fillers go; the speaker's sentences stay. |
 | Silently guessing proper nouns | Every change goes in the Normalisations footer; unsure means leave it. |
 | Declaring success on the subagent's word | Re-run the gates yourself before delivering. |
-
-## Related skills
-
-- `model-routing` — choosing the subagent model when overriding the default.
