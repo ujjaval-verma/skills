@@ -118,8 +118,6 @@ flowchart TD
 
 **How to read this.** Pick the highest layer that fits the task and let it delegate. `delivery-loop` is a **parallel** operator entry point — never auto-promoted from `slice-delivery` — that composes `slice-delivery` N times for autonomous multi-slice runs. Ad-hoc issue authoring (`productivity/create-tracker-issue`) sits outside this stack: it owns the content shape of a single issue, not delivery workflow. Duplication across layers is a refactor trigger — not a feature.
 
-> The ASCII version of this diagram lives in [`CLAUDE.md`](CLAUDE.md#composition-engineering) — that file is loaded into agent context as raw text where Mermaid would just be noise.
-
 ## 🧭 Design principles
 
 <details>
