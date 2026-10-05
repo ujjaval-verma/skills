@@ -1,7 +1,7 @@
 ---
 name: validate-infra-change
 description: Validate Kubernetes/IaC PR changes safely in a live non-production environment before merge. Use when asked to test, smoke, kubectl-apply, patch, canary, or validate infra manifests/overlays/Helm/Kustomize changes against dev/staging while preserving GitOps/Argo CD ownership and collecting log evidence. Covers targeted resource applies, Argo self-heal handling, rollback, runtime log checks, and final PR evidence.
-updated: 2026-05-21
+updated: 2026-10-04
 ---
 
 # Validate Infra Change
@@ -14,7 +14,6 @@ Use this skill to live-smoke Kubernetes/IaC changes from a PR in dev/staging wit
 - Treat direct `kubectl apply` as temporary drift. Snapshot first, validate, then hand control back to GitOps.
 - Use real runtime evidence: rollout state, pod logs, generated config checks, service connectivity, and controller status.
 - Never print secrets. Use grep/shape checks, redaction, or in-pod assertions that only output pass/fail.
-- If a network/VPN/tailnet is required for the cluster but public Git/GitHub needs normal internet, switch deliberately and record which mode is active.
 
 ## Workflow
 
@@ -23,9 +22,6 @@ Use this skill to live-smoke Kubernetes/IaC changes from a PR in dev/staging wit
 1. Confirm the repo, branch, PR head, target environment, namespace, and cluster context.
 2. Check local tree state; do not mix unrelated changes.
 3. Inspect GitOps controller state when present, e.g. Argo CD Application sync/health/revision/syncPolicy.
-4. Decide network mode:
-   - cluster access may require VPN/tailnet;
-   - public GitHub/Git operations may require VPN/tailnet down.
 
 ### 2. Render and snapshot
 
