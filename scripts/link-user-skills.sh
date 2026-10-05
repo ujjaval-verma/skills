@@ -16,7 +16,8 @@ set -euo pipefail
 # repo/org-coupled, superseded by an installed plugin
 # (tdd, diagnosing-bugs — superpowers owns TDD and debugging), collide
 # with harness built-ins (code-review), or were trimmed as low-value at
-# user level (improve-codebase-architecture, network-connectivity-troubleshoot).
+# user level (improve-codebase-architecture, network-connectivity-troubleshoot),
+# or folded into another skill (github-ci-triage → pr-discipline).
 
 UJJU_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MATT_REPO="${MATT_SKILLS_REPO:-$HOME/src/mattpocock/skills}"
@@ -42,7 +43,6 @@ SOURCES=(
   "$UJJU_REPO/engineering/delivery-loop"
   "$UJJU_REPO/engineering/pr-discipline"
   "$UJJU_REPO/engineering/repo-hygiene"
-  "$UJJU_REPO/engineering/github-ci-triage"
   # this repo — productivity
   "$UJJU_REPO/productivity/create-tracker-issue"
   "$UJJU_REPO/productivity/timesheet"
@@ -56,6 +56,7 @@ REMOVE=(
   diagnosing-bugs
   improve-codebase-architecture
   network-connectivity-troubleshoot
+  github-ci-triage
 )
 
 # --- Validate sources before touching anything -------------------------------
