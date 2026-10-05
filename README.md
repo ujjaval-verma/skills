@@ -55,7 +55,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 
 | Skill | What it owns |
 |---|---|
-| [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) | Analyze Figma `.fig` files and design exports for product/workflow/UI specs. |
+| [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) | Analyze Figma designs (MCP or offline `.fig`) for product/workflow/UI specs. |
 | [`product/product-inception`](product/product-inception/SKILL.md) | Turn product ideas, legacy assets, and designs into reusable inception docs before implementation. |
 
 ### ⚡ Productivity
