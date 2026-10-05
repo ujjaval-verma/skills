@@ -107,7 +107,7 @@ flowchart TD
     end
 
     slice["**slice-delivery**<br/>tracer bullet · refactor scan · Ralph · DoD"]:::exec
-    pr["**pr-discipline**<br/>the loop + the safety rules"]:::pr
+    pr["**pr-discipline**<br/>safety rails · shipped · CI triage"]:::pr
     tactical["**tactical**<br/>repo-hygiene · validate-infra-change"]:::tactical
 
     direct --> slice
