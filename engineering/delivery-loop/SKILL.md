@@ -44,7 +44,7 @@ The orchestrator never reads diffs. Each slice and each reviewer is a fresh suba
    - All "None." Proceed.
    - BLOCKING, all mechanical (missing cross-reference, inconsistent field name, non-scope clarification, typo in a verification criterion). Patch the spec or plan, record dispositions, re-run T0 once. If BLOCKING survives, treat as non-mechanical.
    - BLOCKING that is not mechanical (invariant violation, ADR contradiction, scope past budget), or a lens-B DEFERRED value judgment. Stop the loop and surface it with the review artifact path; the subagent cannot make this call, the operator can.
-3. **Implement.** Dispatch a fresh subagent with the approved spec and plan, the DOD and its worktree. It runs the `slice-delivery` lifecycle, including its Ralph step, with one exception: if the first Ralph pass returns more than 1 BLOCKING, it stops before fixing or merging and returns to the orchestrator (pause 3). It reports slice-id, what shipped, verification evidence, dispositions and anything that smells like a pause condition; the orchestrator, not the subagent, decides whether to continue.
+3. **Implement.** Dispatch a fresh subagent with the approved spec and plan, the DOD and its worktree. It runs the `slice-delivery` lifecycle, including its Ralph step (every loop slice counts as non-trivial), with one exception: if the first Ralph pass returns more than 1 BLOCKING, it stops before fixing or merging and returns to the orchestrator (pause 3). It reports slice-id, what shipped, verification evidence, dispositions and anything that smells like a pause condition; the orchestrator, not the subagent, decides whether to continue.
 4. **Regression gate.** After the slice lands (`pr-discipline`), run the DOD check against the baseline. At or above it, raise the baseline and continue. Below it, stop: a previously met bullet regressed, so surface the DOD diff and do not start the next slice.
 5. **Close out.** Fold transient artifacts per the repo's disposition rubric, run its hygiene script (else `repo-hygiene`), and keep a one-paragraph summary.
 
@@ -56,7 +56,7 @@ Stop immediately and surface to the operator when:
 
 1. T0 returns BLOCKING that survives one mechanical retry.
 2. T0 returns a lens-B DEFERRED value judgment.
-3. The slice's first Ralph pass returns more than 1 BLOCKING finding, stopped before the slice merges (one is normal mid-slice; a cascade means something deeper is wrong).
+3. The slice's first Ralph pass returns more than 1 BLOCKING finding; the slice stops before it merges (one is normal mid-slice; a cascade means something deeper is wrong).
 4. The DOD check regresses below the baseline.
 5. The slice-id collides with a prior shipped slice.
 6. A slice exceeds the scope budget (per `slice-delivery`).
