@@ -57,12 +57,10 @@ Stop immediately and surface to the operator when:
 1. T0 returns BLOCKING that survives one mechanical retry.
 2. T0 returns a lens-B DEFERRED value judgment.
 3. Post-code Ralph review returns more than 1 BLOCKING finding (one is normal mid-slice; a cascade means something deeper is wrong).
-4. The repo's CI gate fails and the fix is not a 5-minute mechanical patch.
-5. The DOD check regresses below the baseline.
-6. The slice-id collides with a prior shipped slice.
-7. A slice exceeds the scope budget (per `slice-delivery`).
-8. A slice subagent dies, stalls, or returns a report the orchestrator cannot reconcile with the queue.
-9. Operator interrupt.
+4. The DOD check regresses below the baseline.
+5. The slice-id collides with a prior shipped slice.
+6. A slice exceeds the scope budget (per `slice-delivery`).
+7. A slice subagent dies, stalls, or returns a report the orchestrator cannot reconcile with the queue.
 
 On a stop the next slice has not started and the repo is clean.
 
