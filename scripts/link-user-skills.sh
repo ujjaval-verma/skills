@@ -30,7 +30,7 @@ SOURCES=(
   "$MATT_REPO/skills/productivity/grilling"
   "$MATT_REPO/skills/productivity/grill-me"
   "$MATT_REPO/skills/productivity/handoff"
-  "$MATT_REPO/skills/productivity/writing-great-skills"
+  "$MATT_REPO/skills/productivity/writing-for-agents"
   # mattpocock/skills — engineering (wayfinder cluster + codebase-design)
   "$MATT_REPO/skills/engineering/wayfinder"
   "$MATT_REPO/skills/engineering/setup-matt-pocock-skills"
@@ -57,6 +57,7 @@ REMOVE=(
   improve-codebase-architecture
   network-connectivity-troubleshoot
   github-ci-triage
+  writing-great-skills
 )
 
 # --- Validate sources before touching anything -------------------------------

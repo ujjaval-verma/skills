@@ -68,7 +68,7 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) | Generate print-ready, full-colour A4 STEAM worksheets (counting, phonics, patterns, mazes, colouring) for early learners, plus handwriting-practice sets (trace and free-hand letters and numbers). |
 | [`productivity/timesheet`](productivity/timesheet/SKILL.md) | Generate a work timesheet (80-column table or HTML page) from GitHub activity for a date range, counting roadmapping effort — issues, milestones, reviews, planning docs — alongside code. |
 
-For skill-authoring vocabulary, see Matt Pocock's upstream [writing-great-skills](https://github.com/mattpocock/skills).
+For skill-authoring (writing docs for agents: skills, AGENTS.md / CLAUDE.md), see Matt Pocock's upstream [writing-for-agents](https://github.com/mattpocock/skills/tree/main/skills/productivity/writing-for-agents).
 
 ## 🎯 Triggers
 
