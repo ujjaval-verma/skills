@@ -4,18 +4,15 @@ description: >-
   Generate print-ready, full-colour A4 STEAM worksheets for an early learner
   (ages ~4-7, Ontario Kindergarten / WRDSB aligned): one page, ~15 minutes, left
   binding margin. Use for any worksheet, practice sheet, activity sheet or
-  printable for a young child ("a maths practice page", "a Level 2 space
-  worksheet", "a weekly pack"), and for handwriting practice ("letter tracing",
-  "trace and write" sets) via a separate generator.
+  printable for a young child ("a counting sheet", "a maths practice page",
+  "a Level 2 space worksheet", "a weekly pack"), and for handwriting practice
+  ("letter tracing", "trace and write" sets) via a separate generator.
 updated: 2026-10-04
 ---
 
 # STEAM Worksheets
 
-Generate single-page, full-colour A4 worksheets for an early learner. Every
-sheet is built from a Python engine that draws all artwork as inline SVG (no
-emoji font needed — it prints clean in colour), keeps an 18 mm left margin for
-ring-binder punching, and includes a discreet parent answer key in the footer.
+Single-page, full-colour A4 worksheets drawn as inline SVG by a Python engine.
 
 ## Before you generate — confirm the inputs
 
@@ -26,19 +23,14 @@ ring-binder punching, and includes a discreet parent answer key in the footer.
 - **Child's name** — personalises the title (e.g. "Asha's Space Worksheet").
   Optional; omit for a blank name line.
 - **Number of activities** — `3` or `4` (the engine accepts only these values).
-  Default `4` (≈15 min). The 4-activity maximum keeps the sheet on one page.
-- **How many worksheets** — for several sheets of one theme, use `--count N`
-  (preferred): one invocation plans the whole pack so it *covers* the vowels,
-  pattern shapes, activity variants, and colour scenes instead of repeating them.
-  For a pack that spans **different themes**, call the engine once per theme
-  (each call is internally varied).
+  Default `4` (≈15 min).
+- **How many worksheets** — `--count N` for a one-theme pack (one call plans
+  the whole pack); one call per theme for mixed themes.
 
 ## How to generate
 
-The engine lives in `scripts/generate.py`. Run it from the skill's `scripts/`
-directory with `uv run` — the script declares its own dependency (`weasyprint`)
-via PEP 723 inline metadata, so nothing is installed into the system Python.
-If `uv` isn't available, install `weasyprint` yourself and use `python3` instead.
+The engine lives in `scripts/generate.py`. Run it from `scripts/` with
+`uv run` (PEP 723 deps; fall back to `python3` + `weasyprint`).
 
 ```bash
 cd <skill>/scripts
@@ -50,7 +42,9 @@ uv run generate.py \
 ```
 
 Notes:
-- `--seed` makes content reproducible (pack sheet *i* uses `seed + i`); a single sheet and sheet 1 of a same-seed pack differ, so reproduce a pack with the same seed and `--count`.
+- `--seed` makes content reproducible (pack sheet *i* uses `seed + i`); a
+  single sheet and sheet 1 of a same-seed pack differ, so reproduce a pack with
+  the same seed and `--count`.
 - For a **pack of one theme**, add `--count N`. `--out` is treated as a base
   name and each sheet is written as `name 1.pdf … name N.pdf`. One shared planner
   rotates vowels, pattern shapes (AAB/ABB/ABC), activity variants (addition vs
@@ -65,8 +59,8 @@ Notes:
 ## Handwriting practice (a second engine)
 
 For pure writing practice — "big letters and numbers, traced and free-hand" —
-use `scripts/handwriting.py` instead of `generate.py`. Same guarantees (A4,
-18 mm left margin, full colour, no glyph gaps), different sheet shape: big
+use `scripts/handwriting.py` instead of `generate.py`. Same guarantees
+(see below), different sheet shape: big
 characters on three-line handwriting rules, a grey model to copy, a dashed
 outline to trace, and an empty ruled line to write free-hand.
 
@@ -119,8 +113,7 @@ Engine notes (both are WeasyPrint quirks, don't "fix" them back):
 
 ## Levels (difficulty)
 
-The same activity types scale by level, so a child can progress without the
-sheets changing character. Match the level to the child, not the age.
+Match the level to the child, not the age.
 
 - **Level 1 — emerging (typical start of Senior Kindergarten).** Counting and
   number tracing to ~5, single-letter tracing with a key word, simple AB
@@ -138,23 +131,16 @@ Kindergarten program and what "good enough" looks like at each level.
 
 ## Topics → activities
 
-- **math** — counting & writing (L1) / addition *or* ten-frame count (L2) /
-  abstract addition (L3)
-- **literacy** — letter-of-the-day tracing (L1) / CVC word building *or* sound
-  search (L2) / whole-word spelling (L3)
-- **patterns** — repeating (AAB/ABB/ABC, two blanks) at L2, AB at L1, growing at L3
-- **problemsolving** — trace-the-trail (L1) / maze (L2–3)
+Topics map onto the activities in Levels above, plus:
+
 - **arts** — colour-by-number scene; each theme has two scenes that alternate
   across a pack (space → rocket/star, animals → fish/butterfly,
   indian → rangoli/flower, mixed → butterfly/flower)
 - **science** — "which one is different?" observation/sorting
 
-At L2 the math and literacy variants rotate within a pack (and are chosen at
-random for a single sheet), so two sheets rarely show the same activity shape.
-
 ## Design guarantees (don't break these)
 
-These are baked into the engine and the user relies on them:
+These are baked into the engine:
 - **A4 with an 18 mm left margin** for ring-binder punching.
 - **Full colour**, all artwork vector — verify a render shows no empty boxes
   (missing glyphs). If you ever hand-edit and see `.notdef` warnings, you've
@@ -162,4 +148,5 @@ These are baked into the engine and the user relies on them:
 - **One page**, ~15 minutes, with a parent answer key in the footer. The
   engine accepts at most 4 activities to keep this guarantee.
 
-Extending the skill (themes, icons, words, scenes, activities): see `references/extending.md`.
+Extending the skill (themes, icons, words, scenes, activities): see
+`references/extending.md`.
