@@ -41,7 +41,7 @@ Skills layer rather than overlap. When a task fits multiple skills, pick the hig
 - **Multi-slice loop (optional, operator-invoked)** — `delivery-loop`. A separate entry point the operator invokes directly (never auto-promoted from `slice-delivery`) that runs `slice-delivery` across a pre-flight slice queue, dispatching each slice to a fresh subagent so the orchestrating session stays lean, with a per-slice T0 spec-review gate substituting for human approval and hard pause conditions inside the loop. Requires the operator to supply a Definition of Done (inline or by artifact reference) at invocation; not used in this skills repo.
 - **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
 - **PR mechanics** — `pr-discipline`. Iteration loop (orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep) + safety rules (branch protection, lockfiles, auto-merge, force-pushes, hook bypass, stuck PRs).
-- **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`, `model-routing`.
+- **Tactical** — `github-ci-triage`, `repo-hygiene`, `network-connectivity-troubleshoot`, `validate-infra-change`.
 
 Ad-hoc tracker-issue authoring lives outside this stack: `productivity/create-tracker-issue` owns the content shape of a single issue (terse user-story template, draft-then-create) and carries no delivery workflow.
 
@@ -64,7 +64,7 @@ Operators enter the stack in one of two ways: invoke `slice-delivery` directly (
    └─────────────────────────────────┬────────────────────────────────────────┘
                                      ▼
    ┌──────────────────────────────────────────────────────────────────────────┐
-   │  tactical    github-ci-triage · repo-hygiene · model-routing             │
+   │  tactical    github-ci-triage · repo-hygiene                             │
    │              network-connectivity-troubleshoot · validate-infra-change   │
    └──────────────────────────────────────────────────────────────────────────┘
 ```
@@ -79,7 +79,7 @@ Every non-trivial PR (any change beyond a typo / link fix / single-line config t
 2. **Post** its findings as a Markdown PR comment, grouped as Blocking / Non-blocking / Nits.
 3. **Disposition** every finding: `Fixed` (commit reference), `Deferred` (with a tracked follow-up), or `Rejected` (with reasoning). Record dispositions on the PR — comment, commit body, or both.
 4. **Block merge** until every Blocking finding is `Fixed` or has documented `Rejected` reasoning.
-5. Reviewer model selection: use `model-routing`. Reviewer must not be the same model + same thinking level that authored the change.
+5. Reviewer model: must differ from the authoring model + thinking level (e.g. Sonnet-authored → Opus-reviewed, or a different thinking level). Frame the reviewer as adversarial: its job is to find what is wrong, not to approve.
 
 Local confidence + green CI is not sufficient evidence to merge a non-trivial change in this repo. The PR comment trail must show adversarial observations and dispositions.
 
