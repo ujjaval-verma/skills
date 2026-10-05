@@ -6,7 +6,7 @@ updated: 2026-10-04
 
 # Slice delivery
 
-The **how** of shipping one slice well, in any repo and any tracker. It assumes the operator or a repo-local doc has already said **which** slice. PR mechanics and the definition of "shipped" belong to `pr-discipline` (see its "Definition of shipped" section); do not restate them here.
+The **how** of shipping one slice well, in any repo and any tracker. It assumes the operator or a repo-local doc has already said **which** slice. PR mechanics and the definition of "shipped" belong to `pr-discipline` (see its `Definition of "shipped"` section).
 
 ## What is a slice
 
@@ -18,18 +18,19 @@ One PR-sized change that crosses every layer it needs and produces working behav
 
 ## Start-lane gate
 
-1. Read the repo's invariants, architecture, definition of done and testing contracts. If one is missing, writing it is the first slice.
-2. Design the public interface first and name the deep-module candidate (`codebase-design` if installed). If there is none, ask whether the slice is needed or is three smaller ones.
-3. Lock scope and the behaviors to test before writing code. When scope is open or behavior choices are contested, confirm them with the user in a `grilling` session (one question at a time, with a recommended answer); sharpen fuzzy terms with `domain-modeling` first.
-4. T0 adversarial spec-review: mandatory when the repo has a spec-review template, recommended otherwise. Dispatch an adversarial reviewer with that template, or these lenses: (A) consistency of spec and plan with invariants, ADRs and the definition of done; (B) value judgments needing human sign-off; (C) scope against the slice budget. BLOCKING here means fix the spec or plan, never code, since none exists yet. T0 does not count against the task budget. Skipping needs a reason recorded in the plan.
+1. If more than 3-4 slice worktrees are active or repo hygiene is out of bounds, close out (`repo-hygiene`) before opening a new slice.
+2. Read the repo's invariants, architecture, definition of done and testing contracts. If one is missing, writing it is the first slice.
+3. Design the public interface first and name the deep-module candidate (`codebase-design` if installed). If there is none, ask whether the slice is needed or is three smaller ones.
+4. Lock scope and the behaviors to test before writing code. When scope is open or behavior choices are contested, confirm them with the user in a `grilling` session (one question at a time, with a recommended answer); sharpen fuzzy terms with `domain-modeling` first.
+5. T0 adversarial spec-review: mandatory when the repo has a spec-review template, recommended otherwise. Dispatch an adversarial reviewer with that template, or these lenses: (A) consistency of spec and plan with invariants, ADRs and the definition of done; (B) value judgments needing human sign-off; (C) scope against the slice budget. Disposition each finding as BLOCKING / NIT / DEFERRED. BLOCKING here means fix the spec or plan, never code, since none exists yet. T0 does not count against the task budget. Skipping needs a reason recorded in the plan.
 
-## Delivery loop
+## Slice lifecycle gate
 
 1. Tracer bullet first: one end-to-end test, minimal code, green. Everything after thickens it.
 2. Then per behavior: one test red, green, refactor scan. The scan runs on every green, not at PR time, on the code you just touched and its neighbours. Ask what the new code reveals about existing code: a tolerable wart that is now obvious gets fixed in this slice, as its own commit, never banked as a cleanup backlog. Refactors are separate commits from features.
 3. Honesty gates: no fake-live behavior, no mocked data path presented as real, no sensitive raw input in logs.
 4. Open the PR per `pr-discipline`. Body lists slice ID, scope, non-scope, verification evidence, and the evidence for any addendum that applies: UI screenshots, AI fixtures and evals, migration up and down, deploy rollback.
-5. Ralph review on non-trivial PRs, before merge: dispatch an adversarial reviewer (a different model or thinking level than the author) against the PR diff, invariants and definition of done. Post findings as a PR comment grouped Blocking / Non-blocking / Nits, disposition each as fixed, deferred (tracked) or rejected (with reasoning), and block merge while any Blocking finding is open. Green CI alone is not enough.
+5. Ralph review on non-trivial PRs, before merge: dispatch an adversarial reviewer (a different model or thinking level than the author) against the PR diff, invariants and definition of done. Post findings as a PR comment grouped Blocking / Non-blocking / Nits, disposition each as fixed, deferred (tracked) or rejected (with reasoning), and fix Blocking findings as their own commits, then re-dispatch a fresh reviewer; repeat until no Blocking finding is open, and block merge until then. Green CI alone is not enough.
 6. Merge and close out per `pr-discipline`; run the repo's hygiene script and remove the worktree.
 
 ## TDD scope table
