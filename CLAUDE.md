@@ -37,15 +37,13 @@ Pick the highest layer that fits and let it delegate; duplication across layers 
 
 Every non-trivial PR (beyond a typo, link fix or single-line config tweak) must show an adversarial review trail before merge. Local confidence and green CI are not sufficient.
 
-1. **Dispatch** an independent reviewer subagent against the PR diff, framed as adversarial (its job is to find what is wrong, not to approve) and told to check `slice-delivery`, this file and any repo-local invariants. Its model and thinking level must differ from the author's (e.g. Sonnet-authored, Opus-reviewed).
+1. **Dispatch** an independent reviewer subagent against the PR diff, framed as adversarial (its job is to find what is wrong, not to approve) and told to check `slice-delivery`, this file and any repo-local invariants. Its model or thinking level must differ from the author's (e.g. Sonnet-authored, Opus-reviewed, or the same model at a different thinking level).
 2. **Post** its findings as a PR comment grouped Blocking / Non-blocking / Nits.
 3. **Disposition** every finding on the PR (comment, commit body or both): `Fixed` (commit ref), `Deferred` (tracked follow-up) or `Rejected` (reasoning).
 4. **Block merge** until every Blocking finding is `Fixed` or has documented `Rejected` reasoning.
 
 ## Editing skills
 
-- Keep `SKILL.md` concise; cut prose the agent already knows without the skill.
-- Surface destructive candidates before acting and make external writes explicit (see [Design principles](README.md#design-principles)).
-- No secrets, private repo names, user paths or repo-specific assumptions unless the skill is scoped to that repo ([What not to include](README.md#what-not-to-include)).
-- Update the README index and any `Related skills` or delegation lines in the same PR as an add, rename or scope change.
-- Commits: Conventional Commits, scoped, one concern each (see CONTRIBUTING).
+Conciseness, no-secrets, README index and cross-reference updates, and Conventional Commits are covered in [`CONTRIBUTING.md`](CONTRIBUTING.md). One rule is not there:
+
+- Surface destructive candidates before acting and make external writes explicit (see [Design principles](README.md#-design-principles)).
