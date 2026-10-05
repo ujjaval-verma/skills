@@ -1,6 +1,7 @@
 ---
 name: timesheet
-description: Generate a work timesheet from GitHub activity for a date range — as an 80-column table or an HTML page — optionally scoped to a repo or org. Counts roadmapping effort (issues, milestones, review comments, planning documents) by default; a flag gives a code-only sheet. Invoke only on an explicit request — "/timesheet", "generate a timesheet", "what did I work on last week" — never as a side effect of summarising activity, reviewing commits, or answering questions about a repo's history.
+description: Generate a work timesheet from GitHub activity for a date range, as an 80-column table or HTML page, optionally scoped to a repo or org; use for "what did I work on last week". Explicit request only.
+disable-model-invocation: true
 updated: 2026-10-04
 ---
 

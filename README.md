@@ -82,7 +82,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
 | *"/api-cost-estimate"*, *"what would this week have cost on the API"* (explicit ask only) | [`productivity/api-cost-estimate`](productivity/api-cost-estimate/SKILL.md) |
-| *"file a ticket"*, *"create an issue"*, *"log a bug"*, *"write this up as a story"* | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) |
+| *"/create-tracker-issue"*, *"file a ticket"*, *"create an issue"*, *"log a bug"*, *"write this up as a story"* (explicit ask only) | [`productivity/create-tracker-issue`](productivity/create-tracker-issue/SKILL.md) |
 | *"/sanitize-transcript"*, *"clean up this transcript"*, *"strip the ums from this"* (explicit ask only) | [`productivity/sanitize-transcript`](productivity/sanitize-transcript/SKILL.md) |
 | *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
 | *"/timesheet"*, *"generate a timesheet"*, *"what did I work on last week"* (explicit ask only) | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
