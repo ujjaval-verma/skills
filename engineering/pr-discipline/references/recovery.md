@@ -1,10 +1,10 @@
 # PR recovery reference
 
-Disclosed reference for [`pr-discipline`](../SKILL.md). Branch-gated procedures reached from the iteration loop and Safety section only when a specific failure appears — not loaded with the skill body.
+Disclosed reference for [`pr-discipline`](../SKILL.md). Branch-gated procedures, read only when a specific failure appears — not loaded with the skill body. Safety rails (never weaken to get green, producer-first, flake history, hooks) live in the skill body and are not restated here.
 
 ## CI failure triage
 
-When CI is red or stuck, classify before reacting:
+When CI is red or stuck, on a PR, `main`, or any other branch, classify before reacting:
 
 | Class | Signal | Action |
 |---|---|---|
@@ -12,20 +12,16 @@ When CI is red or stuck, classify before reacting:
 | **CANCELLED** | Check was cancelled. | Determine whether superseded by a newer run. If yes, ignore. If no, investigate why. |
 | **PENDING (excessive)** | Check pending for far longer than its usual duration. | Check runner capacity, required-check naming, missing producer workflow. |
 | **DIRTY / CONFLICT** | `mergeStateStatus: DIRTY` or merge conflict markers. | Rebase or merge the base branch, resolve, force-push with lease. See *Lockfile conflicts* or *Real content conflicts* below depending on file type. |
-| **MISSING REQUIRED** | A required check is not running because the producer workflow doesn't exist or wasn't triggered. | Per *Required-check changes* below — fix the producer, do not weaken the requirement. |
-| **FLAKE** | Failure with strong evidence (history, known issue) of non-determinism. | Re-run only after verifying flake history. Never label a single red as flaky. Address the flake itself in a separate PR. |
+| **MISSING REQUIRED** | A required check is not running because the producer workflow doesn't exist or wasn't triggered. | Per *Required-check changes* below — fix the producer; don't drop the requirement. |
+| **FLAKE** | Failure with strong evidence (history, known issue) of non-determinism. | Re-run only per the flake-history rule in the skill body. Address the flake itself in a separate PR. |
 
 `gh pr checks <n>` and `gh run list --branch <branch> --limit 10` are the two highest-value triage commands.
 
 Required checks can come from repository rulesets as well as classic protection: query both `gh api repos/{owner}/{repo}/rules/branches/<branch>` and `.../branches/<branch>/protection`.
 
-Never weaken assertions, skip tests, or relax protection to get green; fix the first real cause with the smallest change that preserves the test's intent.
-
 ## Required-check changes
 
-Add a required status check only after the workflow that emits it is already on the protected branch and has reported green at least once.
-
-Correct sequence:
+Sequence (producer-first, per the skill body):
 
 1. Merge the workflow/check producer without making it required.
 2. Wait for a protected-branch run.
@@ -33,19 +29,17 @@ Correct sequence:
 4. Patch branch protection.
 5. Verify a fresh PR sees the required check.
 
-Invert this and every PR can become blocked waiting for a check that cannot exist yet.
+Inverted, every PR blocks on a check that cannot exist yet.
 
 ## Auto-merge discipline
 
-After enabling auto-merge, verify the PR actually lands within 15 minutes of the merge gate clearing. Check for:
+If the PR hasn't landed within the skill body's ~15-minute window, check for:
 
 - `DIRTY` / conflicts after another PR merged.
 - Required checks pending forever.
 - Failed checks that are required indirectly.
 - Branch protection mismatch.
 - Merge queue state.
-
-Report "merged" only once the hosting platform says merged — see the *Definition of "shipped"* in the skill body for the exact verification.
 
 ## Lockfile conflicts
 
@@ -72,7 +66,6 @@ Use the repo's package manager and lockfile policy. If unsure, inspect existing 
 - Keep additive changes from both branches when compatible.
 - Treat contradictory logic as a design conflict, not a mechanical merge.
 - Run affected tests after resolution.
-- Use `--force-with-lease`, never blind `--force`.
 
 ## Repo-settings preflight
 
