@@ -1,98 +1,35 @@
 ---
 name: repo-hygiene
 description: Inspect and safely clean local git repository hygiene: stale/merged local branches, gone upstreams, old worktrees, and forgotten uncommitted changes. Use when asked about branch cleanup, worktree cleanup, or repo housekeeping.
-updated: 2026-07-15
+updated: 2026-10-04
 ---
 
 # Repo Hygiene
 
-Surface candidates first. Delete only when safety conditions are clear or the user approves.
+Surface candidates first. Delete only when the safety conditions below are verifiably true or the user approves.
 
-## First checks
+Start read-only: `git status --short --branch`, `git worktree list --porcelain`, then `git fetch --prune --quiet` if touching the network is acceptable. When the tree is unclean (any non-empty `git status --short`, untracked files included) or an agent/process is running against the repo, report candidates only and run no destructive cleanup.
 
-Start read-only:
+## Local branch deletion
 
-```bash
-git status --short --branch
-git remote -v
-git worktree list --porcelain
-```
-
-Then, if network/state mutation is acceptable for the task, update remote-tracking refs:
-
-```bash
-git fetch --prune --quiet
-```
-
-When the tree is unclean (`git status --short` non-empty) or an agent/process is running against the repo, report candidates only — do not run destructive cleanup.
-
-## Branch categories
-
-List local branches with upstream state:
-
-```bash
-git branch -vv
-```
-
-Classify:
-- **gone upstream**: upstream deleted after fetch/prune.
-- **merged to base**: `git merge-base --is-ancestor <branch> <base>` succeeds.
-- **open PR head**: branch still backs an open PR.
-- **checked out in worktree**: branch is active elsewhere.
-- **recent work**: latest commit or modified files are recent.
-- **unknown/squash-merged-looking**: upstream gone but not ancestor of base.
-
-## Safe local branch deletion
-
-Auto-delete only if every condition below is verifiably true — each is a checkable command, not a judgment call:
-- upstream is gone (`git branch -vv` shows `: gone]`) or the user explicitly selected the branch for cleanup
+Delete without asking only if every condition is true, each checked by command rather than judgment:
+- upstream is gone (`git branch -vv` shows `: gone]`) or the user explicitly selected the branch
 - not checked out in any worktree (`git worktree list`)
-- not the head of an open PR (`gh pr list --state open --json number,headRefName,title`); an abandoned PR's head branch needs explicit user approval
+- not the head of an open PR (`gh pr list --state open --json number,headRefName,title`); an abandoned PR's head branch needs explicit approval
 - merged to base by ancestry (`git merge-base --is-ancestor <branch> <base>` exits 0)
 
-Ancestry-merged plus not-checked-out already guarantees no unique commits are stranded, so `git branch -d` (which itself refuses to delete unmerged branches) is safe here.
+Then use `git branch -d`, which itself refuses unmerged branches. Local-only, ambiguous, and squash-merged-looking branches (upstream gone but not an ancestor of base) need explicit approval. `git branch -D` needs explicit approval every time.
 
-Ambiguous branches, local-only branches, and squash-merged-looking branches require explicit approval.
+Branch age is a signal to investigate, never authorization: route every age-based candidate to approval instead of deleting on "old" or "recent".
 
-Command:
+## Worktrees
 
-```bash
-git branch -d <branch>
-```
+A worktree is a removal candidate only if it has no uncommitted changes, its branch is merged to base or its PR is closed, and no agent/process is using the path. Every removal needs approval: use plain `git worktree remove` (no `--force`), which refuses dirty worktrees. The one exception is a worktree whose directory is already missing or broken and that `git worktree prune --dry-run` lists as pruneable.
 
-Use `-D` only with explicit approval, and prefer recoverable commands (`git branch -d`, `trash`) over irreversible ones. Treat branch age as a signal to investigate, never as authorization — route every age-based candidate to approval rather than deleting on "old" or "recent".
+## Uncommitted work
 
-## Worktree cleanup
+Never discard uncommitted changes without explicit approval. Report modification age as a signal, never as grounds to discard, and suggest commit, stash, discard, or leave.
 
-```bash
-git worktree list --porcelain
-git worktree prune --dry-run
-```
-
-Candidate for removal if:
-- no uncommitted changes
-- branch is merged to base or its PR is closed
-- no active agent/process is using the path
-
-Remove only after approval unless the worktree is missing/broken and `git worktree prune --dry-run` shows it as pruneable.
-
-## Forgotten work
-
-Find old uncommitted changes:
-
-```bash
-git status --porcelain
-# report modification age as a signal to surface for the user; never discard on age
-```
-
-Report:
-- repo/path
-- changed files
-- newest modification age
-- suggested action: commit, stash, discard, or leave
-
-Never discard uncommitted changes without explicit approval.
-
-## Reporting candidates
+## Reporting
 
 Group candidates as **safe-delete** / **needs approval** / **do not touch**, each with the evidence for its classification. When asking for approval, show exactly what will be deleted.
