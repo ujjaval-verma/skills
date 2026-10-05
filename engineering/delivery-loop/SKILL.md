@@ -3,7 +3,6 @@ name: delivery-loop
 description: Multi-slice autonomous delivery wrapper around slice-delivery — operator-invoked loop that ships a pre-flight slice queue against a supplied Definition of Done via per-slice subagents.
 disable-model-invocation: true
 updated: 2026-07-15
-wave: 3
 ---
 
 # Delivery loop

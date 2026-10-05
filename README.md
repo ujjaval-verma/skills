@@ -21,7 +21,7 @@
   <a href="CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-<p align="center"><sub><b>12 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
+<p align="center"><sub><b>12 skills</b> · <b>3 categories</b> · <b>3-skill delivery core</b> · tracker = <code>git log --oneline</code></sub></p>
 
 </div>
 
@@ -135,7 +135,7 @@ flowchart TD
 
 ## ✍️ Adding a skill
 
-Drop a new `SKILL.md` into the right category folder, declare frontmatter (`name:`, `description:`, `updated:`, optional `wave:`), update the [Skills](#-skills) and [Triggers](#-triggers) tables in the same PR, and post an adversarial review trail before merge.
+Drop a new `SKILL.md` into the right category folder, declare frontmatter (`name:`, `description:`, `updated:`), update the [Skills](#-skills) and [Triggers](#-triggers) tables in the same PR, and post an adversarial review trail before merge.
 
 Full step-by-step in [**CONTRIBUTING.md**](CONTRIBUTING.md). Frontmatter rules and the Ralph contract live in [**CLAUDE.md**](CLAUDE.md).
 
@@ -155,6 +155,6 @@ Full step-by-step in [**CONTRIBUTING.md**](CONTRIBUTING.md). Frontmatter rules a
 
 <div align="center">
 
-<sub>📜 [MIT](LICENSE) · ✍️ [Contribute](CONTRIBUTING.md) · 🧠 [Agent operating manual](CLAUDE.md) · 🌊 [Waves](WAVES.md) · 🌱 Inspired by <a href="https://github.com/mattpocock/skills">mattpocock/skills</a></sub>
+<sub>📜 [MIT](LICENSE) · ✍️ [Contribute](CONTRIBUTING.md) · 🧠 [Agent operating manual](CLAUDE.md) · 🌱 Inspired by <a href="https://github.com/mattpocock/skills">mattpocock/skills</a></sub>
 
 </div>

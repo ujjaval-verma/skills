@@ -23,7 +23,6 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
    name: example-skill
    description: Trigger-oriented description — when an agent should invoke this skill.
    updated: YYYY-MM-DD        # ISO date of last material edit
-   wave: <int>                # optional; only if part of a deliberate refactor wave
    ---
    ```
 
@@ -34,7 +33,6 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
 ## Editing an existing skill
 
 - Bump `updated:` in the frontmatter when the body changes materially. Typo and link fixes don't count.
-- Don't assign `wave:` retroactively. A wave is only meaningful when paired with a defined refactor cohort.
 - If the change is non-trivial, post an adversarial review trail (see [`CLAUDE.md`](CLAUDE.md#adversarial-review-ralph--contract)).
 
 ## Workflow
