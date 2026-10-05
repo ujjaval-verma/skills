@@ -1,6 +1,7 @@
 ---
 name: sanitize-transcript
-description: Rewrite a voice-to-text meeting transcript (Zoom, Otter, Granola, dictation tools, …) with fillers, stutters and transcription artifacts removed, keeping every turn and every speaker's wording otherwise intact. Invoke only on an explicit request — "/sanitize-transcript", "clean up this transcript", "strip the ums from this", "sanitize this call transcript" — never as a side effect of summarising, quoting, or extracting action items from a meeting.
+description: Rewrite a voice-to-text meeting transcript with fillers, stutters and transcription artifacts removed and every turn and speaker's wording otherwise intact; use to clean up a call transcript.
+disable-model-invocation: true
 updated: 2026-10-04
 ---
 

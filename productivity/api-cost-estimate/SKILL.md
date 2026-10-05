@@ -1,6 +1,7 @@
 ---
 name: api-cost-estimate
-description: Estimate what local Claude Code token usage would have cost on pay-as-you-go API pricing, per model, for a date window (default last 7 days). Invoke only on an explicit request — "/api-cost-estimate", "what would this week have cost on the API", "API-equivalent cost of my usage" — never as a side effect of discussing usage, rate limits, or model choice.
+description: Estimate what local Claude Code token usage would have cost on pay-as-you-go API pricing, per model, for a date window (default last 7 days); use to see the API-equivalent cost of your usage.
+disable-model-invocation: true
 updated: 2026-08-25
 ---
 
