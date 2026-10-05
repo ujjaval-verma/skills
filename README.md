@@ -6,7 +6,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/skills-13-purple?style=flat-square" alt="13 skills"/>
+  <img src="https://img.shields.io/badge/skills-12-purple?style=flat-square" alt="12 skills"/>
   <img src="https://img.shields.io/badge/format-SKILL.md-success?style=flat-square" alt="SKILL.md format"/>
   <img src="https://img.shields.io/badge/branch--protected-main-green?style=flat-square" alt="main is branch-protected"/>
   <img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs welcome"/>
@@ -21,7 +21,7 @@
   <a href="CONTRIBUTING.md"><strong>Contributing</strong></a>
 </p>
 
-<p align="center"><sub><b>13 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
+<p align="center"><sub><b>12 skills</b> · <b>3 categories</b> · <b>3-skill wave-3 core</b> · tracker = <code>git log --oneline</code></sub></p>
 
 </div>
 
@@ -46,7 +46,6 @@ scripts/              ← repo-level tooling (e.g. link-user-skills.sh)
 | Skill | What it owns |
 |---|---|
 | [`engineering/delivery-loop`](engineering/delivery-loop/SKILL.md) | Multi-slice autonomous wrapper around `slice-delivery`: operator-supplied Definition of Done as required input, pre-flight slice queue, per-slice T0 spec-review gate, per-slice subagent dispatch, hard pause conditions, final DOD gate. |
-| [`engineering/github-ci-triage`](engineering/github-ci-triage/SKILL.md) | Diagnose GitHub Actions / PR check failures with `gh`. |
 | [`engineering/pr-discipline`](engineering/pr-discipline/SKILL.md) | PR iteration loop + merge safety: open → watch CI → fix → merge, branch protection, lockfiles, auto-merge, force-pushes, stuck PRs. |
 | [`engineering/repo-hygiene`](engineering/repo-hygiene/SKILL.md) | Safely inspect stale branches, worktrees, and cleanup candidates. |
 | [`engineering/slice-delivery`](engineering/slice-delivery/SKILL.md) | Tracker-agnostic vertical-slice execution: tracer bullets, per-cycle refactor scan, deep modules, TDD scope table, adversarial (Ralph) review, slice lifecycle. |
@@ -80,7 +79,6 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"ship slice X"*, *"tracer bullet"*, *"refactor scan"*, *"Ralph review"*, *"deep module"* | [`slice-delivery`](engineering/slice-delivery/SKILL.md) |
 | *(user-invoked — type the name)* *"deliver multiple slices"*, *"execute v0.X"*, *"ship the remaining bullets"* | [`delivery-loop`](engineering/delivery-loop/SKILL.md) |
 | *"auto-merge"*, *"lockfile"*, *"force-push"*, *"branch protection"*, *"DIRTY"*, *"stuck PR"* | [`pr-discipline`](engineering/pr-discipline/SKILL.md) |
-| *"CI is failing"*, *"PR check"*, *"gh status"*, *"smallest fix"* | [`github-ci-triage`](engineering/github-ci-triage/SKILL.md) |
 | *"branch cleanup"*, *"orphaned branches"*, *"worktree cleanup"*, *"repo housekeeping"* | [`repo-hygiene`](engineering/repo-hygiene/SKILL.md) |
 | *"smoke"*, *"kubectl-apply"*, *"canary"*, *"validate infra manifests"*, *"Argo self-heal"* | [`validate-infra-change`](engineering/validate-infra-change/SKILL.md) |
 | *"/api-cost-estimate"*, *"what would this week have cost on the API"* (explicit ask only) | [`productivity/api-cost-estimate`](productivity/api-cost-estimate/SKILL.md) |
@@ -110,7 +108,7 @@ flowchart TD
 
     slice["**slice-delivery**<br/>tracer bullet · refactor scan · Ralph · DoD"]:::exec
     pr["**pr-discipline**<br/>the loop + the safety rules"]:::pr
-    tactical["**tactical**<br/>github-ci-triage · repo-hygiene<br/>validate-infra-change"]:::tactical
+    tactical["**tactical**<br/>repo-hygiene · validate-infra-change"]:::tactical
 
     direct --> slice
     loop -. "composes N×" .-> slice

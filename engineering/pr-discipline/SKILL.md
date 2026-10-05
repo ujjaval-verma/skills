@@ -89,5 +89,4 @@ Classify failures per [CI failure triage](references/recovery.md#ci-failure-tria
 ## Related skills
 
 - `slice-delivery` — per-slice execution discipline (tracer bullets, refactor scan, Ralph review, DoD). `pr-discipline` is what `slice-delivery` delegates PR mechanics to; the adversarial review loop lives there.
-- `github-ci-triage` — deeper `gh` workflows for CI failures, missing checks, and pending/cancelled runs.
 - `repo-hygiene` — post-merge worktree/branch cleanup.

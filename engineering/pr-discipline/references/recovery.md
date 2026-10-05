@@ -15,7 +15,11 @@ When CI is red or stuck, classify before reacting:
 | **MISSING REQUIRED** | A required check is not running because the producer workflow doesn't exist or wasn't triggered. | Per *Required-check changes* below — fix the producer, do not weaken the requirement. |
 | **FLAKE** | Failure with strong evidence (history, known issue) of non-determinism. | Re-run only after verifying flake history. Never label a single red as flaky. Address the flake itself in a separate PR. |
 
-`gh pr checks <n>` and `gh run list --branch <branch> --limit 10` are the two highest-value triage commands. For deeper `gh` log workflows, see `github-ci-triage`.
+`gh pr checks <n>` and `gh run list --branch <branch> --limit 10` are the two highest-value triage commands.
+
+Required checks can come from repository rulesets as well as classic protection: query both `gh api repos/{owner}/{repo}/rules/branches/<branch>` and `.../branches/<branch>/protection`.
+
+Never weaken assertions, skip tests, or relax protection to get green; fix the first real cause with the smallest change that preserves the test's intent.
 
 ## Required-check changes
 
