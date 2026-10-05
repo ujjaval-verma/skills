@@ -26,7 +26,7 @@ Turn a raw speech-to-text transcript into a clean, complete, readable one. The *
 
 ## Step 1 — Stage the input
 
-Pasted text is written to a file **verbatim**; a path is used as-is. Output always goes to the temp dir, even when the input lives elsewhere. Define the checks once; they are reused in Steps 2 and 3.
+Pasted text is written to a file **verbatim**; a path is used as-is. Output always goes to the temp dir, even when the input lives elsewhere.
 
 ```bash
 TMP="${TMPDIR:-/tmp}"; TMP="${TMP%/}"
@@ -73,4 +73,4 @@ grep -nE "$FILLER" "$OUT"                                             # survivin
 
 ## Step 4 — Deliver
 
-Send `$OUT` to the user (SendUserFile or equivalent when available; otherwise state the path). In chat, give the path, the turn counts, and the normalisations list, and flag the judgment calls so the user can revert them. Transcripts are unredacted: delete the staged raw copy (never a user-supplied path), and tell the user the output sits in the temp dir until they move it.
+Send `$OUT` to the user. In chat, give the path, the turn counts, and the normalisations list, and flag the judgment calls so the user can revert them. Transcripts are unredacted: delete the staged raw copy (never a user-supplied path), and tell the user the output sits in the temp dir until they move it.
