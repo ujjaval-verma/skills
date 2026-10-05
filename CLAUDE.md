@@ -1,6 +1,6 @@
 # CLAUDE.md — skills repo
 
-This repo holds reusable, repo-agnostic AgentSkills. Each skill is a single `SKILL.md` under a category folder. The README has the public-facing description and design principles; this file is the agent-facing operating manual.
+This repo holds reusable, repo-agnostic AgentSkills: one `SKILL.md` per skill under a category folder. This file is the agent-facing operating manual; contribution steps live in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 **Read first:** [`README.md`](README.md) — categories, skill index, design principles, "what not to include".
 
@@ -8,91 +8,42 @@ This repo holds reusable, repo-agnostic AgentSkills. Each skill is a single `SKI
 
 ```
 <category>/<skill-name>/SKILL.md
-<category>/<skill-name>/scripts/      # optional, only if a script is referenced by SKILL.md
+<category>/<skill-name>/scripts/      # optional, only if SKILL.md references a script the agent will execute
+<category>/<skill-name>/references/   # optional, docs SKILL.md links to (read on demand)
+<category>/<skill-name>/assets/       # optional, templates or static files SKILL.md references (e.g. product-inception)
 scripts/                              # repo-level tooling (not skill-specific)
-<category>/<skill-name>/references/   # optional, only for docs SKILL.md links to (read on demand, not loaded with the skill)
 ```
 
-Categories: `engineering/`, `product/`, `productivity/`. Skill folder names are hyphen-case and match the `name:` in frontmatter. Add/rename/delete in one PR — never let folder and `name:` drift.
+Categories: `engineering/`, `product/`, `productivity/`. Folder names are hyphen-case and match `name:`; add/rename/delete in one PR so they never drift.
 
-## Frontmatter conventions
+Per-skill `scripts/` is never speculative: no empty or single-trivial-helper folders. The root `scripts/` holds tooling for the library itself (e.g. `link-user-skills.sh`, which symlinks the curated roster into `~/.claude/skills` and `~/.agents/skills`); same bar.
 
-Every engineering `SKILL.md` should carry:
+## Frontmatter
 
-```yaml
----
-name: <hyphen-case, matches folder>
-description: <trigger-oriented; what the skill is for and when to invoke it>
-updated: YYYY-MM-DD   # ISO date of last material edit
----
-```
-
-Bump `updated:` when the body changes materially (typo/link fixes don't count). When introducing the field on a previously-undated skill, set it to the date the field is added; this is a known approximation — the value going forward will reflect material edits.
-
-Enforcement is currently social, not mechanical. Adding a lint/CI check that engineering skills declare `updated:` is a worthwhile follow-up.
+Every engineering `SKILL.md` carries `name`, `description` (trigger-oriented: what it is for and when to invoke it) and `updated: YYYY-MM-DD`. Bump `updated:` when the body changes materially; typo and link fixes don't count.
 
 ## Composition (engineering)
 
-Skills layer rather than overlap. When a task fits multiple skills, pick the highest layer and let it delegate:
+Pick the highest layer that fits and let it delegate; duplication across layers is a refactor trigger. Diagram: [README](README.md#-composition-engineering).
 
-- **Multi-slice loop (optional, operator-invoked)** — `delivery-loop`. A separate entry point the operator invokes directly (never auto-promoted from `slice-delivery`) that runs `slice-delivery` across a pre-flight slice queue, dispatching each slice to a fresh subagent so the orchestrating session stays lean, with a per-slice T0 spec-review gate substituting for human approval and hard pause conditions inside the loop. Requires the operator to supply a Definition of Done (inline or by artifact reference) at invocation; not used in this skills repo.
-- **Execution wrapper** — `slice-delivery`. Owns *how* a slice ships: tracer bullet, per-cycle refactor scan, deep-module design, TDD scope table, adversarial (Ralph) review loop, slice lifecycle gate.
-- **PR mechanics** — `pr-discipline`. Iteration loop (orient → isolate → implement → verify → commit → open/update PR → watch CI → merge prep) + safety rules (branch protection, lockfiles, auto-merge, force-pushes, hook bypass, stuck PRs).
-- **Tactical** — `repo-hygiene`, `validate-infra-change`.
+- `delivery-loop` — optional, operator-invoked entry point that runs `slice-delivery` across a queue; never auto-promoted.
+- `slice-delivery` — how one slice ships.
+- `pr-discipline` — PR safety rails, definition of shipped, CI triage and recovery.
+- Tactical — `repo-hygiene`, `validate-infra-change`.
 
-Ad-hoc tracker-issue authoring lives outside this stack: `productivity/create-tracker-issue` owns the content shape of a single issue (terse user-story template, draft-then-create) and carries no delivery workflow.
-
-Operators enter the stack in one of two ways: invoke `slice-delivery` directly (one slice at a time), or invoke `delivery-loop`, which composes `slice-delivery` N times for autonomous multi-slice runs. `slice-delivery` delegates PR mechanics to `pr-discipline`. Duplication across layers is a refactor trigger.
-
-```text
-   operator entry points
-   ┌──────────────────────────────────────────────────────────────────────────┐
-   │  slice-delivery (direct, one slice)  ·  delivery-loop  (autonomous, N×)  │
-   └──────────────────┬──────────────────────────────┬────────────────────────┘
-                      │                              │   (composes N×)
-                      └──────────────┬───────────────┘
-                                     ▼
-   ┌──────────────────────────────────────────────────────────────────────────┐
-   │  slice-delivery     tracer bullet · refactor scan · Ralph · DoD          │
-   └─────────────────────────────────┬────────────────────────────────────────┘
-                                     ▼
-   ┌──────────────────────────────────────────────────────────────────────────┐
-   │  pr-discipline      the loop + the safety rules                          │
-   └─────────────────────────────────┬────────────────────────────────────────┘
-                                     ▼
-   ┌──────────────────────────────────────────────────────────────────────────┐
-   │  tactical    repo-hygiene · validate-infra-change                        │
-   └──────────────────────────────────────────────────────────────────────────┘
-```
-
-The Mermaid rendering of this diagram lives in [`README.md`](README.md#-composition-engineering); both must move together.
+`productivity/create-tracker-issue` sits outside the stack and carries no delivery workflow.
 
 ## Adversarial review (Ralph) — contract
 
-Every non-trivial PR (any change beyond a typo / link fix / single-line config tweak) must show an adversarial review trail before merge. This is a contract, not a suggestion.
+Every non-trivial PR (beyond a typo, link fix or single-line config tweak) must show an adversarial review trail before merge. Local confidence and green CI are not sufficient.
 
-1. **Dispatch** an independent code-reviewer subagent against the PR diff, with explicit instruction to be adversarial and to check the contracts in `slice-delivery` / `CLAUDE.md` / any repo-local invariants.
-2. **Post** its findings as a Markdown PR comment, grouped as Blocking / Non-blocking / Nits.
-3. **Disposition** every finding: `Fixed` (commit reference), `Deferred` (with a tracked follow-up), or `Rejected` (with reasoning). Record dispositions on the PR — comment, commit body, or both.
+1. **Dispatch** an independent reviewer subagent against the PR diff, framed as adversarial (its job is to find what is wrong, not to approve) and told to check `slice-delivery`, this file and any repo-local invariants. Its model or thinking level must differ from the author's (e.g. Sonnet-authored, Opus-reviewed, or the same model at a different thinking level).
+2. **Post** its findings as a PR comment grouped Blocking / Non-blocking / Nits.
+3. **Disposition** every finding on the PR (comment, commit body or both): `Fixed` (commit ref), `Deferred` (tracked follow-up) or `Rejected` (reasoning).
 4. **Block merge** until every Blocking finding is `Fixed` or has documented `Rejected` reasoning.
-5. Reviewer model: must differ from the authoring model + thinking level (e.g. Sonnet-authored → Opus-reviewed, or a different thinking level). Frame the reviewer as adversarial: its job is to find what is wrong, not to approve.
-
-Local confidence + green CI is not sufficient evidence to merge a non-trivial change in this repo. The PR comment trail must show adversarial observations and dispositions.
-
-## `scripts/` folder
-
-Per-skill `scripts/` folders are optional. Add one only when the script is referenced from `SKILL.md` by a relative path the agent will actually execute (e.g., `steam-worksheets/scripts/generate.py`). Don't add a `scripts/` folder speculatively — empty or single-trivial-helper directories are noise.
-
-The repo-root `scripts/` folder is different: it holds repo-level tooling that operates on the library itself rather than belonging to any one skill (e.g., `scripts/link-user-skills.sh`, which symlinks the curated user-level roster into `~/.claude/skills` and `~/.agents/skills`). Same bar applies — no speculative additions.
 
 ## Editing skills
 
-- Keep `SKILL.md` concise. Cut prose the agent already knows without the skill present.
-- Surface destructive candidates before acting; make external writes explicit and permission-aware (see [Design principles](README.md#design-principles)).
-- Never include secrets, private repo names, user paths, or repo-specific assumptions unless the skill is explicitly scoped to that repo (see [What not to include](README.md#what-not-to-include)).
-- Update the README skill index in the same PR as any add/rename/delete.
-- Update cross-references (`Related skills`, delegation lines in other skills) in the same PR as any rename or scope change.
+Conciseness, no-secrets, README index and cross-reference updates, and Conventional Commits are covered in [`CONTRIBUTING.md`](CONTRIBUTING.md). One rule is not there:
 
-## Commit conventions
-
-Conventional Commits, scoped by category or skill name where useful: `feat(slice-delivery): ...`, `docs(readme): ...`, `refactor(repo-hygiene): ...`. One concern per commit.
+- Surface destructive candidates before acting and make external writes explicit (see [Design principles](README.md#-design-principles)).
