@@ -16,7 +16,7 @@ Create or update a compact inception pack, usually under `docs/product/`. If the
 - `workflows.md` — critical user/admin/operator workflows as stepwise flows.
 - `information-architecture.md` — navigation, primary objects, routes/screens, permissions.
 - `screen-inventory.md` — known screens from designs/prototypes plus missing screens.
-- `assumptions.md` — facts assumed for now, confidence, and validation path.
+- `assumptions.md` — facts assumed for now (kept apart from observed evidence), confidence, and validation path.
 - `open-questions.md` — decisions that block product/technical direction.
 - `pricing-and-packaging.md` — buyer, paid moment, plans, packaging risks.
 - `implementation-plan.md` — first build slices, gates, and sequencing; write it only once the product shape is clear.
@@ -34,4 +34,4 @@ A starter pack lives at `assets/product-docs-template/`; copy it into repos that
 
 3. **Classify legacy code** as source, reference, or deprecated before reusing any of it; never reuse by default.
 
-4. **Gate implementation**: scaffold only when the docs identify a coherent v1, first workflow, and technical shape. Pause or open a decision issue if buyer, monetization, permissions, or safety posture has multiple plausible answers.
+4. **Gate implementation**: scaffold only when the docs identify a coherent v1, first workflow, and technical shape. Pause or open a decision issue if buyer, monetization, permissions, or safety posture has multiple plausible answers. Keep early scaffolding reversible; avoid premature domain implementation.
