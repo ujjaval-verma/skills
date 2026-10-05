@@ -86,7 +86,7 @@ Skills are trigger-oriented — each `description:` enumerates *when* an agent s
 | *"/sanitize-transcript"*, *"clean up this transcript"*, *"strip the ums from this"* (explicit ask only) | [`productivity/sanitize-transcript`](productivity/sanitize-transcript/SKILL.md) |
 | *"make a worksheet"*, *"letter tracing"*, *"counting sheet"*, *"printable for a young kid"* | [`productivity/steam-worksheets`](productivity/steam-worksheets/SKILL.md) |
 | *"/timesheet"*, *"generate a timesheet"*, *"what did I work on last week"* (explicit ask only) | [`productivity/timesheet`](productivity/timesheet/SKILL.md) |
-| *"analyze this Figma"*, *".fig file"*, *"design export"* | [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) |
+| *"analyze this Figma"*, *"Figma link"*, *".fig file"*, *"design export"* | [`product/figma-product-analysis`](product/figma-product-analysis/SKILL.md) |
 | *"product inception"*, *"turn this design into a spec"* | [`product/product-inception`](product/product-inception/SKILL.md) |
 
 ## 🧩 Composition (engineering)
