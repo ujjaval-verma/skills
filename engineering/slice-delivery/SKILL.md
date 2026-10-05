@@ -1,7 +1,6 @@
 ---
 name: slice-delivery
 description: Tracker-agnostic vertical-slice delivery discipline. Use when the work is framed in slice terms or a tracker SOP delegates per-slice execution here. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
-wave: 3
 updated: 2026-07-15
 ---
 
