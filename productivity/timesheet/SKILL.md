@@ -1,12 +1,10 @@
 ---
 name: timesheet
 description: Generate a work timesheet from GitHub activity for a date range — as an 80-column table or an HTML page — optionally scoped to a repo or org. Counts roadmapping effort (issues, milestones, review comments, planning documents) by default; a flag gives a code-only sheet. Invoke only on an explicit request — "/timesheet", "generate a timesheet", "what did I work on last week" — never as a side effect of summarising activity, reviewing commits, or answering questions about a repo's history.
-updated: 2026-08-27
+updated: 2026-10-04
 ---
 
 # Timesheet
-
-Generate a per-day work timesheet from GitHub activity.
 
 ## Invocation
 
@@ -14,7 +12,7 @@ Generate a per-day work timesheet from GitHub activity.
 /timesheet START END [OWNER/REPO | ORG] [--skip-non-code-effort[=true|false]] [--html] [--docs PATH...]
 ```
 
-- `START`, `END`: dates in `YYYY-MM-DD` format, inclusive, **in the user's local timezone**. Natural-language dates in the request ("Aug 15–23") are normalised to this form first; a year-less range takes the current year.
+- `START`, `END`: dates in `YYYY-MM-DD` format, inclusive, **in the user's local timezone**. Natural-language dates in the request ("Aug 15–23") are normalised to this form first.
 - Optional scope: a repo (`owner/repo`) or org name. It must come before any `--` flag.
 - `--skip-non-code-effort` (default **false**; bare flag means `true`): when false, roadmapping and planning effort is counted alongside code — see Step 2b. Set true for a code-only sheet.
 - `--html`: write the sheet as an HTML page in the OS temp directory (Step 4b) instead of printing the 80-column table. A request that says "html", "web page" or "file" implies this flag.
@@ -36,22 +34,9 @@ to_utc(){ local s; s=$(date -j -f "%Y-%m-%d %H:%M:%S" "$1" +%s 2>/dev/null) || s
 START_UTC=$(to_utc "$START 00:00:00"); END_UTC=$(to_utc "$END 23:59:59")   # e.g. 2026-08-15T04:00:00Z 2026-08-24T03:59:59Z
 ```
 
-Run Steps 1–2b and 4b in a **single** shell call (shell state does not persist between calls), or re-declare the variables in each.
-
 ## Step 2 — Fetch code activity
 
-**Specific repo:**
-```bash
-gh search commits --author "$GH_USER" --author-date "$START_UTC..$END_UTC" \
-  --repo OWNER/REPO --json sha,commit,repository --limit 1000
-
-gh search prs --author "$GH_USER" --repo OWNER/REPO \
-  --created "$START_UTC..$END_UTC" --json title,createdAt,state --limit 1000
-```
-
-**Org-scoped:** replace `--repo OWNER/REPO` with `--owner ORG` and add `repository` to the PR `--json` list.
-
-**No scope (all repos):** drop the `--repo`/`--owner` flag.
+Use `gh search commits --author "$GH_USER" --author-date "$START_UTC..$END_UTC"` and `gh search prs --author "$GH_USER" --created "$START_UTC..$END_UTC"` (`--limit 1000`). Scope with `--repo OWNER/REPO` or `--owner ORG` (then add `repository` to the PR `--json`); omit both for all repos.
 
 If a local checkout is at hand, prefer it for the commit list — it is complete (search indexing lags) and its `%ai` timestamps carry the local offset, which decides the day a late-night commit belongs to:
 
@@ -108,9 +93,9 @@ The dates printed by these commands are UTC (`[:10]` of an ISO instant); convert
 
 ## Step 3 — Synthesize per-day summaries
 
-Group everything by local date. For each date with activity, write one 2–5 sentence plain-English narrative (no bullet points, no SHAs, no file paths). Issue numbers are fine in parentheses — they are the client's own tracker IDs. Combine related work into one story per day.
+Group everything by local date. For each date with activity, write one 2–5 sentence plain-English narrative (no bullet points). Issue numbers are fine in parentheses — they are the client's own tracker IDs. Combine related work into one story per day.
 
-**Register — write for the person paying the invoice, not for an engineer.** Describe only what the evidence shows; translate jargon, never multiply artifacts.
+**Register — write for the person paying the invoice, not for an engineer.** Translate jargon, never multiply artifacts.
 
 | Evidence | Say | Don't say |
 |---|---|---|
@@ -126,7 +111,7 @@ Group everything by local date. For each date with activity, write one 2–5 sen
 
 Technical nouns the client already uses (product names, standards, model names) are fine; internal file paths, tool flags and jargon are not.
 
-**Hours estimation** (use your judgment):
+**Hours estimation:**
 - Light day (1–2 small commits, or a handful of issue edits): 2.0–3.0 h
 - Moderate day (3–5 commits, 1 PR, or ~10 issues scoped / a planning memo): 4.0–6.0 h
 - Heavy day (6+ commits, multiple PRs, a milestone stood up with its issues, or several planning documents): 6.0–9.0 h
@@ -149,14 +134,12 @@ Column widths (between pipes): date=12, hours=7, summary=57. Summary text wraps 
 | Total      | 21.0  |                                                         |
 ```
 
-- Break at word boundaries ≤55 chars; never mid-word.
-- Continuation rows: date cell = 12 spaces, hours cell = 7 spaces.
-- Last row is `Total` with the sum of hours; summary cell is empty (spaces to fill).
-- Verify final table width = 80 chars before outputting. Put the method note below the table as a short paragraph.
+- Break at word boundaries, never mid-word; continuation rows blank the date and hours cells (padded to width).
+- Verify the final table width is 80 chars. Put the method note below the table as a short paragraph.
 
 ### 4b — HTML page (`--html`)
 
-1. In the same shell call as Step 1 (or with `START`/`END` re-declared), create the file from the template — `<skill-dir>` is the directory holding this `SKILL.md`:
+1. In the same shell call as Step 1, create the file from the template — `<skill-dir>` is the directory holding this `SKILL.md`:
    ```bash
    OUT="$(mktemp -d)/timesheet-<engagement>-$START-to-$END.html"   # e.g. timesheet-toro-ai-2026-08-15-to-2026-08-23.html
    cp <skill-dir>/template.html "$OUT"; echo "$OUT"
@@ -164,6 +147,6 @@ Column widths (between pipes): date=12, hours=7, summary=57. Summary text wraps 
 2. Fill **all 15** `{{…}}` placeholders — `TITLE`, `ENGAGEMENT`, `PERIOD` ("15 – 23 August 2026 (inclusive)"), `PERSON` (`gh api user --jq .name`), `REPOS`, `SCOPE` (one sentence), `ROWS` (one `<tr>` per day, ascending; delete the example comment above it), `TOTAL`, `SKIP_NON_CODE` (`true`/`false`), `SKIP_NON_CODE_MEANING`, `SOURCES`, `COMMIT_COUNT`, `EVIDENCE_NOTE` (inferred days, timezone), `EXCLUSIONS`, `EMPTY_DAYS`. Escape `&`, `<`, `>` in text (no attributes are interpolated, so quotes need no escaping); use `&ldquo;…&rdquo;` for quotes and `&nbsp;` between a number and its unit.
 3. Do not add scripts, external stylesheets or fonts — the page must render offline from a file URL.
 4. Before delivering: `grep -o '{{' "$OUT" | wc -l` must print `0`.
-5. Print the absolute path in the reply, and if a file-delivery tool is available, send the file as well.
+5. Print the absolute path in the reply.
 
 Client-visible rows from previous sheets are the style reference; keep the same voice from period to period so the sheets read as one series.
