@@ -1,7 +1,7 @@
 ---
 name: sanitize-transcript
 description: Rewrite a voice-to-text meeting transcript (Zoom, Otter, Granola, dictation tools, …) with fillers, stutters and transcription artifacts removed, keeping every turn and every speaker's wording otherwise intact. Invoke only on an explicit request — "/sanitize-transcript", "clean up this transcript", "strip the ums from this", "sanitize this call transcript" — never as a side effect of summarising, quoting, or extracting action items from a meeting.
-updated: 2026-09-09
+updated: 2026-10-04
 ---
 
 # Sanitize transcript
@@ -26,7 +26,7 @@ Turn a raw speech-to-text transcript into a clean, complete, readable one. The *
 
 ## Step 1 — Stage the input
 
-Pasted text is written to a file **verbatim**; a path is used as-is. Output always goes to the temp dir, even when the input lives elsewhere. Define the checks once; they are reused in Steps 2 and 3.
+Pasted text is written to a file **verbatim**; a path is used as-is. Output always goes to the temp dir, even when the input lives elsewhere.
 
 ```bash
 TMP="${TMPDIR:-/tmp}"; TMP="${TMP%/}"
@@ -73,14 +73,4 @@ grep -nE "$FILLER" "$OUT"                                             # survivin
 
 ## Step 4 — Deliver
 
-Send `$OUT` to the user (SendUserFile or equivalent when available; otherwise state the path). In chat, give the path, the turn counts, and the normalisations list, and flag the judgment calls so the user can revert them. Transcripts are unredacted: delete the staged raw copy (never a user-supplied path), and tell the user the output sits in the temp dir until they move it.
-
-## Common mistakes
-
-| Mistake | Fix |
-|---|---|
-| Rewriting in the main session "because it's quick" | A long transcript costs tens of thousands of output tokens to rewrite; always delegate. |
-| Treating `Mm-hmm.` / `Uh-huh.` turns as noise and dropping them | They carry conversational flow; the turn-parity gate catches this. |
-| "Tightening" verbose answers while removing fillers | Out of scope. Fillers go; the speaker's sentences stay. |
-| Silently guessing proper nouns | Every change goes in the Normalisations footer; unsure means leave it. |
-| Declaring success on the subagent's word | Re-run the gates yourself before delivering. |
+Send `$OUT` to the user. In chat, give the path, the turn counts, and the normalisations list, and flag the judgment calls so the user can revert them. Transcripts are unredacted: delete the staged raw copy (never a user-supplied path), and tell the user the output sits in the temp dir until they move it.
