@@ -10,11 +10,13 @@ err() { echo "FAIL $*"; fail=1; }
 # 1. frontmatter name == folder; 2. engineering skills carry updated: YYYY-MM-DD
 for f in */*/SKILL.md; do
   dir=$(basename "$(dirname "$f")")
-  name=$(sed -n 's/^name:[[:space:]]*//p' "$f" | head -1)
+  # leading frontmatter block only: line 1 is ---, ends at the next ---
+  fm=$(awk 'NR==1{if($0!="---")exit; next} /^---[[:space:]]*$/{exit} {print}' "$f")
+  name=$(printf '%s\n' "$fm" | sed -n 's/^name:[[:space:]]*//p' | head -1)
   [ "$dir" = "$name" ] || err "name drift: $f (name=$name)"
   case "$f" in
     engineering/*)
-      grep -qE '^updated:[[:space:]]*[0-9]{4}-[0-9]{2}-[0-9]{2}[[:space:]]*$' "$f" \
+      printf '%s\n' "$fm" | grep -qE '^updated:[[:space:]]*[0-9]{4}-[0-9]{2}-[0-9]{2}[[:space:]]*$' \
         || err "missing or malformed updated: in $f" ;;
   esac
 done
@@ -39,7 +41,8 @@ while IFS= read -r md; do
     [ -n "$path" ] || continue
     case "$path" in /*) target=".$path" ;; *) target="$base/$path" ;; esac
     [ -e "$target" ] || err "broken link in $md: $link"
-  done < <({ grep -oE '\]\([^) ]+' "$md" || true; } | sed 's/^](//')
+  done < <({ awk '/^[[:space:]]*```/{f=!f; next} !f' "$md" | grep -oE '\]\([^) ]+' || true; } \
+    | sed 's/^](//; s/^<//; s/>$//')
 done < <(git ls-files '*.md')
 
 [ "$fail" -eq 0 ] && echo "LINT PASS" || { echo "LINT FAIL"; exit 1; }
