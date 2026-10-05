@@ -1,115 +1,59 @@
 ---
 name: slice-delivery
-description: Tracker-agnostic vertical-slice delivery discipline. Use when the work is framed in slice terms or a tracker SOP delegates per-slice execution here. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
-updated: 2026-07-15
+description: Tracker-agnostic vertical-slice delivery discipline. Use when the work is framed in slice terms or per-slice execution is delegated here. Triggers on "slice", "tracer bullet", "deep module", "refactor scan", "Ralph", "definition of done".
+updated: 2026-10-04
 ---
 
 # Slice delivery
 
-The execution wrapper for any non-trivial change. Tracker-agnostic — applies whether your repo uses Linear, GitHub Issues, a Markdown tracker, or `git log` alone.
-
-This skill is the **how** of shipping a single slice well. It assumes the operator (or a repo-local doc) has already told you **which** slice to ship.
-
-For the underlying TDD philosophy, defer to your repo's TDD skill if one exists; otherwise to `superpowers:test-driven-development`. If neither is available, apply the red → green → refactor discipline described inline below. For deep-module vocabulary (interfaces, seams, deepening), defer to `codebase-design` when installed.
+The **how** of shipping one slice well, in any repo and any tracker. It assumes the operator or a repo-local doc has already said **which** slice. PR mechanics and the definition of "shipped" belong to `pr-discipline` (see its "Definition of shipped" section); do not restate them here.
 
 ## What is a slice
 
-A slice is one PR-sized change that crosses every layer it needs to and produces working behavior end-to-end, however thin. Not "all the types this week, all the adapters next week." Layers-first is horizontal slicing; it produces shelves of code that don't ship and tests that verify imagined behavior.
+One PR-sized change that crosses every layer it needs and produces working behavior end to end, however thin. Layers-first (all types this week, all adapters next) ships nothing and tests imagined behavior.
 
-A good slice:
+- One concern, statable in one sentence; one branch or worktree, one PR, one merge; rollback-safe alone.
+- Scope budget: default at most 8 tasks and 3 new production modules (a repo may override).
+- Commits carry the slice scope, `feat(<slice-id>): ...`, so `git log --grep='(<slice-id>)'` reconstructs progress.
 
-- Has a single concern that can be stated in one sentence.
-- Ships behind a complete (if minimal) public path — the tracer bullet proves the path before you scale it.
-- Owns exactly one branch (or worktree), one PR, one merge.
-- Is rollback-safe by itself.
-- Fits the scope budget: default ≤8 tasks and ≤3 new production modules (repo may override).
+## Start-lane gate
 
-## Three pillars
+1. Read the repo's invariants, architecture, definition of done and testing contracts. If one is missing, writing it is the first slice.
+2. Design the public interface first and name the deep-module candidate (`codebase-design` if installed). If there is none, ask whether the slice is needed or is three smaller ones.
+3. Lock scope and the behaviors to test before writing code. When scope is open or behavior choices are contested, confirm them with the user in a `grilling` session (one question at a time, with a recommended answer); sharpen fuzzy terms with `domain-modeling` first.
+4. T0 adversarial spec-review: mandatory when the repo has a spec-review template, recommended otherwise. Dispatch an adversarial reviewer with that template, or these lenses: (A) consistency of spec and plan with invariants, ADRs and the definition of done; (B) value judgments needing human sign-off; (C) scope against the slice budget. BLOCKING here means fix the spec or plan, never code, since none exists yet. T0 does not count against the task budget. Skipping needs a reason recorded in the plan.
 
-### 1. Velocity — small, verifiable chunks
+## Delivery loop
 
-- Slice = delivery unit. One concern per slice; one slice per PR; one concern per commit.
-- Tracer bullet first. The first work in any slice is one test that proves the end-to-end path with the minimum possible implementation. Everything after thickens this skeleton.
-- The tracker is whatever your repo already uses. If a tracker entry doesn't exist for the slice, create it before opening the PR — not after.
-- Commits carry the slice scope: `feat(<slice-id>): ...`. This lets `git log --grep='(<slice-id>)'` reconstruct slice progress in seconds.
-- "Shipped" — see `pr-discipline`'s "Definition of shipped" for the exact verification (`gh pr view` returns `MERGED` **and** CI is green on the merge commit on the target branch). Locally green is not shipped.
+1. Tracer bullet first: one end-to-end test, minimal code, green. Everything after thickens it.
+2. Then per behavior: one test red, green, refactor scan. The scan runs on every green, not at PR time, on the code you just touched and its neighbours. Ask what the new code reveals about existing code: a tolerable wart that is now obvious gets fixed in this slice, as its own commit, never banked as a cleanup backlog. Refactors are separate commits from features.
+3. Honesty gates: no fake-live behavior, no mocked data path presented as real, no sensitive raw input in logs.
+4. Open the PR per `pr-discipline`. Body lists slice ID, scope, non-scope, verification evidence, and the evidence for any addendum that applies: UI screenshots, AI fixtures and evals, migration up and down, deploy rollback.
+5. Ralph review on non-trivial PRs, before merge: dispatch an adversarial reviewer (a different model or thinking level than the author) against the PR diff, invariants and definition of done. Post findings as a PR comment grouped Blocking / Non-blocking / Nits, disposition each as fixed, deferred (tracked) or rejected (with reasoning), and block merge while any Blocking finding is open. Green CI alone is not enough.
+6. Merge and close out per `pr-discipline`; run the repo's hygiene script and remove the worktree.
 
-### 2. Rigor — prove the change
+## TDD scope table
 
-- **Tracer bullet end-to-end, then incrementally**. One test red → one test green → refactor scan → next test. The vertical (RED→GREEN per behavior) ordering is what produces tests that verify actual behavior instead of imagined behavior. Test real paths — a suite that is green because everything is mocked verifies nothing.
-- **Deep modules over shallow**. Small interface, rich implementation. Before adding a parameter to an interface, ask: "can this be one method instead of three?" Before adding a new module, ask: "is the public surface describable in two sentences?" The full vocabulary and design moves live in the `codebase-design` skill — consult it when designing or reshaping an interface rather than re-deriving the principles here.
-- **Refactor scan after every green**, not at PR time. See [references/refactor-scan.md](references/refactor-scan.md) for the candidate catalogue; the highest-value one is *what does new code reveal about existing code?* Refactors are separate commits from features.
-- **Adversarial (Ralph) review on non-trivial PRs**, before merge: an independent reviewer's adversarial findings and their dispositions must appear on the PR, or the merge is blocked. Local confidence + green CI is not enough. The full loop is the Slice lifecycle gate, step 7 below.
-- Honesty gates always apply: no fake-live behavior, no mocked-but-presented-as-real data paths, no logs containing sensitive raw input.
-
-### 3. Hygiene — keep the repo operable
-
-- Worktrees for parallel work. Cap typically 3–4 active. Each worktree owns one slice.
-- One concern per commit. Diff-time SOLID is a quality gate, not an abstraction incentive.
-- No `TODO`/`FIXME`/`XXX` in source. Either fix now or promote to a durable follow-ups doc.
-- After each merge or merge wave, run the repo's closeout/hygiene script. Get back under steady-state thresholds before opening more slices.
-- Do not leave dev servers, workers, or local dependency stacks running after verification.
-
-## TDD scope table — the contract for your repo
-
-Different surfaces deserve different discipline. Without a per-surface contract, agents either over-test trivial glue or under-test complex logic. The remedy is a table in the repo (typically `docs/engineering/testing.md`) that names each surface and tells you the discipline, test type, and explicit out-of-scope:
+Keep a table in the repo (typically `docs/engineering/testing.md`) as the contract for what discipline each surface gets, so agents neither over-test glue nor under-test logic:
 
 | Surface | Discipline | Test type | Out of scope |
 |---------|-----------|-----------|--------------|
 
-Make this table the contract. When you add a new surface that doesn't match a row, add the row in the same PR.
+A new surface with no matching row gets its row in the same PR. Typical disciplines: `TDD strict`, `Fixture-backed`, `TDD when non-trivial`, `Scenario-driven`, `E2E only`, `Migration tests only`, `Visual + a11y`, `No tests`.
 
-Common discipline values: `TDD strict`, `Fixture-backed`, `TDD when non-trivial`, `Scenario-driven`, `E2E only`, `Migration tests only`, `Visual + a11y`, `No tests`. The label is less important than naming the surface and being explicit about what test type belongs there.
+## Artifact classes
 
-## Durable vs transient artifacts
+- **Durable**: `ARCHITECTURE.md`, invariants, definition of done, testing doc, ADRs. Tracked, edited via PR.
+- **Transient**: session plans and scratch analysis. Gitignored or under `docs/scratch/`; never checked in. A pre-commit hook should reject net-new top-level `.md` files.
+- **Mutable status**: slice tracker, build progress. Tracked, updated in every implementation PR.
 
-Three classes of repo artifact:
-
-- **Durable** — `ARCHITECTURE.md`, `INVARIANTS.md` (or equivalent), `DEFINITION-OF-DONE.md`, `TESTING.md`, ADRs. Tracked. Edited via PR.
-- **Transient** — session-scoped plans, scratchpads, intermediate analysis. Should be gitignored or live under `docs/scratch/`. Net-new top-level `.md` files should be rejected by a pre-commit hook.
-- **Mutable status** — slice tracker / build-progress / PHASES. Tracked. Updated in every implementation PR.
-
-Decide which class a new doc belongs to before writing it. If it's transient, do not check it in.
-
-## Start-lane gate (before opening a slice)
-
-1. Sync the integration branch to latest base.
-2. Read the repo's invariants / architecture / DOD / testing contracts. If any are missing, that's a slice in itself — fix that first.
-3. Check open PRs and worktree/branch hygiene. If hygiene is already out of bounds, run closeout before opening new work.
-4. Pick one slice from the tracker that moves a stated acceptance bullet forward.
-5. **Design the public interface first**. Identify the deep-module candidate (use `codebase-design` for the design moves). If there isn't one, ask whether the slice is really needed or whether it's three smaller slices.
-6. **Lock the scope and the behaviors to test before writing code.** You can't test everything. When the scope has open questions or the behavior choices are contested, confirm them with the user via a `grilling` session — one question at a time, recommended answer per question. If the spec's terminology is fuzzy, sharpen it with `domain-modeling` before locking scope. Locking scope on an ambiguous slice without this produces tests for imagined behavior.
-7. **T0 adversarial spec-review** (mandatory when the repo has a `docs/engineering/spec-review.md` or equivalent template; recommended otherwise). Dispatch an adversarial code-reviewer subagent (whatever reviewer agent type the environment provides) with the repo's spec-review template — or, absent one, these fallback lenses: (A) internal consistency of spec + plan against invariants, ADRs, and the Definition of Done; (B) value judgments the spec makes that need human sign-off; (C) scope against the slice budget — against the spec + plan + invariants + ADRs + Definition of Done. Apply BLOCKING / NIT / DEFERRED dispositions. BLOCKING at this gate means **fix the spec/plan, then continue** — never "fix code", because no code has been written. T0 does not count against the slice's task budget. Skip explicitly with reason recorded in the plan (e.g. the bootstrap slice that *creates* the spec-review template can't apply it to itself).
-8. Create a dedicated branch/worktree from latest base.
-
-## Slice lifecycle gate
-
-1. **Tracer bullet**: one end-to-end test → minimal code → green.
-2. **Incremental loop**: for each next behavior, RED → GREEN → **refactor scan**. The refactor scan runs every cycle, not just at the end.
-3. Run the repo's fast verification command continuously while iterating.
-4. Run the repo's full local CI gate before push.
-5. Commit with conventional format + slice scope (`feat(<slice-id>): ...`).
-6. Open the PR. PR body lists: slice ID, scope, non-scope, verification evidence, evidence for any addendum that applies (UI screenshots / AI fixtures+evals / migration up+down / deploy rollback).
-7. **Ralph review loop** for non-trivial PRs: dispatch an adversarial code-reviewer subagent against the PR diff + the repo's invariants / DOD; post findings as a PR comment; address blocking findings as fix commits with verification; record dispositions (fixed / deferred / rejected). Repeat until no blocking findings remain.
-8. Watch hosted CI until green on the PR head, and until the Ralph loop (step 7) shows no unresolved blocking findings.
-9. Merge. Update the tracker if not already part of the slice's PR.
-10. Closeout: run repo hygiene; remove the worktree if used; QA wave gate if applicable.
-
-## What this skill does not cover
-
-- Picking which slice to ship next — that's a planning / tracker skill.
-- Tracker-specific mechanics (Linear sub-issues, GitHub Issues automation, Markdown tracker conventions) — see the repo's local execution doc.
-- PR mechanics that are independent of slice content — see `pr-discipline`.
-- Repo-agnostic CI / merge-queue strategy — separate concern.
+Decide the class before writing a doc.
 
 ## Related skills
 
-Skills outside this library (`superpowers:*`, and the mattpocock set: `codebase-design`, `grilling`, `domain-modeling`) are composed when installed; in an environment without them, treat each reference as "the repo-local equivalent if one exists, else inline the discipline manually."
+Skills outside this library (`superpowers:*`, `codebase-design`, `grilling`, `domain-modeling`) are used when installed; otherwise apply the discipline inline or use the repo-local equivalent.
 
-- `superpowers:test-driven-development` — the underlying red-green-refactor discipline this skill wraps (a repo-local TDD skill wins if present).
-- `codebase-design` — deep-module vocabulary and interface-design moves.
-- `grilling` — the one-question-at-a-time scope-approval interview at the start-lane gate.
-- `domain-modeling` — sharpening spec terminology and recording ADR-worthy decisions.
-- `pr-discipline` — PR iteration loop + merge mechanics (rebase, lockfile, auto-merge, branch protection, force-push, stuck PRs).
-- `repo-hygiene` — worktree/branch cleanup.
-- `delivery-loop` — the operator-invoked multi-slice wrapper that composes this skill N times via subagents.
+- `pr-discipline`: PR loop, merge mechanics, definition of shipped.
+- `superpowers:test-driven-development`: the red-green-refactor discipline this wraps (a repo-local TDD skill wins).
+- `repo-hygiene`: worktree and branch cleanup.
+- `delivery-loop`: operator-invoked multi-slice wrapper that composes this skill via subagents.
