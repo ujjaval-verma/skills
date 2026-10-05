@@ -8,7 +8,7 @@ updated: 2026-10-04
 
 Surface candidates first. Delete only when the safety conditions below are verifiably true or the user approves.
 
-Start read-only: `git status --short --branch`, `git worktree list --porcelain`, then `git fetch --prune --quiet` if touching the network is acceptable. When the tree is unclean or an agent/process is running against the repo, report candidates only and run no destructive cleanup.
+Start read-only: `git status --short --branch`, `git worktree list --porcelain`, then `git fetch --prune --quiet` if touching the network is acceptable. When the tree is unclean (any non-empty `git status --short`, untracked files included) or an agent/process is running against the repo, report candidates only and run no destructive cleanup.
 
 ## Local branch deletion
 
@@ -24,7 +24,7 @@ Branch age is a signal to investigate, never authorization: route every age-base
 
 ## Worktrees
 
-A worktree is a removal candidate only if it has no uncommitted changes, its branch is merged to base or its PR is closed, and no agent/process is using the path. Remove only after approval, unless the worktree is missing or broken and `git worktree prune --dry-run` lists it as pruneable. If a `trash` command exists, prefer it over `rm -rf` for worktree directories; otherwise ask before deleting the directory.
+A worktree is a removal candidate only if it has no uncommitted changes, its branch is merged to base or its PR is closed, and no agent/process is using the path. Every removal needs approval: use plain `git worktree remove` (no `--force`), which refuses dirty worktrees. The one exception is a worktree whose directory is already missing or broken and that `git worktree prune --dry-run` lists as pruneable.
 
 ## Uncommitted work
 
