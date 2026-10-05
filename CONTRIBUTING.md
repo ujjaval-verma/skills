@@ -41,11 +41,12 @@ If you've never written an AgentSkill before, skim the [README](README.md) and o
 git checkout -b <kebab-case-branch>
 # edit
 git commit -m "feat(<scope>): <imperative summary>"
+bash scripts/lint-skills.sh   # names, updated:, README index, relative links
 git push -u origin HEAD
 gh pr create --fill
 ```
 
-CI is lightweight today (social enforcement); future lint may enforce frontmatter shape. Don't bypass hooks or branch protection.
+CI runs `scripts/lint-skills.sh` (names, `updated:`, README index, relative links); run it before opening a PR. Don't bypass hooks or branch protection.
 
 ## Reporting issues
 
