@@ -1,12 +1,10 @@
 ---
 name: timesheet
 description: Generate a work timesheet from GitHub activity for a date range — as an 80-column table or an HTML page — optionally scoped to a repo or org. Counts roadmapping effort (issues, milestones, review comments, planning documents) by default; a flag gives a code-only sheet. Invoke only on an explicit request — "/timesheet", "generate a timesheet", "what did I work on last week" — never as a side effect of summarising activity, reviewing commits, or answering questions about a repo's history.
-updated: 2026-08-27
+updated: 2026-10-04
 ---
 
 # Timesheet
-
-Generate a per-day work timesheet from GitHub activity.
 
 ## Invocation
 
@@ -40,18 +38,7 @@ Run Steps 1–2b and 4b in a **single** shell call (shell state does not persist
 
 ## Step 2 — Fetch code activity
 
-**Specific repo:**
-```bash
-gh search commits --author "$GH_USER" --author-date "$START_UTC..$END_UTC" \
-  --repo OWNER/REPO --json sha,commit,repository --limit 1000
-
-gh search prs --author "$GH_USER" --repo OWNER/REPO \
-  --created "$START_UTC..$END_UTC" --json title,createdAt,state --limit 1000
-```
-
-**Org-scoped:** replace `--repo OWNER/REPO` with `--owner ORG` and add `repository` to the PR `--json` list.
-
-**No scope (all repos):** drop the `--repo`/`--owner` flag.
+Use `gh search commits --author "$GH_USER" --author-date "$START_UTC..$END_UTC"` and `gh search prs --author "$GH_USER" --created "$START_UTC..$END_UTC"` (`--json` fields, `--limit 1000`). Scope with `--repo OWNER/REPO` or `--owner ORG` (then add `repository` to the PR `--json`); omit both for all repos.
 
 If a local checkout is at hand, prefer it for the commit list — it is complete (search indexing lags) and its `%ai` timestamps carry the local offset, which decides the day a late-night commit belongs to:
 
@@ -149,10 +136,8 @@ Column widths (between pipes): date=12, hours=7, summary=57. Summary text wraps 
 | Total      | 21.0  |                                                         |
 ```
 
-- Break at word boundaries ≤55 chars; never mid-word.
-- Continuation rows: date cell = 12 spaces, hours cell = 7 spaces.
-- Last row is `Total` with the sum of hours; summary cell is empty (spaces to fill).
-- Verify final table width = 80 chars before outputting. Put the method note below the table as a short paragraph.
+- Break at word boundaries, never mid-word; continuation rows blank the date and hours cells (padded to width).
+- Verify the final table width is 80 chars. Put the method note below the table as a short paragraph.
 
 ### 4b — HTML page (`--html`)
 
