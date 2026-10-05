@@ -1,6 +1,6 @@
 ---
 name: create-tracker-issue
-description: Draft and file a terse, well-shaped issue in whatever tracker is at hand (Jira, Linear, GitHub Issues, …); use to log a bug, file a ticket or write something up as a story.
+description: Draft and file a terse, well-shaped issue in whatever tracker is at hand (Jira, Linear, GitHub Issues, …); use to log a bug, file a ticket or write something up as a story. Explicit request only.
 disable-model-invocation: true
 updated: 2026-08-05
 ---

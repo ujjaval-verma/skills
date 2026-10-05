@@ -1,6 +1,6 @@
 ---
 name: sanitize-transcript
-description: Rewrite a voice-to-text meeting transcript with fillers, stutters and transcription artifacts removed and every turn and speaker's wording otherwise intact; use to clean up a call transcript.
+description: Rewrite a voice-to-text meeting transcript with fillers, stutters and transcription artifacts removed and every turn and speaker's wording otherwise intact; use to clean up a call transcript. Explicit request only.
 disable-model-invocation: true
 updated: 2026-10-04
 ---

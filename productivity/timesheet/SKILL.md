@@ -1,6 +1,6 @@
 ---
 name: timesheet
-description: Generate a work timesheet from GitHub activity for a date range, as an 80-column table or HTML page, optionally scoped to a repo or org; use for "what did I work on last week".
+description: Generate a work timesheet from GitHub activity for a date range, as an 80-column table or HTML page, optionally scoped to a repo or org; use for "what did I work on last week". Explicit request only.
 disable-model-invocation: true
 updated: 2026-10-04
 ---
